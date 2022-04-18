@@ -1,0 +1,25 @@
+GET http://localhost:8080/hello
+#Accept: application/json
+
+###
+
+POST http://localhost:8880/hello/post
+Content-Type: application/x-www-form-urlencoded
+
+name=TEST
+
+###
+
+GET http://localhost:8080/user/list
+
+###
+
+GET http://localhost:8880/test/redis/set/123/test
+Accept: application/json
+
+###
+
+GET http://localhost:8880/redis/get/15271595887169536
+Accept: application/json
+
+###

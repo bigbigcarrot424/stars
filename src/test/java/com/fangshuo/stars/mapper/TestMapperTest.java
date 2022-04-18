@@ -1,22 +1,19 @@
-package com.fangshuo.stars;
+package com.fangshuo.stars.mapper;
 
-import com.fangshuo.stars.mapper.TestMapper;
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.util.List;
-
 @SpringBootTest
-class StarsApplicationTests {
+public class TestMapperTest {
     @Resource
     private TestMapper testMapper;
 
     @Test
-    void contextLoads() {
+    public void testMapper(){
         List<com.fangshuo.stars.domain.Test> test = testMapper.getTest();
         System.out.println(test);
     }
-
-
 }
