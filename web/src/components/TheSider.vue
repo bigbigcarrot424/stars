@@ -1,15 +1,18 @@
 <template>
     <a-layout-sider width="200" style="background: #fff">
+
         <a-menu
-                v-model:selectedKeys="selectedKeys2"
-                v-model:openKeys="openKeys"
+
                 mode="inline"
                 style="height: 100%"
         >
+            <div class="sider">
+                聊  天  列  表
+            </div>
+            <a-divider/>
             <a-sub-menu key="sub1">
                 <template #title>
                 <span>
-                  <user-outlined />
                   subnav 1
                 </span>
                 </template>
@@ -21,7 +24,6 @@
             <a-sub-menu key="sub2">
                 <template #title>
                 <span>
-                  <laptop-outlined />
                   subnav 2
                 </span>
                 </template>
@@ -33,7 +35,6 @@
             <a-sub-menu key="sub3">
                 <template #title>
                 <span>
-                  <notification-outlined />
                   subnav 3
                 </span>
                 </template>
@@ -53,5 +54,11 @@
 </script>
 
 <style scoped>
-
+    .sider {
+        height: 15px;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 5px;
+        text-align: center;
+        font-size: 15px;
+    }
 </style>

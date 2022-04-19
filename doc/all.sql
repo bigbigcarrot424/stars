@@ -48,6 +48,8 @@ create table blog
     comment '帖子表';
 insert into `blog` (id, author_id, content)
 values (1, 1, 'carr');
+insert into `blog` (id, author_id, content)
+values (2, 1, '这是我发布的第一篇blog!');
 
 
 
