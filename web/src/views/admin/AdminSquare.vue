@@ -66,7 +66,7 @@
             let blogList = ref();
             blogList = [];
             const getAllBlog = () => {
-                axios.get("http://localhost:8080/blog/list").then(
+                axios.get(process.env.VUE_APP_SERVER + "/blog/list").then(
                     (response) =>{
                        blogList.value = response.data.content;
                     },
