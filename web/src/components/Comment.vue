@@ -39,8 +39,10 @@
             </p>
         </template>
         <template #datetime>
-            <a-tooltip :title="dayjs().format('YYYY-MM-DD HH:mm:ss')">
-                <span>{{ dayjs().fromNow() }}</span>
+<!--            <a-tooltip :title="dayjs().format('YYYY-MM-DD HH:mm:ss')">-->
+            <a-tooltip :title="dayjs().format('2022-04-18 20:12:22')">
+                <span>{{ dayjs().to(dayjs(blogInfo.publishTime)) }}</span>
+<!--                <span>{{ blogInfo.publishTime }}</span>-->
             </a-tooltip>
         </template>
     </a-comment>
@@ -61,7 +63,11 @@
             DislikeOutlined,
         },
         props: ['blogInfo'],
-        setup() {
+
+        setup(props) {
+            const curDate = dayjs(props.blogInfo.publishTime).format();
+            console.log(curDate);
+
             const likes = ref<number>(0);
             const dislikes = ref<number>(0);
             const action = ref<string>();
