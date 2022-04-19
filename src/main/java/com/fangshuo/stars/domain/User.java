@@ -5,6 +5,7 @@ public class User {
     String username;
     String name;
     String password;
+    String avatar;
 
     public Long getId() {
         return id;
@@ -38,14 +39,15 @@ public class User {
         this.password = password;
     }
 
-    public User() {
+    public String getAvatar() {
+        return avatar;
     }
 
-    public User(Long id, String username, String name, String password) {
-        this.id = id;
-        this.username = username;
-        this.name = name;
-        this.password = password;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public User() {
     }
 
     @Override
@@ -55,6 +57,24 @@ public class User {
                 ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
+                ", avatar='" + avatar + '\'' +
                 '}';
     }
+
+    public User(Long id, String username, String name, String password, String avatar) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.avatar = avatar;
+    }
+
+    public User(Long id, String username, String name, String password) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.avatar = "default.png";
+    }
+
 }

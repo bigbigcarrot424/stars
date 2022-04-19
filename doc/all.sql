@@ -13,19 +13,7 @@ create table `test`
 insert into `test` (id, name, password)
 VALUES (1, '测试', '123456');
 
-drop table if exists `demo`;
-create table `demo`
-(
-    `id`   bigint not null comment 'id',
-    `name` varchar(50) comment '名称',
-    primary key (`id`)
-) engine = innodb
-  default charset = utf8mb4
-    comment ='测试';
-
-insert into `demo` (id, name)
-VALUES (1, '测试');
-
+#用户表
 drop table if exists `user`;
 create table `user`
 (
@@ -33,16 +21,35 @@ create table `user`
     `username` varchar(100) not null comment '用户名',
     `name` varchar(100) not null comment '昵称',
     `password` varchar(100) not null comment '密码',
-    primary key (`id`),
+    `avatar` varchar(100) not null default 'default.png',
+        primary key (`id`),
     unique key `username_unique` (`username`)
 ) engine = innodb
   default charset = utf8mb4
     comment ='用户表';
-insert into `user` (user.id, user.username, user.name, user.password)
-values (1, '114', 'carr', '87878');
+insert into `user` (user.id, user.username, user.name, user.password, user.avatar)
+values (1, '114', 'carr', '87878','1.png');
 
-insert into `demo` (id, name)
-VALUES (1, '测试');
+#帖子表
+drop table if exists `blog`;
+create table blog
+(
+    id bigint not null comment 'id',
+    author_id bigint not null comment '作者id',
+    publish_time datetime default CURRENT_TIMESTAMP not null,
+    content mediumtext not null,
+    vote_num int default 0 null,
+    constraint blog_pk
+        primary key (id),
+    constraint blog_user_fk
+        foreign key (author_id) references user (id)
+)engine = innodb
+ default charset = utf8mb4
+    comment '帖子表';
+insert into `blog` (id, author_id, content)
+values (1, 1, 'carr');
+
+
 
 #电子书表
 drop table if exists `ebook`;

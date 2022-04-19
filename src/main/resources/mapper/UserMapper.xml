@@ -3,7 +3,7 @@
 <mapper namespace="com.fangshuo.stars.mapper.UserMapper">
 
     <select id="getUserList" resultType="com.fangshuo.stars.domain.User">
-        select `id`, `username`, `name`, `password` from `user`
+        select `id`, `username`, `name`, `password`, `avatar` from `user`
     </select>
 
 </mapper>
