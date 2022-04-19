@@ -1,5 +1,6 @@
 <template>
-    <a-layout-sider width="200" style="background: #fff">
+<!--    <a-layout-sider width="200" style="background: #fff"  :style="{background: '#fff', overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }">-->
+    <a-layout-sider width="200" :style="{background: '#fff', height: '100vh'}">
 
         <a-menu
 

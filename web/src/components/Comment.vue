@@ -39,8 +39,7 @@
             </p>
         </template>
         <template #datetime>
-<!--            <a-tooltip :title="dayjs().format('YYYY-MM-DD HH:mm:ss')">-->
-            <a-tooltip :title="dayjs().format('2022-04-18 20:12:22')">
+            <a-tooltip :title="dayjs().format('YYYY-MM-DD HH:mm:ss')">
                 <span>{{ dayjs().to(dayjs(blogInfo.publishTime)) }}</span>
 <!--                <span>{{ blogInfo.publishTime }}</span>-->
             </a-tooltip>

@@ -51,6 +51,17 @@ values (1, 1, 'carr');
 insert into `blog` (id, author_id, content)
 values (2, 1, '这是我发布的第一篇blog!');
 
+insert into `blog` (id, author_id, content)
+values (3, 1, '这是我发布的第一篇blog2!');
+insert into `blog` (id, author_id, content)
+values (4, 1, '这是我发布的第一篇blog3!');
+insert into `blog` (id, author_id, content)
+values (5, 1, '这是我发布的第一篇blog4!');
+insert into `blog` (id, author_id, content)
+values (6, 1, '这是我发布的第一篇blog5!');
+insert into `blog` (id, author_id, content)
+values (7, 1, '这是我发布的第一篇blog6!');
+
 
 
 #电子书表
