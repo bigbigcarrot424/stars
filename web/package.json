@@ -3,16 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "serve-dev": "vue-cli-service serve --mode dev",
+    "serve-prod": "vue-cli-service serve --mode prod",
+    "build-dev": "vue-cli-service build --mode dev",
+    "build-prod": "vue-cli-service build --mode prod"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "latest",
     "ant-design-vue": "^3.1.1",
+    "axios": "^0.26.1",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.3",
-    "vuex": "^4.0.0",
-    "@ant-design/icons-vue": "latest"
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-router": "~5.0.0",

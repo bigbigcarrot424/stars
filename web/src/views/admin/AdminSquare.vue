@@ -15,12 +15,30 @@
             </a-list-item>
         </template>
     </a-list>
+
+    <a-list item-layout="horizontal" :data-source="blogList">
+        <template #renderItem="{ item }">
+            <a-list-item>
+                <a-list-item-meta
+                        description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                >
+                    <template #title>
+                        <a href="https://www.antdv.com/">{{ item.title }}</a>
+                    </template>
+                    <template #content>
+                        {{item.content}}
+                    </template>
+                </a-list-item-meta>
+            </a-list-item>
+        </template>
+    </a-list>
 </template>
 
 <script>
     import Comment from "../../components/Comment";
-    import {defineComponent} from 'vue';
+    import {defineComponent, ref, onMounted, reactive} from 'vue';
     import {StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons-vue';
+    import axios from 'axios'
 
     const data = [
         {
@@ -45,11 +63,27 @@
             Comment,
         },
         setup() {
+            let blogList = ref();
+            blogList = [];
+            const getAllBlog = () => {
+                axios.get("http://localhost:8080/blog/list").then(
+                    (response) =>{
+                       blogList.value = response.data.content;
+                    },
+                    (error) => {
+                        message.error(error)
+                    }
+                )
+            }
             const pagination = {
 
             };
+            onMounted(()=>{
+                getAllBlog();
+            })
             return {
                 pagination,
+                blogList,
                 data,
             };
         },
