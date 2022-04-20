@@ -10,9 +10,9 @@
             <a-menu-item key="1"><router-link to="/square">广场</router-link></a-menu-item>
             <a-menu-item key="2"><router-link to="/follow">关注</router-link></a-menu-item>
             <a-menu-item key="3"><router-link to="/publish">发帖</router-link></a-menu-item>
-            <a-menu-item key="4" :style="{marginLeft:'auto'}"><a-button type="text" @click="popSignIn">登录</a-button></a-menu-item>
-            <a-menu-item key="5"><a-button type="text" @click="popSignUp">注册</a-button></a-menu-item>
-            <a-menu-item key="6">{{user.name}}</a-menu-item>
+            <a-menu-item key="4" v-if="!user.id" :style="{marginLeft:'auto'}"><a-button type="text" @click="popSignIn">登录</a-button></a-menu-item>
+            <a-menu-item key="5" v-if="!user.id"><a-button type="text" @click="popSignUp">注册</a-button></a-menu-item>
+            <a-menu-item key="6" v-if="!!user.id" :style="{marginLeft:'auto'}"><a-button type="text">{{user.name}}</a-button></a-menu-item>
         </a-menu>
 
     </a-layout-header>
@@ -20,13 +20,14 @@
     <a-modal v-model:visible="signInVisible" title="登录" @ok="handleSignInOk">
         <a-form>
             <a-form-item label="用户名">
-                <a-input placeholder="请输入用户名"/>
+                <a-input v-model:value="signInUser.username" placeholder="请输入用户名"/>
             </a-form-item>
             <a-form-item label="密码">
-                <a-input placeholder="请输入密码"/>
+                <a-input v-model:value="signInUser.password" placeholder="请输入密码"/>
             </a-form-item>
         </a-form>
     </a-modal>
+
 
     <a-modal v-model:visible="signUpVisible" title="登录" @ok="handleSignUpOk">
         <a-form>
@@ -49,21 +50,37 @@
 </template>
 
 <script>
-    import {ref, reactive} from 'vue'
+    import {ref, reactive, computed} from 'vue'
     import axios from 'axios'
     import { message } from 'ant-design-vue';
+    import store from '@/store'
     export default {
         name: "TheHeader",
         setup(){
-            let user = ref({});
+            const user = computed(() => store.state.user);
 
             const signInVisible = ref(false);
+            const signInUser = reactive({
+                username: '',
+                password: ''
+            });
+
             const popSignIn = () => {
                 signInVisible.value = true;
             };
+
             const handleSignInOk = () => {
-                axios.get(process.env.VUE_APP_SERVER + "/user/login")
-                signInVisible.value = false;
+                axios.post(process.env.VUE_APP_SERVER + "/user/login", signInUser).then((response) => {
+                    const data = response.data;
+                    if (data.success) {
+                        console.log("user:", user);
+                        message.success("登录成功！");
+                        store.commit("setUser", data.content);
+                        signUpVisible.value = false;
+                    } else {
+                        message.error(data.message);
+                    }
+                })
             };
 
 
@@ -82,15 +99,23 @@
 
             const handleSignUpOk = () => {
                 axios.post(process.env.VUE_APP_SERVER + "/user/signup", signUpUser).then((response) => {
-                        user = response.data.content;
-                        message.success("注册成功，已自动登录！");
-                        signUpVisible.value = false;
-                    },(error) =>{
-                        message.error(error);
-                    }
-                )
-                signInVisible.value = false;
+                    signInUser.username = response.data.content.username;
+                    signInUser.password = signUpUser.password;
+                    //自动登录
+                    axios.post(process.env.VUE_APP_SERVER + "/user/login", signInUser).then((response) => {
+                        const data = response.data;
+                        if (data.success) {
+                            store.commit("setUser", data.content);
+                            message.success("注册成功，已自动登录！");
+                            signUpVisible.value = false;
+                        } else {
+                            message.error(data.message);
+                        }
+                    })
+                })
             };
+
+
 
 
             return{
@@ -101,6 +126,7 @@
                 handleSignInOk,
                 handleSignUpOk,
                 signUpUser,
+                signInUser,
                 confirmPassword,
                 user,
             }
