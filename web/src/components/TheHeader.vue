@@ -52,18 +52,26 @@
 
 
     <a-modal v-model:visible="signUpVisible" title="登录" @ok="handleSignUpOk">
-        <a-form>
+        <a-form
+                ref="formRef"
+                :model="formState"
+                :rules="rules"
+                v-bind="layout"
+                @finish="handleFinish"
+                @validate="handleValidate"
+                @finishFailed="handleFinishFailed"
+        >
             <a-form-item label="用户名">
                 <a-input v-model:value="signUpUser.username" placeholder="请输入用户名"/>
             </a-form-item>
             <a-form-item label="昵称">
                 <a-input v-model:value="signUpUser.name" placeholder="请输入昵称"/>
             </a-form-item>
-            <a-form-item label="密码">
-                <a-input v-model:value="signUpUser.password" placeholder="请输入密码" type="password"/>
+            <a-form-item has-feedback label="密码" name="password">
+                <a-input v-model:value="formState.password" placeholder="请输入密码" type="password"/>
             </a-form-item>
-            <a-form-item label="确认密码">
-                <a-input v-model:value="comfirmPassword" placeholder="请再次输入密码" type="password"/>
+            <a-form-item has-feedback label="确认密码" name="checkPass">
+                <a-input v-model:value="formState.checkPass" placeholder="请再次输入密码" type="password" autocomplete="off"/>
             </a-form-item>
         </a-form>
     </a-modal>
@@ -76,8 +84,12 @@
     import axios from 'axios'
     import { message } from 'ant-design-vue';
     import store from '@/store'
+    import { Rule } from 'ant-design-vue/es/form';
+    import { FormInstance } from 'ant-design-vue';
+
     export default {
         name: "TheHeader",
+
         setup(){
             const user = computed(() => store.state.user);
 
@@ -112,14 +124,72 @@
                 name: '',
                 password: ''
             });
-            const confirmPassword = ref('');
 
             const popSignUp = () => {
                 signUpVisible.value = true;
             };
 
 
+            /**
+             * 密码校验
+             */
+            const formRef = ref();
+            const formState = reactive({
+                password: '',
+                checkPass: '',
+            });
+
+
+            let validatePass = async (_rule, value) => {
+                if (value === '') {
+                    return Promise.reject('请输入密码');
+                } else {
+                    if (formState.checkPass !== '') {
+                        formRef.value.validateFields('checkPass');
+                    }
+                    return Promise.resolve();
+                }
+            };
+
+            let validatePass2 = async (_rule, value) => {
+                if (value === '') {
+                    return Promise.reject('请再次输入密码');
+                } else if (value !== formState.password) {
+                    return Promise.reject("两次密码输入不一致!");
+                } else {
+                    return Promise.resolve();
+                }
+            };
+
+            const rules = {
+                password: [{
+                    validator: validatePass,
+                    trigger: 'change',
+                }],
+                checkPass: [{
+                    validator: validatePass2,
+                    trigger: 'change',
+                }]
+            };
+
+            const handleFinish = values => {
+                console.log(values, formState);
+            };
+
+            const handleFinishFailed = errors => {
+                console.log(errors);
+            };
+
+            const resetForm = () => {
+                formRef.value.resetFields();
+            };
+
+            const handleValidate = (...args) => {
+                console.log(args);
+            };
+
             const handleSignUpOk = () => {
+                signUpUser.password = formState.password;
                 axios.post(process.env.VUE_APP_SERVER + "/user/signup", signUpUser).then((response) => {
                     signInUser.username = response.data.content.username;
                     signInUser.password = signUpUser.password;
@@ -160,9 +230,17 @@
                 handleSignUpOk,
                 signUpUser,
                 signInUser,
-                confirmPassword,
+
                 user,
                 logout,
+
+                rules,
+                formState,
+                formRef,
+                handleFinishFailed,
+                handleFinish,
+                resetForm,
+                handleValidate,
             }
         }
     }
