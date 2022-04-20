@@ -7,8 +7,17 @@ POST http://localhost:8080/user/signup
 Content-Type: application/json
 
 {
-"username": "big1",
-"name": "萝卜1",
+"username": "big2",
+"name": "萝卜2",
+"password": "123"
+}
+
+###
+POST http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+"username": "big2",
 "password": "123"
 }
 

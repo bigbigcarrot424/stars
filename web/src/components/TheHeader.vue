@@ -84,6 +84,7 @@
                 axios.post(process.env.VUE_APP_SERVER + "/user/signup", signUpUser).then((response) => {
                         user = response.data.content;
                         message.success("注册成功，已自动登录！");
+                        signUpVisible.value = false;
                     },(error) =>{
                         message.error(error);
                     }
