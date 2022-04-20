@@ -12,6 +12,7 @@
             <a-menu-item key="3"><router-link to="/publish">发帖</router-link></a-menu-item>
             <a-menu-item key="4" :style="{marginLeft:'auto'}"><a-button type="text" @click="popSignIn">登录</a-button></a-menu-item>
             <a-menu-item key="5"><a-button type="text" @click="popSignUp">注册</a-button></a-menu-item>
+            <a-menu-item key="6">{{user.name}}</a-menu-item>
         </a-menu>
 
     </a-layout-header>
@@ -30,16 +31,16 @@
     <a-modal v-model:visible="signUpVisible" title="登录" @ok="handleSignUpOk">
         <a-form>
             <a-form-item label="用户名">
-                <a-input v-model="signUpUser.username" placeholder="请输入用户名"/>
+                <a-input v-model:value="signUpUser.username" placeholder="请输入用户名"/>
             </a-form-item>
             <a-form-item label="昵称">
-                <a-input v-model="signUpUser.name" placeholder="请输入昵称"/>
+                <a-input v-model:value="signUpUser.name" placeholder="请输入昵称"/>
             </a-form-item>
             <a-form-item label="密码">
-                <a-input v-model="signUpUser.password" placeholder="请输入密码" type="password"/>
+                <a-input v-model:value="signUpUser.password" placeholder="请输入密码" type="password"/>
             </a-form-item>
             <a-form-item label="确认密码">
-                <a-input v-model="comfirmPassword" placeholder="请再次输入密码" type="password"/>
+                <a-input v-model:value="comfirmPassword" placeholder="请再次输入密码" type="password"/>
             </a-form-item>
         </a-form>
     </a-modal>
@@ -48,10 +49,14 @@
 </template>
 
 <script>
-    import {ref} from 'vue'
+    import {ref, reactive} from 'vue'
+    import axios from 'axios'
+    import { message } from 'ant-design-vue';
     export default {
         name: "TheHeader",
         setup(){
+            let user = ref({});
+
             const signInVisible = ref(false);
             const popSignIn = () => {
                 signInVisible.value = true;
@@ -63,22 +68,24 @@
 
 
             const signUpVisible = ref(false);
-            const signUpUser = ref({
-                username: '',
+            const signUpUser = reactive({
+                username: 'luobo',
                 name: '',
                 password: ''
             });
-            const confirmPassword = ref();
+            const confirmPassword = ref('');
 
             const popSignUp = () => {
                 signUpVisible.value = true;
             };
+
+
             const handleSignUpOk = () => {
-                axios.post(process.env.VUE_APP_SERVER + "/user/signup", signUpUser).then(
-                    (response) => {
-
+                axios.post(process.env.VUE_APP_SERVER + "/user/signup", signUpUser).then((response) => {
+                        user = response.data.content;
+                        message.success("注册成功，已自动登录！");
                     },(error) =>{
-
+                        message.error(error);
                     }
                 )
                 signInVisible.value = false;
@@ -91,8 +98,10 @@
                 signInVisible,
                 signUpVisible,
                 handleSignInOk,
+                handleSignUpOk,
                 signUpUser,
-                confirmPassword
+                confirmPassword,
+                user,
             }
         }
     }

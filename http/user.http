@@ -3,10 +3,14 @@ GET http://localhost:8080/hello
 
 ###
 
-POST http://localhost:8880/hello/post
-Content-Type: application/x-www-form-urlencoded
+POST http://localhost:8080/user/signup
+Content-Type: application/json
 
-name=TEST
+{
+"username": "big1",
+"name": "萝卜1",
+"password": "123"
+}
 
 ###
 
