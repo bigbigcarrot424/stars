@@ -93,6 +93,10 @@
         setup(){
             const user = computed(() => store.state.user);
 
+            /**
+             * 登录
+             */
+
             const signInVisible = ref(false);
             const signInUser = reactive({
                 username: '',
@@ -102,6 +106,7 @@
             const popSignIn = () => {
                 signInVisible.value = true;
             };
+
 
             const handleSignInOk = () => {
                 axios.post(process.env.VUE_APP_SERVER + "/user/login", signInUser).then((response) => {
@@ -188,6 +193,10 @@
                 console.log(args);
             };
 
+            /**
+             * 注册
+             */
+
             const handleSignUpOk = () => {
                 signUpUser.password = formState.password;
                 axios.post(process.env.VUE_APP_SERVER + "/user/signup", signUpUser).then((response) => {
@@ -206,6 +215,10 @@
                     })
                 })
             };
+
+            /**
+             * 退出登录
+             */
 
             const logout = () => {
                 console.log("退出登录开始");
