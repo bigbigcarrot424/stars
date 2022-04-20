@@ -62,7 +62,7 @@ values (6, 1, '这是我发布的第一篇blog5!');
 insert into `blog` (id, author_id, content)
 values (7, 1, '这是我发布的第一篇blog6!');
 
-
+insert into `user` values ()
 
 #电子书表
 drop table if exists `ebook`;

@@ -64,9 +64,6 @@
         props: ['blogInfo'],
 
         setup(props) {
-            const curDate = dayjs(props.blogInfo.publishTime).format();
-            console.log(curDate);
-
             const likes = ref<number>(0);
             const dislikes = ref<number>(0);
             const action = ref<string>();

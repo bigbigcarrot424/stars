@@ -6,4 +6,12 @@
         select `id`, `username`, `name`, `password`, `avatar` from `user`
     </select>
 
+    <select id="selectUserByUsername" resultType="com.fangshuo.stars.domain.User">
+        select * from `user` where `username` = #{0}
+    </select>
+
+    <update id="insertUser" parameterType="com.fangshuo.stars.domain.User">
+        insert into `user` values (#{id}, #{username}, #{name}, #{password}, #{avatar});
+    </update>
+
 </mapper>
