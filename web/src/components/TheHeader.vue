@@ -12,7 +12,29 @@
             <a-menu-item key="3"><router-link to="/publish">发帖</router-link></a-menu-item>
             <a-menu-item key="4" v-if="!user.id" :style="{marginLeft:'auto'}"><a-button type="text" @click="popSignIn">登录</a-button></a-menu-item>
             <a-menu-item key="5" v-if="!user.id"><a-button type="text" @click="popSignUp">注册</a-button></a-menu-item>
-            <a-menu-item key="6" v-if="!!user.id" :style="{marginLeft:'auto'}"><a-button type="text">{{user.name}}</a-button></a-menu-item>
+            <a-menu-item key="6" v-if="!!user.id" :style="{marginLeft:'auto'}">
+
+                <a-button type="text">
+                    <a-dropdown>
+                        <a class="ant-dropdown-link" @click.prevent>
+                            {{user.name}}
+                            <DownOutlined />
+                        </a>
+                        <template #overlay>
+                            <a-menu>
+                                <a-menu-item>
+                                    <router-link to="">
+                                        <a-button type="text">修改信息</a-button>
+                                    </router-link>
+                                </a-menu-item>
+                                <a-menu-item>
+                                    <a-button type="text" @click="logout">退出登录</a-button>
+                                </a-menu-item>
+                            </a-menu>
+                        </template>
+                     </a-dropdown>
+                </a-button>
+            </a-menu-item>
         </a-menu>
 
     </a-layout-header>
@@ -23,7 +45,7 @@
                 <a-input v-model:value="signInUser.username" placeholder="请输入用户名"/>
             </a-form-item>
             <a-form-item label="密码">
-                <a-input v-model:value="signInUser.password" placeholder="请输入密码"/>
+                <a-input v-model:value="signInUser.password" type="password" placeholder="请输入密码"/>
             </a-form-item>
         </a-form>
     </a-modal>
@@ -75,8 +97,8 @@
                     if (data.success) {
                         console.log("user:", user);
                         message.success("登录成功！");
+                        signInVisible.value = false;
                         store.commit("setUser", data.content);
-                        signUpVisible.value = false;
                     } else {
                         message.error(data.message);
                     }
@@ -86,7 +108,7 @@
 
             const signUpVisible = ref(false);
             const signUpUser = reactive({
-                username: 'luobo',
+                username: '',
                 name: '',
                 password: ''
             });
@@ -115,7 +137,18 @@
                 })
             };
 
-
+            const logout = () => {
+                console.log("退出登录开始");
+                axios.get('/user/logout/' + user.value.token).then((response) => {
+                    const data = response.data;
+                    if (data.success) {
+                        message.success("退出登录成功！");
+                        store.commit("setUser", {});
+                    } else {
+                        message.error(data.message);
+                    }
+                });
+            };
 
 
             return{
@@ -129,6 +162,7 @@
                 signInUser,
                 confirmPassword,
                 user,
+                logout,
             }
         }
     }
