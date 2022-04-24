@@ -6,4 +6,9 @@
         select `id` id, `author_id` authorId, `publish_time` publishTime, `content`, `vote_num` voteNum from `blog`
     </select>
 
+    <select id="save" parameterType="com.fangshuo.stars.domain.Blog">
+        insert into blog(`id`, `author_id`, `publish_time`, `content`, `vote_num`)
+        values (#{id}, #{authorId}, #{publishTime}, #{content}, #{voteNum});
+    </select>
+
 </mapper>

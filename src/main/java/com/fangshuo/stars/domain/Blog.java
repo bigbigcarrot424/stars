@@ -1,16 +1,17 @@
 package com.fangshuo.stars.domain;
 
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Blog {
     Long id;
     Long authorId;
-    Date publishTime;
+    Timestamp publishTime;
     String content;
     Integer voteNum;
 
-    public Blog(Long id, Long authorId, Date publishTime, String content, Integer voteNum) {
+    public Blog(Long id, Long authorId, Timestamp publishTime, String content, Integer voteNum) {
         this.id = id;
         this.authorId = authorId;
         this.publishTime = publishTime;
@@ -38,7 +39,7 @@ public class Blog {
         return publishTime;
     }
 
-    public void setPublishTime(Date publishTime) {
+    public void setPublishTime(Timestamp publishTime) {
         this.publishTime = publishTime;
     }
 

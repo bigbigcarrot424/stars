@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface BlogMapper {
     public List<Blog> getBlogList();
+
+    public void save(Blog blog);
 }

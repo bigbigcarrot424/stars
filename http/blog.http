@@ -3,3 +3,12 @@ GET http://localhost:8080/blog/list
 
 ###
 
+POST http://localhost:8080/blog/save
+Content-Type: application/json
+
+{
+  "authorId": "1",
+  "content": "<p>hello</p>"
+}
+
+###
