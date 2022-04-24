@@ -1,4 +1,4 @@
-# STARS 星空交友圈✨
+# STARS 星空交友圈⭐
 ---
 ## 项目介绍：
 ### 基于 Springboot + Vue3 开发的社交系统

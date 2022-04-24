@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import AdminSquare from '../views/admin/AdminSquare.vue'
+import AdminPublish from '../views/admin/AdminPublish.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -11,6 +12,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/square',
     name: 'square',
     component: AdminSquare
+  },
+  {
+    path: '/publish',
+    name: 'publish',
+    component: AdminPublish
   },
   {
     path: '/about',
