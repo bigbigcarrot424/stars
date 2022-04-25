@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fangshuo.stars.mapper.BlogMapper">
 
-    <select id="getBlogList" resultType="com.fangshuo.stars.domain.Blog">
-        select `id` id, `author_id` authorId, `publish_time` publishTime, `content`, `vote_num` voteNum from `blog`
+    <select id="getBlogList" resultType="com.fangshuo.stars.resp.BlogListResp">
+        select t1.`id` id, `author_id` authorId, `username` authorName, `publish_time` publishTime, `content`, `vote_num` voteNum
+        from `blog` t1, `user` t2 where t1.author_id = t2.id
     </select>
 
     <select id="save" parameterType="com.fangshuo.stars.domain.Blog">

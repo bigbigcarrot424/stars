@@ -25,7 +25,7 @@
             const getAllBlog = () => {
                 axios.get(process.env.VUE_APP_SERVER + "/blog/list").then(
                     (response) =>{
-                       blogList.value = response.data ? response.data :[];
+                       blogList.value = response.data.content ? response.data.content :[];
                     },
                     (error) => {
                         message.error(error)

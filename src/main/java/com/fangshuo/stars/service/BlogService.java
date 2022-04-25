@@ -3,6 +3,7 @@ package com.fangshuo.stars.service;
 import com.fangshuo.stars.domain.Blog;
 import com.fangshuo.stars.mapper.BlogMapper;
 import com.fangshuo.stars.req.BlogSaveReq;
+import com.fangshuo.stars.resp.BlogListResp;
 import com.fangshuo.stars.util.CopyUtil;
 import com.fangshuo.stars.util.SnowFlake;
 import org.springframework.stereotype.Service;
@@ -24,9 +25,9 @@ public class BlogService {
 
     Date date = new Date();
 
-    public List<Blog> list(){
-        List<Blog> blog = blogMapper.getBlogList();
-        return blog;
+    public List<BlogListResp> list(){
+        List<BlogListResp> blogList = blogMapper.getBlogList();
+        return blogList;
     }
 
 

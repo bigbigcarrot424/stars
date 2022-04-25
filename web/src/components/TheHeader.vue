@@ -17,8 +17,8 @@
                 <a-button type="text">
                     <a-dropdown>
                         <a class="ant-dropdown-link" @click.prevent>
+                            <a-avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo"/>
                             {{user.name}}
-                            <DownOutlined />
                         </a>
                         <template #overlay>
                             <a-menu>

@@ -29,11 +29,12 @@
              </span>
             <span key="comment-basic-reply-to">Reply to</span>
         </template>
-        <template #author><a>{{blogInfo.authorId}}</a></template>
+        <template #author><a>{{blogInfo.authorName}}</a></template>
         <template #avatar>
             <a-avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo"/>
         </template>
         <template #content>
+            <div :innerHtml="blogInfo.content"></div>
             <p>
                 {{blogInfo.content}}
             </p>
