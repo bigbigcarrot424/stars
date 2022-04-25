@@ -34,15 +34,13 @@
             const editorRef = shallowRef()
 
             // 内容 HTML
-            const valueHtml = ref('<p>hello</p>')
+            // const valueHtml = ref('<p>hello</p>')
+            const valueHtml = ref('')
 
             onMounted(() => {
-                setTimeout(() => {
-                    valueHtml.value = '<p>模拟 Ajax 异步设置内容</p>'
-                    const editor = editorRef.value;
-                    console.log(editorRef.value);
-                    console.log(editor);
-                }, 1500)
+                // setTimeout(() => {
+                //     console.log(editorRef.value.getAllMenuKeys());
+                // }, 1500)
                 // 模拟 ajax 异步获取内容
                 // const text = editor.getHtml();
                 // console.log(text)
@@ -52,6 +50,26 @@
                 excludeKeys: [
                     'group-more-style', // 排除菜单组，写菜单组 key 的值即可
                     'fullScreen',
+                    'color',
+                    'bgColor',
+                    'justifyLeft',
+                    'justifyRight',
+                    'justifyCenter',
+                    'justifyJustify',
+                    'codeBlock',
+                    'bulletedList',
+                    'numberedList',
+                    'insertTable',
+                    'deleteTable',
+                    'insertTableRow',
+                    'deleteTableRow',
+                    'insertTableCol',
+                    'deleteTableCol',
+                    'todo',
+                    'insertVideo',
+                    'insertLink',
+                    'insertImage',
+                    "blockquote"
                 ],
             }
             const editorConfig = { placeholder: '请输入内容...' }
@@ -70,7 +88,7 @@
             const saveBlog = () => {
                 const blog = {
                     authorId: store.state.user.id,
-                    content: valueHtml.value,
+                    content: editorRef.value.getHtml(),
                 }
                 axios.post(process.env.VUE_APP_SERVER + "/blog/save", blog).then((response) => {
                     const data = response.data;

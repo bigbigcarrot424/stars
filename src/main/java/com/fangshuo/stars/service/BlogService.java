@@ -23,13 +23,10 @@ public class BlogService {
     @Resource
     private SnowFlake snowFlake;
 
-    Date date = new Date();
-
     public List<BlogListResp> list(){
         List<BlogListResp> blogList = blogMapper.getBlogList();
         return blogList;
     }
-
 
     public void save(BlogSaveReq req){
         Blog blog = CopyUtil.copy(req, Blog.class);
@@ -38,7 +35,7 @@ public class BlogService {
             long blogId = snowFlake.nextId();
             blog.setId(blogId);
         }
-        blog.setPublishTime(new Timestamp(date.getTime()));
+        blog.setPublishTime(new Timestamp(new Date().getTime()));
         blog.setVoteNum(0);
         blogMapper.save(blog);
     }

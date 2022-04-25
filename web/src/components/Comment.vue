@@ -34,10 +34,18 @@
             <a-avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo"/>
         </template>
         <template #content>
-            <div :innerHtml="blogInfo.content"></div>
-            <p>
-                {{blogInfo.content}}
-            </p>
+<!--            放置帖子html：-->
+            <div :innerHTML="html">
+
+            </div>
+<!--            <p>-->
+<!--                {{blogInfo.content}}-->
+<!--            </p>-->
+
+            <a-image-preview-group>
+                <a-image :width="200" src="https://aliyuncdn.antdv.com/vue.png" />
+                <a-image :width="200" src="https://aliyuncdn.antdv.com/logo.png" />
+            </a-image-preview-group>
         </template>
         <template #datetime>
             <a-tooltip :title="dayjs().format('YYYY-MM-DD HH:mm:ss')">
@@ -81,6 +89,9 @@
                 action.value = 'disliked';
             };
 
+            const html = ref()
+            html.value = props.blogInfo.content
+
             return {
                 likes,
                 dislikes,
@@ -88,8 +99,8 @@
                 like,
                 dislike,
                 dayjs,
+                html
             };
         },
     });
 </script>
-
