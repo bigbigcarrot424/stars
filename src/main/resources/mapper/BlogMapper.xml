@@ -4,7 +4,7 @@
 
     <select id="getBlogList" resultType="com.fangshuo.stars.resp.BlogListResp">
         select t1.`id` id, `author_id` authorId, `username` authorName, `publish_time` publishTime, `content`, `vote_num` voteNum
-        from `blog` t1, `user` t2 where t1.author_id = t2.id
+        from `blog` t1, `user` t2 where t1.author_id = t2.id order by t1.publish_time desc
     </select>
 
     <select id="save" parameterType="com.fangshuo.stars.domain.Blog">
