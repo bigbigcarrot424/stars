@@ -14,14 +14,17 @@
                 @onCreated="handleCreated"
         />
     </div>
-    <a-button type="primary" shape="round" size="large" :style="{'float': 'right', 'margin': '15px'}">发帖</a-button>
+    <a-button type="primary" shape="round" size="large" :style="{'float': 'right', 'margin': '15px'}" @click="saveBlog()">发帖</a-button>
 </template>
 
 <script>
     import '@wangeditor/editor/dist/css/style.css'
     import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
+    import { message } from 'ant-design-vue';
     import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
     import { DomEditor } from '@wangeditor/editor'
+    import axios from 'axios'
+    import store from '@/store'
 
     export default {
         name: "AdminPublish",
@@ -64,6 +67,21 @@
                 editorRef.value = editor // 记录 editor 实例，重要！
             }
 
+            const saveBlog = () => {
+                const blog = {
+                    authorId: store.state.user.id,
+                    content: valueHtml.value,
+                }
+                axios.post(process.env.VUE_APP_SERVER + "/blog/save", blog).then((response) => {
+                    const data = response.data;
+                    if(data.success){
+                        message.success("发帖成功！")
+                    }else {
+                        message.error(data.message);
+                    }
+                })
+            }
+
 
             return {
                 editorRef,
@@ -71,7 +89,8 @@
                 mode: 'simple', // 或 'simple'
                 toolbarConfig,
                 editorConfig,
-                handleCreated
+                handleCreated,
+                saveBlog,
             };
         },
     }

@@ -2,6 +2,7 @@ package com.fangshuo.stars.controller;
 
 import com.fangshuo.stars.domain.Blog;
 import com.fangshuo.stars.req.BlogSaveReq;
+import com.fangshuo.stars.resp.CommonResp;
 import com.fangshuo.stars.service.BlogService;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +22,9 @@ public class BlogController {
     }
 
     @PostMapping("/save")
-    public void blogSave(@Valid @RequestBody BlogSaveReq req) {
+    public CommonResp blogSave(@Valid @RequestBody BlogSaveReq req) {
+        CommonResp<Object> resp = new CommonResp<>();
         blogService.save(req);
+        return resp;
     }
-
-
 }

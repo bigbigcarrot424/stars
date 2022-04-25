@@ -7,7 +7,7 @@ POST http://localhost:8080/blog/save
 Content-Type: application/json
 
 {
-  "authorId": "1",
+  "authorId": 171897790761406464,
   "content": "<p>hello</p>"
 }
 
