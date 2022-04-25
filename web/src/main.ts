@@ -23,6 +23,7 @@ axios.interceptors.request.use(function (config) {
 }, error => {
     return Promise.reject(error);
 });
+
 axios.interceptors.response.use(function (response) {
     console.log('返回结果：', response);
     return response;

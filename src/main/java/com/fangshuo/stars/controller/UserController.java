@@ -14,10 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -72,5 +75,21 @@ public class UserController {
         redisTemplate.delete(token);
         LOG.info("从redis中删除token: {}", token);
         return resp;
+    }
+
+    @RequestMapping("/upload/avatar")
+    public CommonResp upload(@RequestParam MultipartFile avatar) throws IOException {
+        LOG.info("上传文件开始：{}", avatar);
+        LOG.info("文件名：{}", avatar.getOriginalFilename());
+        LOG.info("文件大小：{}", avatar.getSize());
+
+        // 保存文件到本地
+        String fileName = avatar.getOriginalFilename();
+        String fullPath = "D:/file/stars/avatar/" + fileName;
+        File dest = new File(fullPath);
+        avatar.transferTo(dest);
+        LOG.info(dest.getAbsolutePath());
+
+        return new CommonResp();
     }
 }

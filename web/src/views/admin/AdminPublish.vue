@@ -69,7 +69,8 @@
                     'insertVideo',
                     'insertLink',
                     'insertImage',
-                    "blockquote"
+                    "blockquote",
+                    "header3"
                 ],
             }
             const editorConfig = { placeholder: '请输入内容...' }

@@ -3,6 +3,7 @@ import AdminSquare from '../views/admin/AdminSquare.vue'
 import AdminPublish from '../views/admin/AdminPublish.vue'
 import AdminInfo from '../views/admin/AdminInfo.vue'
 import AppIntro from '../views/AppIntro.vue'
+import UploadFile from '../views/UploadFile.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -24,6 +25,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/adminInfo',
     name: 'adminInfo',
     component: AdminInfo
+  },
+  {
+    path: '/uploadFile',
+    name: 'uploadFile',
+    component: UploadFile
   },
   {
     path: '/about',
