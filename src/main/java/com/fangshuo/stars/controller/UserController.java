@@ -78,13 +78,16 @@ public class UserController {
     }
 
     @RequestMapping("/upload/avatar")
-    public CommonResp upload(@RequestParam MultipartFile avatar) throws IOException {
+    public CommonResp upload(@RequestHeader(value = "userId",required = false) String userId, @RequestParam MultipartFile avatar) throws IOException {
         LOG.info("上传文件开始：{}", avatar);
         LOG.info("文件名：{}", avatar.getOriginalFilename());
         LOG.info("文件大小：{}", avatar.getSize());
 
         // 保存文件到本地
         String fileName = avatar.getOriginalFilename();
+        //点.需要转义，一个反斜线还不行，要两个反斜线
+        String[] types = fileName.split("\\.");
+        fileName = userId.concat(".").concat(types[1]);
         String fullPath = "D:/file/stars/avatar/" + fileName;
         File dest = new File(fullPath);
         avatar.transferTo(dest);

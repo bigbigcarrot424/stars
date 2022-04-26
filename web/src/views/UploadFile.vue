@@ -7,6 +7,7 @@
           :show-upload-list="false"
           :action="SERVER + '/user/upload/avatar'"
           :before-upload="beforeUpload"
+          :headers="headers"
           @change="handleChange"
   >
     <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
@@ -21,6 +22,7 @@
   import { PlusOutlined, LoadingOutlined } from '@ant-design/icons-vue';
   import { message } from 'ant-design-vue';
   import { defineComponent, ref } from 'vue';
+  import store from '@/store'
 
   function getBase64(img, callback) {
     const reader = new FileReader();
@@ -38,6 +40,7 @@
       const fileList = ref([]);
       const loading = ref(false);
       const imageUrl = ref('');
+
 
       const SERVER = process.env.VUE_APP_SERVER;
 
@@ -83,7 +86,10 @@
         imageUrl,
         handleChange,
         beforeUpload,
-        SERVER
+        SERVER,
+        headers: {
+          userId: store.state.user.id,
+        },
       };
     },
 
