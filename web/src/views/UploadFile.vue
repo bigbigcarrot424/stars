@@ -21,7 +21,7 @@
 <script>
   import { PlusOutlined, LoadingOutlined } from '@ant-design/icons-vue';
   import { message } from 'ant-design-vue';
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, onMounted } from 'vue';
   import store from '@/store'
 
   function getBase64(img, callback) {
@@ -37,6 +37,9 @@
     },
 
     setup() {
+      onMounted(() =>{
+
+      })
       const fileList = ref([]);
       const loading = ref(false);
       const imageUrl = ref('');
@@ -95,14 +98,24 @@
 
   });
 </script>
-<style>
+<style scoped>
   .avatar-uploader > .ant-upload {
     width: 128px;
     height: 128px;
   }
-  .ant-upload-select-picture-card i {
+  span.ant-upload {
+    width: 32px !important;
+  }
+
+  ant-upload-select-picture-card i {
+
     font-size: 32px;
     color: #999;
+  }
+
+  .avatar-img {
+    width: 10px !important;
+    height: 10px !important;
   }
 
   .ant-upload-select-picture-card .ant-upload-text {

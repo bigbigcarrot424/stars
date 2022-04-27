@@ -24,7 +24,7 @@
                 <a-button type="text">
                     <a-dropdown>
                         <a class="ant-dropdown-link" @click.prevent>
-                            <a-avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo"/>
+                            <a-avatar :src="SERVER + '/file/avatar/' + avatarName" alt="Han Solo"/>
                             {{user.name}}
                         </a>
                         <template #overlay>
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-    import {ref, reactive, computed} from 'vue'
+    import {ref, reactive, computed, onMounted} from 'vue'
     import axios from 'axios'
     import { message } from 'ant-design-vue';
     import store from '@/store'
@@ -100,8 +100,6 @@
 
         setup(){
             const user = computed(() => store.state.user);
-            const route = useRoute();
-            const router = useRouter();
 
             /**
              * 登录
@@ -243,6 +241,8 @@
                 });
             };
 
+            const SERVER = process.env.VUE_APP_SERVER;
+
             return{
                 popSignIn,
                 popSignUp,
@@ -264,7 +264,9 @@
                 resetForm,
                 handleValidate,
 
+                avatarName: user.value.avatar,
 
+                SERVER,
             }
         }
     }

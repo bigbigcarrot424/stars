@@ -61,4 +61,8 @@ public class UserService {
             throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
         }
     }
+
+    public void alterAvatarName(String avatarName, String userId){
+        userMapper.alterAvatarName(avatarName, Long.parseLong(userId));
+    }
 }

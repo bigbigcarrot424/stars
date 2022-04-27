@@ -14,4 +14,8 @@
         insert into `user` values (#{id}, #{username}, #{name}, #{password}, #{avatar});
     </update>
 
+    <update id="alterAvatarName">
+       update `user` set avatar = #{avatarName} where id = #{userId}
+    </update>
+
 </mapper>

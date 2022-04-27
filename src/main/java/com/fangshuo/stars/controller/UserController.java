@@ -87,11 +87,16 @@ public class UserController {
         String fileName = avatar.getOriginalFilename();
         //点.需要转义，一个反斜线还不行，要两个反斜线
         String[] types = fileName.split("\\.");
+        LOG.info("types:{}",types[1]);
+        LOG.info("userID:{}", userId);
         fileName = userId.concat(".").concat(types[1]);
         String fullPath = "D:/file/stars/avatar/" + fileName;
         File dest = new File(fullPath);
         avatar.transferTo(dest);
         LOG.info(dest.getAbsolutePath());
+
+        //修改用户头像
+        userService.alterAvatarName(fileName, userId);
 
         return new CommonResp();
     }
