@@ -36,7 +36,7 @@
         </template>
         <template #author><a>{{blogInfo.authorName}}</a></template>
         <template #avatar>
-            <a-avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo"/>
+            <a-avatar :src="SERVER + '/file/avatar/' + store.state.user.avatar" alt="Han Solo"/>
         </template>
         <template #content>
 <!--            放置帖子html：-->
@@ -65,6 +65,7 @@
     import {LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined} from '@ant-design/icons-vue';
     import {defineComponent, ref} from 'vue';
     import relativeTime from 'dayjs/plugin/relativeTime';
+    import store from '@/store'
 
     dayjs.extend(relativeTime);
 
@@ -78,6 +79,7 @@
         props: ['blogInfo'],
 
         setup(props) {
+            const SERVER  = process.env.VUE_APP_SERVER;
             const likes = ref<number>(0);
             const dislikes = ref<number>(0);
             const action = ref<string>();
@@ -104,7 +106,10 @@
                 like,
                 dislike,
                 dayjs,
-                html
+                html,
+
+                SERVER,
+                store
             };
         },
     });

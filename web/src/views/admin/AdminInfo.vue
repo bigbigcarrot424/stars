@@ -28,14 +28,13 @@
             </a-upload>
         </div>
     </a-modal>
-
     <a-descriptions title="个人信息" bordered :column="4">
-
         <template #extra>
-            <a-button type="primary"  v-if="true">编辑</a-button>
-            <a-button type="primary" v-else danger>保存</a-button>
+            <a-button type="primary" v-if="!ifEdit" @click="editInfo">编辑</a-button>
+            <a-button type="primary" v-else danger @click="saveInfo">保存</a-button>
         </template>
-        <a-descriptions-item label="用户昵称：" :span="1"><input type="text" value="你好" v-show="ifEdit.value">大萝卜</a-descriptions-item>
+
+        <a-descriptions-item label="用户昵称：" :span="1"><input type="text" value="你好" v-show="ifEdit.value">{{user.name}}</a-descriptions-item>
         <a-descriptions-item label="性别：" :span="1">男</a-descriptions-item>
         <a-descriptions-item label="年龄：" :span="1">22</a-descriptions-item>
         <a-descriptions-item label="头像：" :span="1">
@@ -71,7 +70,7 @@
     import { UserOutlined } from '@ant-design/icons-vue';
     import { PlusOutlined, LoadingOutlined } from '@ant-design/icons-vue';
     import { message } from 'ant-design-vue';
-    import { defineComponent, ref, onMounted } from 'vue';
+    import { defineComponent, ref, onMounted, computed } from 'vue';
     import { Modal } from 'ant-design-vue';
     import store from '@/store'
 
@@ -90,10 +89,18 @@
             PlusOutlined,
         },
         setup(){
-            onMounted(() => {
-                console.log(store.state.user)
-            })
-            const ifEdit = ref(false);
+            const user = computed(() => store.state.user);
+
+            const ifEdit = ref();
+            ifEdit.value = false;
+
+            const editInfo = () => {
+                ifEdit.value = ifEdit.value ? false : true;
+            }
+
+            const saveInfo = () => {
+                ifEdit.value = ifEdit.value ? false : true;
+            }
 
             /**
              * 头像上传
@@ -186,6 +193,12 @@
                 alterAvatar,
                 confirm,
                 avatarName,
+
+                editInfo,
+                saveInfo,
+
+                // 个人信息：
+                user
             };
         }
     }
