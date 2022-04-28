@@ -6,8 +6,7 @@
 
     <a-pagination
             v-model:current="current"
-            :total="50"
-            show-less-items
+            :total="blogNum + 6"
             :style="{marginLeft:'auto', textAlign: 'right'}"
             @change="getAllBlog(current)"/>
 </template>
@@ -42,12 +41,21 @@
 
             const current = ref(1);
 
-            const test = () => {
-                console.log("hello")
+            const blogNum = ref();
+
+            const getBlogNum = () => {
+                axios.get(process.env.VUE_APP_SERVER + "/blog/blogNum").then(
+                    (response) => {
+                        blogNum.value = response.data.content;
+                        // console.log(blogNum.value)
+                    }
+                )
             }
 
             onMounted(()=>{
                 getAllBlog(1);
+                getBlogNum();
+
             })
             return {
                 pagination,
@@ -55,6 +63,7 @@
                 pagination,
                 current,
                 getAllBlog,
+                blogNum,
             };
         },
     });

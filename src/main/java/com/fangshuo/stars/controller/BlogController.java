@@ -26,6 +26,14 @@ public class BlogController {
         return resp;
     }
 
+    @GetMapping("/blogNum")
+    public CommonResp blogNum() {
+        CommonResp resp = new CommonResp<>();
+        Integer blogNum = blogService.blogNum();
+        resp.setContent(blogNum);
+        return resp;
+    }
+
     @GetMapping("/listByPage/{pageNum}/{pageSize}")
     public CommonResp<List<BlogListResp>> blogListByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize) {
         CommonResp<List<BlogListResp>> resp = new CommonResp<>();

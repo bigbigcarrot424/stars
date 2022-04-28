@@ -15,3 +15,7 @@ Content-Type: application/json
 GET http://localhost:8080/blog/listByPage/2/10
 
 ###
+
+GET http://localhost:8080/blog/blogNum
+
+###
