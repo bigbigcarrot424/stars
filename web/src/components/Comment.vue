@@ -36,7 +36,7 @@
         </template>
         <template #author><a>{{blogInfo.authorName}}</a></template>
         <template #avatar>
-            <a-avatar :src="SERVER + '/file/avatar/' + store.state.user.avatar" alt="Han Solo"/>
+            <a-avatar :src="SERVER + '/file/avatar/' + blogInfo.avatar" alt="Han Solo"/>
         </template>
         <template #content>
 <!--            放置帖子html：-->

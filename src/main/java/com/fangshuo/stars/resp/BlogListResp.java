@@ -11,6 +11,7 @@ public class BlogListResp {
     Timestamp publishTime;
     String content;
     Integer voteNum;
+    String avatar;
 
     public Long getId() {
         return id;
@@ -60,16 +61,25 @@ public class BlogListResp {
         this.authorName = authorName;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public BlogListResp() {
     }
 
-    public BlogListResp(Long id, Long authorId, String authorName, Timestamp publishTime, String content, Integer voteNum) {
+    public BlogListResp(Long id, Long authorId, String authorName, Timestamp publishTime, String content, Integer voteNum, String avatar) {
         this.id = id;
         this.authorId = authorId;
         this.authorName = authorName;
         this.publishTime = publishTime;
         this.content = content;
         this.voteNum = voteNum;
+        this.avatar = avatar;
     }
 
     @Override
@@ -81,6 +91,7 @@ public class BlogListResp {
                 ", publishTime=" + publishTime +
                 ", content='" + content + '\'' +
                 ", voteNum=" + voteNum +
+                ", avatar='" + avatar + '\'' +
                 '}';
     }
 }
