@@ -15,8 +15,8 @@
             <a-menu-item key="1"><router-link to="/square">广场</router-link></a-menu-item>
             <a-menu-item key="2"><router-link to="/follow">关注</router-link></a-menu-item>
             <a-menu-item key="3"><router-link to="/publish">发帖</router-link></a-menu-item>
-            <a-menu-item key="4"><router-link to="/publish">我的帖子</router-link></a-menu-item>
-            <a-menu-item key="5"><router-link to="/publish">好友列表</router-link></a-menu-item>
+            <a-menu-item key="4"><router-link to="/">我的帖子</router-link></a-menu-item>
+            <a-menu-item key="5"><router-link to="/">好友列表</router-link></a-menu-item>
             <a-menu-item key="6" v-if="!user.id" :style="{marginLeft:'auto'}"><a-button type="text" @click="popSignIn">登录</a-button></a-menu-item>
             <a-menu-item key="7" v-if="!user.id"><a-button type="text" @click="popSignUp">注册</a-button></a-menu-item>
             <a-menu-item key="8" v-if="!!user.id" :style="{marginLeft:'auto'}">

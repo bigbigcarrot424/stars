@@ -70,6 +70,7 @@
                     'insertVideo',
                     'insertLink',
                     'insertImage',
+                    "group-image",
                     "blockquote",
                     "header3",
                     "header2",
