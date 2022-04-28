@@ -25,6 +25,7 @@
     import { DomEditor } from '@wangeditor/editor'
     import axios from 'axios'
     import store from '@/store'
+    import { useRouter } from 'vue-router';
 
     export default {
         name: "AdminPublish",
@@ -87,6 +88,8 @@
                 editorRef.value = editor // 记录 editor 实例，重要！
             }
 
+            const { push, replace } = useRouter();
+
             const saveBlog = () => {
                 const blog = {
                     authorId: store.state.user.id,
@@ -100,6 +103,7 @@
                         message.error(data.message);
                     }
                 })
+                push('/square');
             }
 
 

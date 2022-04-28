@@ -39,7 +39,7 @@
         <a-descriptions-item label="年龄：" :span="1">22</a-descriptions-item>
         <a-descriptions-item label="头像：" :span="1">
             <a-avatar :size="64" :src="'http://localhost:8080/file/avatar/' + avatarName" alt="Han Solo"/>
-            <a-button type="primary" v-if="ifEdit.value" @click="showModal">修改头像</a-button>
+            <a-button type="primary" v-if="ifEdit" @click="showModal">修改头像</a-button>
         </a-descriptions-item>
         <a-descriptions-item label="所在兴趣圈：" :span="4">羽毛球社、LOL</a-descriptions-item>
 
