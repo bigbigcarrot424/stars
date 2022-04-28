@@ -1,6 +1,7 @@
 package com.fangshuo.stars.controller;
 
 import com.fangshuo.stars.domain.Blog;
+import com.fangshuo.stars.req.BlogListByPageReq;
 import com.fangshuo.stars.req.BlogSaveReq;
 import com.fangshuo.stars.resp.BlogListResp;
 import com.fangshuo.stars.resp.CommonResp;
@@ -21,6 +22,14 @@ public class BlogController {
     public CommonResp<List<BlogListResp>> blogList() {
         CommonResp<List<BlogListResp>> resp = new CommonResp<>();
         List<BlogListResp> blogList = blogService.list();
+        resp.setContent(blogList);
+        return resp;
+    }
+
+    @GetMapping("/listByPage/{pageNum}/{pageSize}")
+    public CommonResp<List<BlogListResp>> blogListByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize) {
+        CommonResp<List<BlogListResp>> resp = new CommonResp<>();
+        List<BlogListResp> blogList = blogService.getBlogListByPage(pageNum, pageSize);
         resp.setContent(blogList);
         return resp;
     }

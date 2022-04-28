@@ -1,15 +1,19 @@
 <template>
 <!--    <a-layout-sider width="200" style="background: #fff"  :style="{background: '#fff', overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }">-->
-    <a-layout-sider width="200" :style="{background: '#fff', height: '100vh'}">
-
+<!--    <a-layout-sider width="200" :style="{background: '#fff', height: '100vh'}">-->
+    <a-layout-sider
+            :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0, paddingTop: '60px'}"
+    >
         <a-menu
 
                 mode="inline"
                 style="height: 100%"
         >
-            <div class="sider">
-                聊  天  列  表
-            </div>
+
+<!--            <div class="sider">-->
+<!--                聊  天  列  表-->
+<!--            </div>-->
+<!--            <a-menu-item disabled key="32" class="sider-title" style="padding-left: 70px; padding-top: 20px">聊  天  列  表</a-menu-item>-->
             <a-divider/>
             <a-sub-menu key="sub1">
                 <template #title>
@@ -61,5 +65,8 @@
         margin: 5px;
         text-align: center;
         font-size: 15px;
+    }
+    .sider-title {
+        text-align: center !important;
     }
 </style>

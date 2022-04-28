@@ -6,6 +6,9 @@ import com.fangshuo.stars.req.BlogSaveReq;
 import com.fangshuo.stars.resp.BlogListResp;
 import com.fangshuo.stars.util.CopyUtil;
 import com.fangshuo.stars.util.SnowFlake;
+import com.github.pagehelper.PageHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -17,6 +20,8 @@ import java.util.List;
 
 @Service
 public class BlogService {
+    private static final Logger LOG = LoggerFactory.getLogger(BlogService.class);
+
     @Resource
     private BlogMapper blogMapper;
 
@@ -26,6 +31,12 @@ public class BlogService {
     public List<BlogListResp> list(){
         List<BlogListResp> blogList = blogMapper.getBlogList();
         return blogList;
+    }
+
+    public List<BlogListResp> getBlogListByPage(int pageNum, int pageSize){
+        PageHelper.startPage(pageNum, pageSize);
+        List<BlogListResp> list = this.list();
+        return list;
     }
 
     public void save(BlogSaveReq req){

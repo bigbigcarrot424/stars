@@ -70,7 +70,8 @@
                     'insertLink',
                     'insertImage',
                     "blockquote",
-                    "header3"
+                    "header3",
+                    "header2",
                 ],
             }
             const editorConfig = { placeholder: '请输入内容...' }

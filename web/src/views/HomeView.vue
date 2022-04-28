@@ -5,11 +5,12 @@
       <a-breadcrumb-item>List</a-breadcrumb-item>
       <a-breadcrumb-item>App</a-breadcrumb-item>
     </a-breadcrumb>
-    <a-layout style="padding: 24px 0; background: #fff">
+    <a-layout has-sider :style="{ marginLeft: '200px', padding: '24px 0', background: '#fff'}">
       <the-sider></the-sider>
-      <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
+      <a-layout-content :style="{ padding: '0 30px', minHeight: '800px' }">
         <router-view/>
       </a-layout-content>
+
     </a-layout>
   </a-layout-content>
 </template>

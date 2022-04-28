@@ -18,5 +18,6 @@
 <style scoped>
   .intro{
     text-align: center;
+    padding-top: 100px;
   }
 </style>

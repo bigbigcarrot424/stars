@@ -1,5 +1,5 @@
 <template>
-    <a-layout-header :style="{ zIndex: 1, width: '100%' }">
+    <a-layout-header :style="{ zIndex: 1, width: '100%', position: 'fixed',}">
 
             <div class="logo">
                 <router-link to="/">

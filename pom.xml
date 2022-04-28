@@ -46,6 +46,12 @@
             <artifactId>mybatis</artifactId>
             <version>3.5.7</version>
         </dependency>
+        <!-- pagehelper 插件-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.4.1</version>
+        </dependency>
         <!--引入redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

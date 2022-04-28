@@ -1,6 +1,6 @@
 <template>
     <a-layout-footer style="text-align: center">
-        Ant Design ©2018 Created by Ant UED
+        Stars ©2022 Created by Fang Yuan Hao
     </a-layout-footer>
 </template>
 
