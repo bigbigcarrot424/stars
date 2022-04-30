@@ -34,3 +34,18 @@ Content-Type: application/json
 GET http://localhost:8080/comment/list/174847472563261440
 
 ###
+
+GET http://localhost:8080/likes/list/171897790761406464
+
+###
+
+POST http://localhost:8080/likes/save
+Content-Type: application/json
+
+{
+  "commentatorId": 171897790761406464,
+  "blogId": 174847472563261440,
+  "isLike": false
+}
+
+###

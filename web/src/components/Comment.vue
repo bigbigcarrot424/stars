@@ -203,6 +203,13 @@
                 }, 600)
             };
 
+            /**
+             * 获取点赞的帖子列表
+             */
+            const getMyLikes = () => {
+
+            }
+
             onMounted(() => {
                 // console.log(store.state.user.id)
                 // console.log(props.blogInfo.id)

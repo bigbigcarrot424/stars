@@ -93,8 +93,23 @@ create table comment
     comment '评论表';
 
 
-
 # 点赞/点踩表
+drop table if exists `likes`;
+create table `likes`
+(
+    id bigint not null comment 'id',
+    commentator_id bigint not null comment '点赞人id',
+    blog_id bigint not null comment '被赞贴id',
+    is_like boolean null comment '是点赞（还是点踩）',
+    comment_time datetime default CURRENT_TIMESTAMP null comment '时间',
+    constraint like_pk
+        primary key (id),
+    constraint like_blog_id_fk
+        foreign key (blog_id) references blog (id),
+    constraint like_user_id_fk
+        foreign key (commentator_id) references user (id)
+)
+    comment '点赞/反对表';
 
 # 兴趣圈表
 
