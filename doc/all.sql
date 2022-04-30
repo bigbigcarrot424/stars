@@ -1,4 +1,4 @@
-select `id`, `name`, `password` from `test`
+select `id`, `name`, `password` from `test`;
 
 drop table if exists `test`;
 create table `test`
@@ -46,6 +46,10 @@ create table blog
 )engine = innodb
  default charset = utf8mb4
     comment '帖子表';
+
+alter table blog
+    add oppose_num int default 0 null;
+
 insert into `blog` (id, author_id, content)
 values (1, 1, 'carr');
 insert into `blog` (id, author_id, content)
@@ -62,7 +66,34 @@ values (6, 1, '这是我发布的第一篇blog5!');
 insert into `blog` (id, author_id, content)
 values (7, 1, '这是我发布的第一篇blog6!');
 
-insert into `user` values ()
+insert into `user` values ();
+
+# 评论表
+create table comment
+(
+    id bigint not null comment '评论id',
+    blog_id bigint not null comment 'blog id',
+    commentator_id bigint not null comment '评论人id',
+    content varchar(1000) not null comment '评论内容',
+    comment_time datetime default CURRENT_TIMESTAMP not null comment '评论时间',
+    constraint comment_pk
+        primary key (id),
+    constraint comment_blog_id_fk
+        foreign key (blog_id) references blog (id),
+    constraint comment_user_id_fk
+        foreign key (commentator_id) references user (id)
+)engine = innodb
+ default charset = utf8mb4
+    comment '评论表';
+
+
+
+# 点赞/点踩表
+
+# 兴趣圈表
+
+
+
 
 #电子书表
 drop table if exists `ebook`;

@@ -19,3 +19,18 @@ GET http://localhost:8080/blog/listByPage/2/10
 GET http://localhost:8080/blog/blogNum
 
 ###
+
+POST http://localhost:8080/comment/save
+Content-Type: application/json
+
+{
+  "content": "第二条评论：hello",
+  "commentatorId": 171897790761406464,
+  "blogId": 174847472563261440
+}
+
+###
+
+GET http://localhost:8080/comment/list/174847472563261440
+
+###

@@ -1,115 +1,82 @@
 <template>
-<!--  <a-upload-->
-<!--          v-model:file-list="fileList"-->
-<!--          name="avatar"-->
-<!--          list-type="picture-card"-->
-<!--          class="avatar-uploader"-->
-<!--          :show-upload-list="false"-->
-<!--          :action="SERVER + '/user/upload/avatar'"-->
-<!--          :before-upload="beforeUpload"-->
-<!--          :headers="headers"-->
-<!--          @change="handleChange"-->
-<!--  >-->
-<!--    <img v-if="imageUrl" :src="imageUrl" alt="avatar" />-->
-<!--    <div v-else>-->
-<!--      <loading-outlined v-if="loading"></loading-outlined>-->
-<!--      <plus-outlined v-else></plus-outlined>-->
-<!--      <div class="ant-upload-text">Upload</div>-->
-<!--    </div>-->
-<!--  </a-upload>-->
-
-  <h1 v-if="awesome">Vue is awesome!</h1>
-  <h1 v-else>Oh no 😢</h1>
-  {{awesome}}
-  <button @click="alter">更改</button>
+  <a-list
+          v-if="comments.length"
+          :data-source="comments"
+          :header="`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`"
+          item-layout="horizontal"
+  >
+    <template #renderItem="{ item }">
+      <a-list-item>
+        <a-comment
+                :author="item.author"
+                :avatar="item.avatar"
+                :content="item.content"
+                :datetime="item.datetime"
+        />
+      </a-list-item>
+    </template>
+  </a-list>
+  <a-button @click="showOrHide">展开/收起</a-button>
+  <a-comment v-if="commentShow">
+    <template #avatar>
+      <a-avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
+    </template>
+    <template #content>
+      <a-form-item>
+        <a-textarea v-model:value="value" :rows="4" />
+      </a-form-item>
+      <a-form-item>
+        <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
+          Add Comment
+        </a-button>
+      </a-form-item>
+    </template>
+  </a-comment>
 </template>
-<script>
-  import { PlusOutlined, LoadingOutlined } from '@ant-design/icons-vue';
-  import { message } from 'ant-design-vue';
-  import { defineComponent, ref, onMounted } from 'vue';
-  import store from '@/store'
 
-  function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-  }
+<script>
+  import { defineComponent, ref } from 'vue';
+  import dayjs from 'dayjs';
+  import relativeTime from 'dayjs/plugin/relativeTime';
+  dayjs.extend(relativeTime);
 
   export default defineComponent({
-    components: {
-      LoadingOutlined,
-      PlusOutlined,
-    },
-
     setup() {
-      // onMounted(() =>{
-      //
-      // })
-      // const fileList = ref([]);
-      // const loading = ref(false);
-      // const imageUrl = ref('');
-      //
-      //
-      // const SERVER = process.env.VUE_APP_SERVER;
-      //
-      // const handleChange = info => {
-      //   if (info.file.status === 'uploading') {
-      //     loading.value = true;
-      //     return;
-      //   }
-      //
-      //   if (info.file.status === 'done') {
-      //     // Get this url from response in real world.
-      //     getBase64(info.file.originFileObj, base64Url => {
-      //       imageUrl.value = base64Url;
-      //       loading.value = false;
-      //     });
-      //   }
-      //
-      //   if (info.file.status === 'error') {
-      //     loading.value = false;
-      //     message.error('upload error');
-      //   }
-      // };
-      //
-      // const beforeUpload = file => {
-      //   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-      //
-      //   if (!isJpgOrPng) {
-      //     message.error('You can only upload JPG file!');
-      //   }
-      //
-      //   const isLt2M = file.size / 1024 / 1024 < 2;
-      //
-      //   if (!isLt2M) {
-      //     message.error('Image must smaller than 2MB!');
-      //   }
-      //
-      //   return isJpgOrPng && isLt2M;
-      // };
-
-      const awesome = ref();
-      awesome.value = false;
-
-      const alter = () => {
-        awesome.value = awesome.value ? false : true;
-
+      const comments = ref([]);
+      const submitting = ref(false);
+      const value = ref('');
+      const commentShow = ref(false);
+      const showOrHide = () => {
+        commentShow.value = true;
       }
 
-      return {
-        // fileList,
-        // loading,
-        // imageUrl,
-        // handleChange,
-        // beforeUpload,
-        // SERVER,
-        // headers: {
-        //   userId: store.state.user.id,
-        // },
-        awesome,
-        alter
+      const handleSubmit = () => {
+        if (!value.value) {
+          return;
+        }
+
+        submitting.value = true;
+        setTimeout(() => {
+          submitting.value = false;
+          comments.value = [{
+            author: 'Han Solo',
+            avatar: 'https://joeschmoe.io/api/v1/random',
+            content: value.value,
+            datetime: dayjs().fromNow(),
+          }, ...comments.value];
+          value.value = '';
+        }, 1000);
       };
-    },
+
+      return {
+        comments,
+        submitting,
+        value,
+        handleSubmit,
+        showOrHide,
+        commentShow,
+      };
+    }
 
   });
 </script>

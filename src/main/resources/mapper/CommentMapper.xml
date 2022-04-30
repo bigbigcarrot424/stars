@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fangshuo.stars.mapper.CommentMapper">
+
+    <select id="getCommentList" resultType="com.fangshuo.stars.resp.CommentListResp">
+        select t1.`id` id, `blog_id` blogId, `username` commentatorName,  t2.`id` commentatorId, `comment_time` commentTime, `content`, t2.`avatar` avatar
+        from `comment` t1, `user` t2 where t1.commentator_id = t2.id and t1.blog_id = #{blogId} order by t1.comment_time asc
+    </select>
+
+    <update id="save" parameterType="com.fangshuo.stars.domain.Comment">
+        insert into comment(`id`, `blog_id`, `commentator_id`, `content`, `comment_time`)
+        values (#{id}, #{blogId}, #{commentatorId}, #{content}, #{commentTime});
+    </update>
+
+</mapper>
