@@ -72,14 +72,13 @@
             </a-list-item>
         </template>
     </a-list>
-    <a-divider></a-divider>
     <a-comment v-show="commentShow">
         <template #avatar>
             <a-avatar :src="SERVER + '/file/avatar/' + store.state.user.avatar" alt="Han Solo" />
         </template>
         <template #content>
             <a-form-item>
-                <a-textarea v-model:value="value" :rows="4" />
+                <a-textarea v-model:value="content" :rows="4" />
             </a-form-item>
             <a-form-item>
                 <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmitComment">
@@ -94,9 +93,11 @@
 <script lang="ts">
     import dayjs from 'dayjs';
     import {LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined} from '@ant-design/icons-vue';
-    import {defineComponent, ref} from 'vue';
+    import {defineComponent, ref, onMounted} from 'vue';
     import relativeTime from 'dayjs/plugin/relativeTime';
     import store from '@/store'
+    import axios from "axios";
+    import {message} from "ant-design-vue";
 
     dayjs.extend(relativeTime);
 
@@ -133,36 +134,79 @@
             /**
              * 评论：
              */
+            const content = ref('');
+
+            const comment ={
+                commentatorId: store.state.user.id,
+                blogId: props.blogInfo.id,
+                content: content.value,
+            }
+
+            const getComment = () => {
+                comments.value = [];
+                axios.get(SERVER + "/comment/list/" + props.blogInfo.id).then((response) => {
+                    const data = response.data;
+                    if (data.success){
+                        for(let item of data.content){
+                            comments.value.push({
+                                author: item.commentatorName,
+                                avatar: SERVER + '/file/avatar/' + item.avatar,
+                                content: item.content,
+                                datetime: dayjs().to(dayjs(item.commentTime)),
+                            })
+                        }
+                    }else {
+                        message.error(data.error)
+                    }
+                })
+            }
+
+            const saveComment = () => {
+                axios.post(SERVER + "/comment/save", comment).then((response) =>{
+                    if (response.data.success){
+                        message.success("评论成功");
+                    }else {
+                        message.error(response.data.error);
+                    }
+                })
+            }
 
             const comments = ref([{
 
             }]);
 
             const commentShow = ref(false);
+
+
             const alterCommentShow = () => {
                 commentShow.value = commentShow.value ? false : true;
+                getComment()
             }
 
+
+
             const submitting = ref(false);
-            const value = ref('');
+
 
             const handleSubmitComment = () => {
-                if (!value.value) {
+                if (!content.value) {
                     return;
                 }
 
                 submitting.value = true;
+                comment.content = content.value
+                saveComment();
+                content.value = '';
                 setTimeout(() => {
+                    getComment();
                     submitting.value = false;
-                    comments.value = [{
-                        author: 'Han Solo',
-                        avatar: 'https://joeschmoe.io/api/v1/random',
-                        content: value.value,
-                        datetime: dayjs().fromNow(),
-                    }];
-                    value.value = '';
-                }, 1000);
+                }, 600)
             };
+
+            onMounted(() => {
+                // console.log(store.state.user.id)
+                // console.log(props.blogInfo.id)
+            })
 
             return {
                 likes,
@@ -178,11 +222,12 @@
 
                 comments,
                 submitting,
-                value,
+
                 handleSubmitComment,
 
                 alterCommentShow,
                 commentShow,
+                content,
             };
         },
     });

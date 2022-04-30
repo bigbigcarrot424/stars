@@ -1,12 +1,12 @@
 <template>
 
-    <div v-for="item in blogList" :key="item">
+    <div v-for="(item, index) in blogList" :key="index">
         <comment :blogInfo="item"></comment>
     </div>
 
     <a-pagination
             v-model:current="current"
-            :total="blogNum + 6"
+            :total="blogNum ? blogNum : 1 + 6"
             :style="{marginLeft:'auto', textAlign: 'right'}"
             @change="getAllBlog(current)"/>
 </template>
