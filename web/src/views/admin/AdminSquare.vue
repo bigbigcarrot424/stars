@@ -1,6 +1,6 @@
 <template>
 
-    <div v-for="(item, index) in blogList" :key="index">
+    <div v-for="(item, index) in blogList" :key="item.id">
         <comment :blogInfo="item"></comment>
     </div>
 
@@ -16,6 +16,7 @@
     import {defineComponent, ref, onMounted, reactive, computed} from 'vue';
     import {StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons-vue';
     import axios from 'axios'
+    import store from '@/store'
 
     export default defineComponent({
         name: "AdminSquare",
@@ -52,10 +53,27 @@
                 )
             }
 
+            const myLikes = [];
+            const getMyLikes = () => {
+                myLikes.splice(0,myLikes.length);
+                if (store.state.user.id){
+                    axios.get(process.env.VUE_APP_SERVER + "/likes/list/" + store.state.user.id).then((response) => {
+                        const data = response.data;
+                        store.commit("setLikes", data.content);
+
+                        for (let item of data.content){
+                            myLikes.push(item);
+                        }
+                    })
+                }
+                console.log("getMyLikes:", myLikes);
+                // store.commit("setLikes", myLikes);
+            }
+
             onMounted(()=>{
                 getAllBlog(1);
                 getBlogNum();
-
+                getMyLikes();
             })
             return {
                 pagination,

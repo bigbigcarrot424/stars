@@ -3,7 +3,7 @@
         <template #actions>
               <span key="comment-basic-like">
                 <a-tooltip title="Like">
-                  <template v-if="action === 'liked'">
+                  <template v-if="status === 1">
                     <LikeFilled @click="like"/>
                   </template>
                   <template v-else>
@@ -16,7 +16,7 @@
               </span>
              <span key="comment-basic-dislike">
                 <a-tooltip title="Dislike">
-                  <template v-if="action === 'disliked'">
+                  <template v-if="status === -1">
                     <DislikeFilled @click="dislike"/>
                   </template>
                   <template v-else>
@@ -204,15 +204,29 @@
             };
 
             /**
-             * 获取点赞的帖子列表
+             * 计算该帖子的状态（被赞还是踩）
              */
-            const getMyLikes = () => {
+            const status = ref(0);
 
+            const isMyLike = () => {
+                for (let item of store.state.likes){
+                    if (item.blogId === props.blogInfo.id && item.isLike){
+                        status.value = 1;
+                    }else if (item.blogId === props.blogInfo.id && !item.isLike){
+                        status.value = -1;
+                    }else {
+                        status.value = 0;
+                    }
+                }
             }
 
+
             onMounted(() => {
+                isMyLike();
+                // console.log(status.value);
                 // console.log(store.state.user.id)
                 // console.log(props.blogInfo.id)
+                // console.log(typeof(store.state.likes.id))
             })
 
             return {
@@ -235,6 +249,8 @@
                 alterCommentShow,
                 commentShow,
                 content,
+
+                status,
             };
         },
     });
