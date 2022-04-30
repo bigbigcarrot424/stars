@@ -4,12 +4,17 @@
 
     <select id="getLikesListByUser" resultType="com.fangshuo.stars.resp.LikesListByUserResp">
         select t1.`id` id, `commentator_id` commentatorId, `blog_id` blogId, `comment_time` commentTime, `is_like` isLike
-        from `likes` t1, `user` t2 where t1.commentator_id = t2.id order by t1.comment_time desc
+        from `likes` t1, `user` t2 where t1.commentator_id = t2.id and t1.commentator_id = #{userId} order by t1.comment_time desc;
     </select>
 
     <select id="save" parameterType="com.fangshuo.stars.domain.Likes">
         insert into likes(`id`, `commentator_id`, `blog_id`, `is_like`, `comment_time`)
         values (#{id}, #{commentatorId}, #{blogId}, #{isLike}, #{commentTime});
+
+        update `blog` set
+              <if test="isLike == true">vote_num = vote_num + 1</if>
+              <if test="isLike == false">oppose_num = oppose_num + 1</if>
+              where `blog`.id = #{blogId};
     </select>
 
 </mapper>

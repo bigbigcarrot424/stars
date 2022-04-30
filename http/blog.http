@@ -45,7 +45,7 @@ Content-Type: application/json
 {
   "commentatorId": 171897790761406464,
   "blogId": 174847472563261440,
-  "isLike": false
+  "isLike": true
 }
 
 ###
