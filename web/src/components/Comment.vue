@@ -4,27 +4,27 @@
               <span key="comment-basic-like">
                 <a-tooltip title="Like">
                   <template v-if="status === 1">
-                    <LikeFilled @click="like"/>
+                    <LikeFilled/>
                   </template>
                   <template v-else>
                     <LikeOutlined @click="like"/>
                   </template>
                 </a-tooltip>
                 <span style="padding-left: 8px; cursor: auto">
-                  {{ likes }}
+                  {{ blogInfo.voteNum }}
                 </span>
               </span>
              <span key="comment-basic-dislike">
                 <a-tooltip title="Dislike">
                   <template v-if="status === -1">
-                    <DislikeFilled @click="dislike"/>
+                    <DislikeFilled/>
                   </template>
                   <template v-else>
                     <DislikeOutlined @click="dislike"/>
                   </template>
                 </a-tooltip>
                 <span style="padding-left: 8px; cursor: auto">
-                  {{ dislikes }}
+                  {{ blogInfo.opposeNum }}
                 </span>
              </span>
             <span key="comment-basic-reply-to" @click="alterCommentShow">
@@ -112,20 +112,39 @@
 
         setup(props) {
             const SERVER  = process.env.VUE_APP_SERVER;
-            const likes = ref<number>(0);
-            const dislikes = ref<number>(0);
-            const action = ref<string>();
+
+            const saveReq = {
+                commentatorId: store.state.user.id,
+                blogId: props.blogInfo.id,
+                isLike: true
+            }
 
             const like = () => {
-                likes.value = 1;
-                dislikes.value = 0;
-                action.value = 'liked';
+                saveReq.isLike = true;
+                axios.post(SERVER + "/likes/save", saveReq).then((response) => {
+                    const data = response.data;
+                    if (data.success){
+                        message.success("评价成功！");
+                        props.blogInfo.voteNum ++;
+                        status.value = 1;
+                    }else {
+                        message.error(data.message);
+                    }
+                })
             };
 
             const dislike = () => {
-                likes.value = 0;
-                dislikes.value = 1;
-                action.value = 'disliked';
+                saveReq.isLike = false;
+                axios.post(SERVER + "/likes/save", saveReq).then((response) => {
+                    const data = response.data;
+                    if (data.success){
+                        message.success("评价成功！");
+                        props.blogInfo.opposeNum ++;
+                        status.value = -1;
+                    }else {
+                        message.error(data.message);
+                    }
+                })
             };
 
             const html = ref()
@@ -156,7 +175,7 @@
                             })
                         }
                     }else {
-                        message.error(data.error)
+                        message.error(data.message)
                     }
                 })
             }
@@ -166,7 +185,7 @@
                     if (response.data.success){
                         message.success("评论成功");
                     }else {
-                        message.error(response.data.error);
+                        message.error(response.data.message);
                     }
                 })
             }
@@ -212,8 +231,10 @@
                 for (let item of store.state.likes){
                     if (item.blogId === props.blogInfo.id && item.isLike){
                         status.value = 1;
+                        break;
                     }else if (item.blogId === props.blogInfo.id && !item.isLike){
                         status.value = -1;
+                        break;
                     }else {
                         status.value = 0;
                     }
@@ -230,9 +251,6 @@
             })
 
             return {
-                likes,
-                dislikes,
-                action,
                 like,
                 dislike,
                 dayjs,

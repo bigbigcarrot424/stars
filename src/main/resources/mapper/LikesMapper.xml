@@ -17,4 +17,10 @@
               where `blog`.id = #{blogId};
     </select>
 
+    <select id="getLikesByUserAndBlog" parameterType="com.fangshuo.stars.domain.Likes" resultType="com.fangshuo.stars.domain.Likes">
+        select * from likes where blog_id = #{blogId} and commentator_id = #{commentatorId}
+    </select>
+
+
+
 </mapper>
