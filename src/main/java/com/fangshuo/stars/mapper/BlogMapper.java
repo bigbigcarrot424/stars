@@ -9,4 +9,6 @@ public interface BlogMapper {
     public List<BlogListResp> getBlogList();
 
     public void save(Blog blog);
+
+    public void increaseComment(Long id);
 }

@@ -49,6 +49,8 @@ create table blog
 
 alter table blog
     add oppose_num int default 0 null;
+alter table blog
+    add comment_num int default 0 null;
 
 insert into `blog` (id, author_id, content)
 values (1, 1, 'carr');
@@ -66,7 +68,11 @@ values (6, 1, '这是我发布的第一篇blog5!');
 insert into `blog` (id, author_id, content)
 values (7, 1, '这是我发布的第一篇blog6!');
 
-insert into `user` values ();
+# 更新评论数量
+update `blog`,(select COUNT(1) num, blog_id from `comment` t1, `blog` t2 where t1.blog_id = t2.id group by blog_id) t3
+set comment_num = t3.num
+where `blog`.id = t3.blog_id;
+
 
 # 评论表
 create table comment

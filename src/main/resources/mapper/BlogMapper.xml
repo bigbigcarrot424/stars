@@ -3,7 +3,7 @@
 <mapper namespace="com.fangshuo.stars.mapper.BlogMapper">
 
     <select id="getBlogList" resultType="com.fangshuo.stars.resp.BlogListResp">
-        select t1.`id` id, `author_id` authorId, `username` authorName, `publish_time` publishTime, `content`, `vote_num` voteNum, t2.`avatar` avatar
+        select t1.`id` id, `author_id` authorId, `username` authorName, `publish_time` publishTime, `content`, `vote_num` voteNum, `oppose_num` opposeNum, `comment_num` commentNum, t2.`avatar` avatar
         from `blog` t1, `user` t2 where t1.author_id = t2.id order by t1.publish_time desc
     </select>
 
@@ -11,5 +11,11 @@
         insert into blog(`id`, `author_id`, `publish_time`, `content`, `vote_num`)
         values (#{id}, #{authorId}, #{publishTime}, #{content}, #{voteNum});
     </select>
+
+    <update id="increaseComment">
+        update blog set comment_num = comment_num + 1 where id = #{id};
+    </update>
+
+
 
 </mapper>
