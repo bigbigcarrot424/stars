@@ -55,4 +55,10 @@ public class BlogService {
         blog.setVoteNum(0);
         blogMapper.save(blog);
     }
+
+    public void increaseComment(Long blogId){
+        blogMapper.increaseComment(blogId);
+    }
+
+
 }

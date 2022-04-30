@@ -216,6 +216,7 @@
                 comment.content = content.value
                 saveComment();
                 content.value = '';
+                props.blogInfo.commentNum ++;
                 setTimeout(() => {
                     getComment();
                     submitting.value = false;

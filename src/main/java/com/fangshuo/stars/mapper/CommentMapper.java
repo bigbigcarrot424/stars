@@ -9,4 +9,5 @@ public interface CommentMapper {
     public List<CommentListResp> getCommentList(Long blogId);
 
     public void save(Comment comment);
+
 }

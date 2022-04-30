@@ -24,6 +24,9 @@ public class CommentService {
     private CommentMapper commentMapper;
 
     @Resource
+    private BlogService blogService;
+
+    @Resource
     private SnowFlake snowFlake;
 
     public List<CommentListResp> list(Long blogId){
@@ -47,5 +50,6 @@ public class CommentService {
         }
         comment.setCommentTime(new Timestamp(new Date().getTime()));
         commentMapper.save(comment);
+        blogService.increaseComment(req.getBlogId());
     }
 }
