@@ -34,9 +34,23 @@
             <a-button type="primary" v-else danger @click="saveInfo">保存</a-button>
         </template>
 
-        <a-descriptions-item label="用户昵称：" :span="1"><input type="text" value="你好" v-show="ifEdit.value">{{user.name}}</a-descriptions-item>
-        <a-descriptions-item label="性别：" :span="1">男</a-descriptions-item>
-        <a-descriptions-item label="年龄：" :span="1">22</a-descriptions-item>
+        <a-descriptions-item label="用户昵称：" :span="1">
+            <a-input type="text" v-model:value="user.name" v-if="ifEdit"/>
+            <span v-else>{{user.name}}</span>
+        </a-descriptions-item>
+        <a-descriptions-item label="性别：" :span="1">
+            <a-radio-group v-model:value="user.gender" name="radioGroup" v-if="ifEdit">
+                <a-radio value="male">男</a-radio>
+                <a-radio value="female">女</a-radio>
+            </a-radio-group>
+            <span v-else>{{user.gender == 'male' ? '男' : '女'}}</span>
+        </a-descriptions-item>
+        <a-descriptions-item label="年龄：" :span="1">
+            <div v-if="ifEdit">
+                <a-input-number id="userAge" v-model:value="user.age" :min="1" :max="100" />
+            </div>
+            <span v-else>{{user.age}}</span>
+        </a-descriptions-item>
         <a-descriptions-item label="头像：" :span="1">
             <a-avatar :size="64" :src="'http://localhost:8080/file/avatar/' + avatarName" alt="Han Solo"/>
             <a-button type="primary" v-if="ifEdit" @click="showModal">修改头像</a-button>
@@ -89,7 +103,10 @@
             PlusOutlined,
         },
         setup(){
-            const user = computed(() => store.state.user);
+            // const user = computed(() => store.state.user);
+
+            const user = store.state.user
+            user.gender = "male"
 
             const ifEdit = ref();
             ifEdit.value = false;
