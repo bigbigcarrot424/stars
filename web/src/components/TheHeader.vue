@@ -243,6 +243,9 @@
             };
 
             const SERVER = process.env.VUE_APP_SERVER;
+            const avatarName = computed(() => {
+                return user.value.avatar
+            })
 
             return{
                 popSignIn,
@@ -265,7 +268,7 @@
                 resetForm,
                 handleValidate,
 
-                avatarName: user.value.avatar,
+                avatarName,
 
                 SERVER,
             }

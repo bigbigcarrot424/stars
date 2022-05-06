@@ -33,7 +33,7 @@ Content-Type: application/json
   "circles": "{'吉他社','读书会'}",
   "managedCircles": "{'吉他社'}",
   "tags": "{'爱打羽毛球','干饭人'}",
-  "status": true
+  "status": false
 }
 
 ###

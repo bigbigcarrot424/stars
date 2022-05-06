@@ -31,19 +31,26 @@
     <a-descriptions title="个人信息" bordered :column="4">
         <template #extra>
             <a-button type="primary" v-if="!ifEdit" @click="editInfo">编辑</a-button>
-            <a-button type="primary" v-else danger @click="saveInfo">保存</a-button>
+            <div v-else>
+                <a-button type="primary" danger @click="saveInfo" style="margin-right: 20px">保存</a-button>
+                <a-button type="primary" @click="cancelEdit">取消</a-button>
+            </div>
         </template>
 
         <a-descriptions-item label="用户昵称：" :span="1">
-            <a-input type="text" v-model:value="user.name" v-if="ifEdit"/>
-            <span v-else>{{user.name}}</span>
+            <div v-if="ifEdit">
+                <a-input type="text" v-model:value="user.name" />
+            </div>
+            <div v-else>
+                <span>{{user.name}}</span>
+            </div>
         </a-descriptions-item>
         <a-descriptions-item label="性别：" :span="1">
             <a-radio-group v-model:value="user.gender" name="radioGroup" v-if="ifEdit">
                 <a-radio value="male">男</a-radio>
                 <a-radio value="female">女</a-radio>
             </a-radio-group>
-            <span v-else>{{user.gender == 'male' ? '男' : '女'}}</span>
+            <span v-else>{{user.gender === 'male' ? '男' : '女'}}</span>
         </a-descriptions-item>
         <a-descriptions-item label="年龄：" :span="1">
             <div v-if="ifEdit">
@@ -61,23 +68,54 @@
 
         </a-descriptions-item>
 
-        <a-descriptions-item label="所在兴趣圈：" :span="4">{{user.circles}}羽毛球社、LOL</a-descriptions-item>
+        <a-descriptions-item label="所在兴趣圈：" :span="4">{{user.circles}}</a-descriptions-item>
 
 
+        <a-descriptions-item label="自我介绍：" :span="3">
+            <div v-if="ifEdit">
+                <a-textarea :rows="4" placeholder="介绍一下自己吧~" :maxlength="1000" v-model:value="user.selfIntro"/>
+            </div>
+            <div v-else>
+                {{user.selfIntro}}
+            </div>
+        </a-descriptions-item>
         <a-descriptions-item label="头像：" :span="1">
             <a-avatar :size="64" :src="'http://localhost:8080/file/avatar/' + avatarName" alt="Han Solo"/>
             <a-button type="primary" v-if="ifEdit" @click="showModal">修改头像</a-button>
         </a-descriptions-item>
-        <a-descriptions-item label="自我介绍：" :span="3">{{user.self_intro}}来自上个世纪的萝卜种子</a-descriptions-item>
+
         <a-descriptions-item label="个性标签">
-            {{user.tags}}
-            <a-tag color="pink">学霸</a-tag>
-            <a-tag color="red">插画家</a-tag>
-            <a-tag color="orange">数码产品技术宅</a-tag>
-            <a-tag color="green">云吸猫吸狗</a-tag>
-            <a-tag color="cyan">在山顶看过日出</a-tag>
-            <a-tag color="blue">社恐自闭小孩</a-tag>
-            <a-tag color="purple">老歌听不腻</a-tag>
+            <div v-if="ifEdit">
+                <template v-for="(tag, index) in tags" :key="tag">
+                    <a-tooltip v-if="tag.length > 20" :title="tag">
+                        <a-tag :closable="index !== 0" @close="handleClose(tag)">
+                            {{ `${tag.slice(0, 20)}...` }}
+                        </a-tag>
+                    </a-tooltip>
+                    <a-tag v-else :closable="index !== -1" @close="handleClose(tag)">
+                        {{ tag }}
+                    </a-tag>
+                </template>
+                <a-input
+                        v-if="inputVisible"
+                        ref="inputRef"
+                        v-model:value="inputValue"
+                        type="text"
+                        size="small"
+                        :style="{ width: '78px' }"
+                        @blur="handleInputConfirm"
+                        @keyup.enter="handleInputConfirm"
+                />
+                <a-tag v-else style="background: #fff; border-style: dashed" @click="showInput">
+                    <plus-outlined />
+                    自定义标签
+                </a-tag>
+            </div>
+            <div v-else>
+                <span v-for="(tag, index) in tags" :key="tag">
+                    <a-tag>{{tag}}</a-tag>
+                </span>
+            </div>
         </a-descriptions-item>
     </a-descriptions>
 </template>
@@ -86,9 +124,10 @@
     import { UserOutlined } from '@ant-design/icons-vue';
     import { PlusOutlined, LoadingOutlined } from '@ant-design/icons-vue';
     import { message } from 'ant-design-vue';
-    import { defineComponent, ref, onMounted, computed } from 'vue';
+    import { defineComponent, ref, onMounted, computed, reactive, toRefs, nextTick } from 'vue';
     import { Modal } from 'ant-design-vue';
     import store from '@/store'
+    import axios from 'axios'
 
 
     function getBase64(img, callback) {
@@ -105,10 +144,7 @@
             PlusOutlined,
         },
         setup(){
-            // const user = computed(() => store.state.user);
-
-            const user = store.state.user
-            user.gender = "male"
+            const user = computed(() => store.state.user);
 
             const ifEdit = ref();
             ifEdit.value = false;
@@ -117,15 +153,83 @@
                 ifEdit.value = ifEdit.value ? false : true;
             }
 
-            const saveInfo = () => {
-                ifEdit.value = ifEdit.value ? false : true;
-            }
             /**
              * 获取个人详细信息
              */
             const getUserInfo = () => {
-                axios.get(SERVER + "/user/")
+                const userStored = store.state.user;
+                axios.get(SERVER + "/user/info/" + user.value.id).then((response) => {
+                    const data = response.data.content;
+                    const userInfo = {...userStored, ...data};
+                    store.commit("setUser", userInfo)
+                })
             }
+
+
+            /**
+             * 编辑个人信息
+             */
+            const saveInfo = () => {
+                ifEdit.value = ifEdit.value ? false : true;
+                user.value.tags = JSON.stringify(state.tags);
+                axios.post(SERVER + "/user/updateInfo/", user.value).then((response) => {
+                    if (response.data.success){
+                        message.success("修改信息成功！");
+                        getUserInfo();
+                    }else {
+                        message.error(data.error);
+                    }
+                })
+            }
+
+            const cancelEdit = () => {
+                getUserInfo();
+                ifEdit.value = ifEdit.value ? false : true;
+            }
+
+            /**
+             * 个性标签
+             */
+
+            const inputRef = ref();
+            const tags = ref();
+            tags.value = JSON.parse(store.state.user.tags);
+            const state = reactive({
+                tags: tags.value,
+                inputVisible: false,
+                inputValue: '',
+            });
+
+            const handleClose = removedTag => {
+                const tags = state.tags.filter(tag => tag !== removedTag);
+                console.log(tags);
+                state.tags = tags;
+            };
+
+            const showInput = () => {
+                state.inputVisible = true;
+                nextTick(() => {
+                    inputRef.value.focus();
+                });
+            };
+
+            const handleInputConfirm = () => {
+                const inputValue = state.inputValue;
+                let tags = state.tags;
+
+                if (inputValue && tags.indexOf(inputValue) === -1) {
+                    tags = [...tags, inputValue];
+                }
+
+                console.log(tags);
+                Object.assign(state, {
+                    tags,
+                    inputVisible: false,
+                    inputValue: '',
+                });
+            };
+
+
 
             /**
              * 头像上传
@@ -201,6 +305,11 @@
             const avatarName = ref();
             avatarName.value = store.state.user.avatar;
 
+            onMounted(() =>{
+                getUserInfo();
+                console.log(state.tags[0]);
+            })
+
             return {
                 fileList,
                 loading,
@@ -221,9 +330,16 @@
 
                 editInfo,
                 saveInfo,
+                cancelEdit,
 
                 // 个人信息：
-                user
+                user,
+
+                ...toRefs(state),
+                handleClose,
+                showInput,
+                handleInputConfirm,
+                inputRef,
             };
         }
     }
