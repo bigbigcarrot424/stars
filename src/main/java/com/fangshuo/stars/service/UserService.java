@@ -8,6 +8,7 @@ import com.fangshuo.stars.mapper.UserInfoMapper;
 import com.fangshuo.stars.mapper.UserMapper;
 import com.fangshuo.stars.req.UserLoginReq;
 import com.fangshuo.stars.req.UserSignUpReq;
+import com.fangshuo.stars.resp.UserInfoResp;
 import com.fangshuo.stars.resp.UserLoginResp;
 import com.fangshuo.stars.resp.UserSignUpResp;
 import com.fangshuo.stars.util.CopyUtil;
@@ -71,9 +72,15 @@ public class UserService {
         userMapper.alterAvatarName(avatarName, Long.parseLong(userId));
     }
 
-    public UserInfo getUserInfo(String userId){
-        UserInfo userInfo = userInfoMapper.getUserInfo(Long.parseLong(userId));
-        return userInfo;
+    public UserInfoResp getUserInfo(String userId){
+        UserInfo userInfoDetail = userInfoMapper.getUserInfo(Long.parseLong(userId));
+        User userById = userMapper.getUserById(Long.parseLong(userId));
+        UserInfoResp resp = CopyUtil.copy(userInfoDetail, UserInfoResp.class);
+        resp.setId(userById.getId());
+        resp.setUsername(userById.getUsername());
+        resp.setName(userById.getName());
+        resp.setAvatar(userById.getAvatar());
+        return resp;
     }
 
     public void updateUserInfo(UserInfo userInfo){

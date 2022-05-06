@@ -11,6 +11,9 @@ import lombok.ToString;
 @ToString
 public class UserInfoResp {
     Long id;
+    String username;
+    String name;
+    String avatar;
     String selfIntro;
     Integer age;
     String gender;

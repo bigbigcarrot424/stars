@@ -87,7 +87,7 @@ public class UserController {
     @GetMapping("/info/{userId}")
     public CommonResp<UserInfoResp> info(@PathVariable String userId){
         CommonResp resp = new CommonResp<>();
-        UserInfo userInfo = userService.getUserInfo(userId);
+        UserInfoResp userInfo = userService.getUserInfo(userId);
         resp.setContent(userInfo);
         return resp;
     }

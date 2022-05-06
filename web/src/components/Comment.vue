@@ -36,7 +36,7 @@
         </template>
         <template #author><a>{{blogInfo.authorName}}</a></template>
         <template #avatar>
-            <a-avatar :src="SERVER + '/file/avatar/' + blogInfo.avatar" alt="Han Solo"/>
+                <a-avatar @click="toUserInfo()" :src="SERVER + '/file/avatar/' + blogInfo.avatar" alt="Han Solo"/>
         </template>
         <template #content>
 <!--            放置帖子html：-->
@@ -47,7 +47,6 @@
         <template #datetime>
             <a-tooltip :title="dayjs().format('YYYY-MM-DD HH:mm:ss')">
                 <span>{{ dayjs().to(dayjs(blogInfo.publishTime)) }}</span>
-<!--                <span>{{ blogInfo.publishTime }}</span>-->
             </a-tooltip>
         </template>
     </a-comment>
@@ -98,6 +97,8 @@
     import store from '@/store'
     import axios from "axios";
     import {message} from "ant-design-vue";
+    import  {useRouter}  from "vue-router";
+
 
     dayjs.extend(relativeTime);
 
@@ -119,6 +120,23 @@
                 isLike: true
             }
 
+            /**
+             * 点击头像进入主页
+             */
+
+            const router = useRouter();
+            const toUserInfo = () => {
+                router.push ({
+                    path:"/othersInfo",
+                    query:{
+                        authorId: props.blogInfo.authorId
+                    }
+                })
+            }
+
+            /**
+             * 点赞/踩
+             */
             const like = () => {
                 saveReq.isLike = true;
                 axios.post(SERVER + "/likes/save", saveReq).then((response) => {
@@ -270,6 +288,7 @@
                 content,
 
                 status,
+                toUserInfo,
             };
         },
     });

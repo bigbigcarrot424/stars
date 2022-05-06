@@ -9,6 +9,7 @@ import java.util.List;
 public interface UserMapper {
     public List<User> getUserList();
     public User selectUserByUsername(String username);
+    public User getUserById(Long id);
     public void insertUser(User user);
     public void alterAvatarName(@Param("avatarName")String avatarName, @Param("userId")Long userId);
 }
