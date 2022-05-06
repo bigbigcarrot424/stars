@@ -17,6 +17,7 @@
             <a-menu-item key="3"><router-link to="/publish">发帖</router-link></a-menu-item>
             <a-menu-item key="4"><router-link to="/">我的帖子</router-link></a-menu-item>
             <a-menu-item key="5"><router-link to="/">好友列表</router-link></a-menu-item>
+            <a-menu-item key="5"><router-link to="/">我的收藏</router-link></a-menu-item>
             <a-menu-item key="6" v-if="!user.id" :style="{marginLeft:'auto'}"><a-button type="text" @click="popSignIn">登录</a-button></a-menu-item>
             <a-menu-item key="7" v-if="!user.id"><a-button type="text" @click="popSignUp">注册</a-button></a-menu-item>
             <a-menu-item key="8" v-if="!!user.id" :style="{marginLeft:'auto'}">
@@ -58,7 +59,7 @@
     </a-modal>
 
 
-    <a-modal v-model:visible="signUpVisible" title="登录" @ok="handleSignUpOk">
+    <a-modal v-model:visible="signUpVisible" title="注册" @ok="handleSignUpOk">
         <a-form
                 ref="formRef"
                 :model="formState"

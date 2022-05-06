@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fangshuo.stars.mapper.UserInfoMapper">
+    <select id="getUserInfo" resultType="com.fangshuo.stars.domain.UserInfo">
+       select `id` id, `self_intro` selfIntro, `age` age, `gender`, `circles`, managed_circles managedCircles, tags, status from `user_info` where `id` = #{userId}
+    </select>
+
+    <update id="updateUserInfo" parameterType="com.fangshuo.stars.domain.UserInfo">
+       update `user_info` set self_intro = #{selfIntro}, age = #{age}, gender = #{gender}, circles = #{circles}, managed_circles = #{managedCircles},
+                              tags = #{tags}, status = #{status} where `id` = #{id}
+    </update>
+
+    <update id="insertUserInfo" parameterType="com.fangshuo.stars.domain.UserInfo">
+       insert into `user_info` (`id`,`self_intro`, `age`, `gender`, `circles`, `managed_circles`, `tags`, `status`)
+       values(#{id}, #{selfIntro}, #{age}, #{gender}, #{circles}, #{managedCircles}, #{tags}, #{status})
+    </update>
+
+</mapper>

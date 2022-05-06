@@ -51,31 +51,33 @@
             </div>
             <span v-else>{{user.age}}</span>
         </a-descriptions-item>
+        <a-descriptions-item label="状态：" :span="1">
+            <div v-if="user.status">
+                <a-badge status="processing" text="在线" />
+            </div>
+            <div v-else>
+                <a-badge status="default" text="离线"/>
+            </div>
+
+        </a-descriptions-item>
+
+        <a-descriptions-item label="所在兴趣圈：" :span="4">{{user.circles}}羽毛球社、LOL</a-descriptions-item>
+
+
         <a-descriptions-item label="头像：" :span="1">
             <a-avatar :size="64" :src="'http://localhost:8080/file/avatar/' + avatarName" alt="Han Solo"/>
             <a-button type="primary" v-if="ifEdit" @click="showModal">修改头像</a-button>
         </a-descriptions-item>
-        <a-descriptions-item label="所在兴趣圈：" :span="4">羽毛球社、LOL</a-descriptions-item>
-
-        <a-descriptions-item label="Status" :span="3">
-            <a-badge status="processing" text="Running" />
-        </a-descriptions-item>
-        <a-descriptions-item label="Negotiated Amount">$80.00</a-descriptions-item>
-        <a-descriptions-item label="Discount">$20.00</a-descriptions-item>
-        <a-descriptions-item label="Official Receipts">$60.00</a-descriptions-item>
-        <a-descriptions-item label="Config Info">
-            Data disk type: MongoDB
-            <br />
-            Database version: 3.4
-            <br />
-            Package: dds.mongo.mid
-            <br />
-            Storage space: 10 GB
-            <br />
-            Replication factor: 3
-            <br />
-            Region: East China 1
-            <br />
+        <a-descriptions-item label="自我介绍：" :span="3">{{user.self_intro}}来自上个世纪的萝卜种子</a-descriptions-item>
+        <a-descriptions-item label="个性标签">
+            {{user.tags}}
+            <a-tag color="pink">学霸</a-tag>
+            <a-tag color="red">插画家</a-tag>
+            <a-tag color="orange">数码产品技术宅</a-tag>
+            <a-tag color="green">云吸猫吸狗</a-tag>
+            <a-tag color="cyan">在山顶看过日出</a-tag>
+            <a-tag color="blue">社恐自闭小孩</a-tag>
+            <a-tag color="purple">老歌听不腻</a-tag>
         </a-descriptions-item>
     </a-descriptions>
 </template>
@@ -117,6 +119,12 @@
 
             const saveInfo = () => {
                 ifEdit.value = ifEdit.value ? false : true;
+            }
+            /**
+             * 获取个人详细信息
+             */
+            const getUserInfo = () => {
+                axios.get(SERVER + "/user/")
             }
 
             /**

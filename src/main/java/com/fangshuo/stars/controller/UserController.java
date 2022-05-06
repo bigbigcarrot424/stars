@@ -2,9 +2,11 @@ package com.fangshuo.stars.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fangshuo.stars.domain.User;
+import com.fangshuo.stars.domain.UserInfo;
 import com.fangshuo.stars.req.UserLoginReq;
 import com.fangshuo.stars.req.UserSignUpReq;
 import com.fangshuo.stars.resp.CommonResp;
+import com.fangshuo.stars.resp.UserInfoResp;
 import com.fangshuo.stars.resp.UserLoginResp;
 import com.fangshuo.stars.resp.UserSignUpResp;
 import com.fangshuo.stars.service.UserService;
@@ -38,11 +40,13 @@ public class UserController {
     @Resource
     private RedisTemplate redisTemplate;
 
+    //查找用户列表
     @GetMapping("/list")
     public List<User> userList() {
         return userService.list();
     }
 
+    //用户注册
     @PostMapping("/signup")
     public CommonResp<UserSignUpResp> signUp(@Valid @RequestBody UserSignUpReq req){
 //        密码加密
@@ -54,6 +58,7 @@ public class UserController {
         return resp;
     }
 
+    //用户登录
     @PostMapping("/login")
     public CommonResp<UserLoginResp> login(@Valid @RequestBody UserLoginReq req){
         req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
@@ -69,6 +74,7 @@ public class UserController {
         return resp;
     }
 
+    //用户登出
     @GetMapping("/logout/{token}")
     public CommonResp<UserLoginResp> logout(@PathVariable String token){
         CommonResp resp = new CommonResp<>();
@@ -77,6 +83,24 @@ public class UserController {
         return resp;
     }
 
+    //查询用户信息
+    @GetMapping("/info/{userId}")
+    public CommonResp<UserInfoResp> info(@PathVariable String userId){
+        CommonResp resp = new CommonResp<>();
+        UserInfo userInfo = userService.getUserInfo(userId);
+        resp.setContent(userInfo);
+        return resp;
+    }
+
+    //修改用户信息
+    @PostMapping("/updateInfo")
+    public CommonResp<UserInfoResp> updateInfo(@RequestBody UserInfo req){
+        CommonResp resp = new CommonResp<>();
+        userService.updateUserInfo(req);
+        return resp;
+    }
+
+    //修改用户头像
     @RequestMapping("/upload/avatar")
     public CommonResp upload(@RequestHeader(value = "userId",required = false) String userId, @RequestParam MultipartFile avatar) throws IOException {
         LOG.info("上传文件开始：{}", avatar);

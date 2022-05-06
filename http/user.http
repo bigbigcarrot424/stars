@@ -22,7 +22,25 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:8080/user/updateInfo
+Content-Type: application/json
 
+{
+  "id": "171897790761406464",
+  "selfIntro": "一千年前的萝卜种子",
+  "age": 18,
+  "gender": "male",
+  "circles": "{'吉他社','读书会'}",
+  "managedCircles": "{'吉他社'}",
+  "tags": "{'爱打羽毛球','干饭人'}",
+  "status": true
+}
+
+###
+
+GET http://localhost:8080/user/info/171897790761406464
+
+###
 GET http://localhost:8080/user/list
 
 ###

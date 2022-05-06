@@ -1,8 +1,10 @@
 package com.fangshuo.stars.service;
 
 import com.fangshuo.stars.domain.User;
+import com.fangshuo.stars.domain.UserInfo;
 import com.fangshuo.stars.exception.BusinessException;
 import com.fangshuo.stars.exception.BusinessExceptionCode;
+import com.fangshuo.stars.mapper.UserInfoMapper;
 import com.fangshuo.stars.mapper.UserMapper;
 import com.fangshuo.stars.req.UserLoginReq;
 import com.fangshuo.stars.req.UserSignUpReq;
@@ -23,6 +25,9 @@ public class UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private UserInfoMapper userInfoMapper;
 
     @Resource
     private SnowFlake snowFlake;
@@ -65,4 +70,19 @@ public class UserService {
     public void alterAvatarName(String avatarName, String userId){
         userMapper.alterAvatarName(avatarName, Long.parseLong(userId));
     }
+
+    public UserInfo getUserInfo(String userId){
+        UserInfo userInfo = userInfoMapper.getUserInfo(Long.parseLong(userId));
+        return userInfo;
+    }
+
+    public void updateUserInfo(UserInfo userInfo){
+        UserInfo userInfo1 = userInfoMapper.getUserInfo(userInfo.getId());
+        if(ObjectUtils.isEmpty(userInfo1)){
+            userInfoMapper.insertUserInfo(userInfo);
+        }else {
+            userInfoMapper.updateUserInfo(userInfo);
+        }
+    }
+
 }
