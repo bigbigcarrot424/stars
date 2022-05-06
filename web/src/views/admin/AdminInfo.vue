@@ -113,7 +113,7 @@
             </div>
             <div v-else>
                 <span v-for="(tag, index) in tags" :key="tag">
-                    <a-tag>{{tag}}</a-tag>
+                    <a-tag :color="color[index % 7]">{{tag}}</a-tag>
                 </span>
             </div>
         </a-descriptions-item>
@@ -193,6 +193,8 @@
 
             const inputRef = ref();
             const tags = ref();
+            const color = ['pink','red','orange','green','cyan','blue','purple'];
+
             tags.value = JSON.parse(store.state.user.tags);
             const state = reactive({
                 tags: tags.value,
@@ -340,6 +342,7 @@
                 showInput,
                 handleInputConfirm,
                 inputRef,
+                color,
             };
         }
     }
