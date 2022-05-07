@@ -74,8 +74,13 @@ public class UserService {
 
     public UserInfoResp getUserInfo(String userId){
         UserInfo userInfoDetail = userInfoMapper.getUserInfo(Long.parseLong(userId));
+        UserInfoResp resp;
+        if (ObjectUtils.isEmpty(userInfoDetail)){
+            resp = new UserInfoResp();
+        }else {
+            resp = CopyUtil.copy(userInfoDetail, UserInfoResp.class);
+        }
         User userById = userMapper.getUserById(Long.parseLong(userId));
-        UserInfoResp resp = CopyUtil.copy(userInfoDetail, UserInfoResp.class);
         resp.setId(userById.getId());
         resp.setUsername(userById.getUsername());
         resp.setName(userById.getName());

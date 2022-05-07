@@ -228,7 +228,7 @@
             /**
              * 退出登录
              */
-
+            const router = useRouter();
             const logout = () => {
                 console.log("退出登录开始");
                 axios.get('/user/logout/' + user.value.token).then((response) => {
@@ -240,6 +240,9 @@
                         message.error(data.message);
                     }
                 });
+                router.push ({
+                    path:"/"
+                })
             };
 
             const SERVER = process.env.VUE_APP_SERVER;
