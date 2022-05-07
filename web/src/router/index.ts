@@ -6,6 +6,7 @@ import AppIntro from '../views/AppIntro.vue'
 import UploadFile from '../views/UploadFile.vue'
 import OthersInfo from '../views/admin/OthersInfo.vue'
 import MyBlog from '../views/admin/MyBlog.vue'
+import MyFriend from '../views/admin/MyFriend.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -27,6 +28,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/myBlog',
     name: 'myBlog',
     component: MyBlog
+  },
+  {
+    path: '/myFriend',
+    name: 'myFriend',
+    component: MyFriend
   },
   {
     path: '/adminInfo',
