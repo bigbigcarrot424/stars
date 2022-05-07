@@ -5,6 +5,7 @@ import AdminInfo from '../views/admin/AdminInfo.vue'
 import AppIntro from '../views/AppIntro.vue'
 import UploadFile from '../views/UploadFile.vue'
 import OthersInfo from '../views/admin/OthersInfo.vue'
+import MyBlog from '../views/admin/MyBlog.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -21,6 +22,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/publish',
     name: 'publish',
     component: AdminPublish
+  },
+  {
+    path: '/myBlog',
+    name: 'myBlog',
+    component: MyBlog
   },
   {
     path: '/adminInfo',

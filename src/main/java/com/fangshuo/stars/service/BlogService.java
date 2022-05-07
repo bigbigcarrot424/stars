@@ -32,6 +32,11 @@ public class BlogService {
         return blogList;
     }
 
+    public List<BlogListResp> myList(Long userId){
+        List<BlogListResp> blogList = blogMapper.getMyBlogList(userId);
+        return blogList;
+    }
+
     public Integer blogNum(){
         List<BlogListResp> blogList = blogMapper.getBlogList();
         return blogList.size();
@@ -40,6 +45,12 @@ public class BlogService {
     public List<BlogListResp> getBlogListByPage(int pageNum, int pageSize){
         PageHelper.startPage(pageNum, pageSize);
         List<BlogListResp> list = this.list();
+        return list;
+    }
+
+    public List<BlogListResp> getMyBlogListByPage(int pageNum, int pageSize, Long userId){
+        PageHelper.startPage(pageNum, pageSize);
+        List<BlogListResp> list = this.myList(userId);
         return list;
     }
 

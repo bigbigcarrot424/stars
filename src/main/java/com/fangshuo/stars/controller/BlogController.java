@@ -42,6 +42,14 @@ public class BlogController {
         return resp;
     }
 
+    @GetMapping("/myListByPage/{pageNum}/{pageSize}/{userId}")
+    public CommonResp<List<BlogListResp>> myBlogListByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize, @PathVariable Long userId) {
+        CommonResp<List<BlogListResp>> resp = new CommonResp<>();
+        List<BlogListResp> blogList = blogService.getMyBlogListByPage(pageNum, pageSize, userId);
+        resp.setContent(blogList);
+        return resp;
+    }
+
     @PostMapping("/save")
     public CommonResp blogSave(@Valid @RequestBody BlogSaveReq req) {
         CommonResp<Object> resp = new CommonResp<>();

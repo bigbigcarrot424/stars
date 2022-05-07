@@ -11,4 +11,6 @@ public interface BlogMapper {
     public void save(Blog blog);
 
     public void increaseComment(Long id);
+
+    public List<BlogListResp> getMyBlogList(Long id);
 }

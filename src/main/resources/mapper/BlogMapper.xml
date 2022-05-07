@@ -7,6 +7,11 @@
         from `blog` t1, `user` t2 where t1.author_id = t2.id order by t1.publish_time desc
     </select>
 
+    <select id="getMyBlogList" resultType="com.fangshuo.stars.resp.BlogListResp">
+        select t1.`id` id, `author_id` authorId, `username` authorName, `publish_time` publishTime, `content`, `vote_num` voteNum, `oppose_num` opposeNum, `comment_num` commentNum, t2.`avatar` avatar
+        from `blog` t1, `user` t2 where t1.author_id = t2.id and t1.author_id = #{id} order by t1.publish_time desc
+    </select>
+
     <select id="save" parameterType="com.fangshuo.stars.domain.Blog">
         insert into blog(`id`, `author_id`, `publish_time`, `content`, `vote_num`)
         values (#{id}, #{authorId}, #{publishTime}, #{content}, #{voteNum});
