@@ -42,6 +42,11 @@ public class BlogService {
         return blogList.size();
     }
 
+    public Integer myBlogNum(Long userId){
+        List<BlogListResp> blogList = blogMapper.getMyBlogList(userId);
+        return blogList.size();
+    }
+
     public List<BlogListResp> getBlogListByPage(int pageNum, int pageSize){
         PageHelper.startPage(pageNum, pageSize);
         List<BlogListResp> list = this.list();

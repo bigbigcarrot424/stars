@@ -29,12 +29,9 @@
         setup() {
             let blogList = ref();
             const getAllBlog = (pageNum) => {
-                axios.get(process.env.VUE_APP_SERVER + "/blog/listByPage/" + pageNum + "/7").then(
+                axios.get(process.env.VUE_APP_SERVER + "/blog/myListByPage/" + pageNum + "/7/" + store.state.user.id).then(
                     (response) =>{
                         blogList.value = response.data.content ? response.data.content :[];
-                    },
-                    (error) => {
-                        message.error(error)
                     }
                 )
             }
@@ -45,10 +42,9 @@
             const blogNum = ref();
 
             const getBlogNum = () => {
-                axios.get(process.env.VUE_APP_SERVER + "/blog/blogNum").then(
+                axios.get(process.env.VUE_APP_SERVER + "/blog/myBlogNum/" + store.state.user.id).then(
                     (response) => {
                         blogNum.value = response.data.content;
-                        // console.log(blogNum.value)
                     }
                 )
             }
@@ -67,7 +63,6 @@
                     })
                 }
                 console.log("getMyLikes:", myLikes);
-                // store.commit("setLikes", myLikes);
             }
 
             onMounted(()=>{
@@ -86,7 +81,3 @@
         },
     });
 </script>
-
-<style scoped>
-
-</style>
