@@ -69,7 +69,7 @@
             /**
              * 获取个人详细信息
              */
-            let authorId = router.currentRoute.value.query.authorId
+            let authorId = router.currentRoute.value.query.userId
             const getUserInfo = () => {
                 axios.get(SERVER + "/user/info/" + authorId).then((response) => {
                     const data = response.data.content;

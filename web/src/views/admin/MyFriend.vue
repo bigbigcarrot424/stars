@@ -1,9 +1,12 @@
 <template>
     <a-card hoverable style="width: 300px" v-for="(item, index) in followList" :key="item.id">
         <template #actions>
-            <home-outlined key="home" @click=""/>
+            <home-outlined key="home" @click="toUserInfo(item.id)"/>
             <message-outlined key="message" @click=""/>
-            <delete-outlined key="delete" @click=""/>
+            <a-popconfirm title="确认删除好友？" ok-text="是" cancel-text="否"  @confirm="unfollow(item.id)" @cancel="">
+                <delete-outlined key="delete"/>
+            </a-popconfirm>
+
         </template>
         <a-card-meta :title="item.name" :description="item.selfIntro">
             <template #avatar>
@@ -18,6 +21,8 @@
     import axios from 'axios'
     import store from '@/store'
     import { HomeOutlined, DeleteOutlined, MessageOutlined} from '@ant-design/icons-vue';
+    import  {useRouter}  from "vue-router";
+    import  { message }  from "ant-design-vue";
 
 
     export default defineComponent({
@@ -39,12 +44,45 @@
                 })
             }
 
+            /**
+             * 进入好友主页
+             */
+
+            const router = useRouter();
+            const toUserInfo = (userId) => {
+                router.push ({
+                    path:"/othersInfo",
+                    query:{
+                        userId: userId
+                    }
+                })
+            }
+
+            /**
+             * 删除好友
+             */
+
+            const unfollow = (userId) => {
+                axios.get(`${SERVER}/follow/unfollow/${store.state.user.id}/${userId}`).then((response) => {
+                    if (response.data.success){
+                        const data = response.data.content;
+                        message.success("删除好友成功！");
+                        getFollowList();
+                    }else {
+                        message.error(response.data.message);
+                    }
+                })
+            }
+
+
             onMounted(()=>{
                 getFollowList();
             })
             return {
                 SERVER,
                 followList,
+                toUserInfo,
+                unfollow,
             };
         },
     });

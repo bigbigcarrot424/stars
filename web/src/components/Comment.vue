@@ -129,7 +129,7 @@
                 router.push ({
                     path:"/othersInfo",
                     query:{
-                        authorId: props.blogInfo.authorId
+                        userId: props.blogInfo.authorId
                     }
                 })
             }
