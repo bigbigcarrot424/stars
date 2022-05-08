@@ -85,7 +85,7 @@ public class UserController {
 
     //查询用户信息
     @GetMapping("/info/{userId}")
-    public CommonResp<UserInfoResp> info(@PathVariable String userId){
+    public CommonResp<UserInfoResp> info(@PathVariable Long userId){
         CommonResp resp = new CommonResp<>();
         UserInfoResp userInfo = userService.getUserInfo(userId);
         resp.setContent(userInfo);

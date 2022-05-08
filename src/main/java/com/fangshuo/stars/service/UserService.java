@@ -72,15 +72,15 @@ public class UserService {
         userMapper.alterAvatarName(avatarName, Long.parseLong(userId));
     }
 
-    public UserInfoResp getUserInfo(String userId){
-        UserInfo userInfoDetail = userInfoMapper.getUserInfo(Long.parseLong(userId));
+    public UserInfoResp getUserInfo(Long userId){
+        UserInfo userInfoDetail = userInfoMapper.getUserInfo(userId);
         UserInfoResp resp;
         if (ObjectUtils.isEmpty(userInfoDetail)){
             resp = new UserInfoResp();
         }else {
             resp = CopyUtil.copy(userInfoDetail, UserInfoResp.class);
         }
-        User userById = userMapper.getUserById(Long.parseLong(userId));
+        User userById = userMapper.getUserById(userId);
         resp.setId(userById.getId());
         resp.setUsername(userById.getUsername());
         resp.setName(userById.getName());

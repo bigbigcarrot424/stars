@@ -32,7 +32,7 @@ Content-Type: application/json
   "gender": "male",
   "circles": "{'吉他社','读书会'}",
   "managedCircles": "{'吉他社'}",
-  "tags": "{'爱打羽毛球','干饭人'}",
+  "tags": "",
   "status": false
 }
 

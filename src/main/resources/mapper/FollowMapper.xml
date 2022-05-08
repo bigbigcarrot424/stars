@@ -14,4 +14,8 @@
         select `id` id, `like_id` likeid, `beliked_id` belikedId, `follow _time` followTime from follow where like_id = #{likeId} and beliked_id = #{belikedId}
     </select>
 
+    <select id="followList" resultType="com.fangshuo.stars.domain.Follow">
+        select `id` id, `like_id` likeid, `beliked_id` belikedId, `follow _time` followTime from follow  where like_id = #{likeId} order by `follow _time` desc
+    </select>
+
 </mapper>
