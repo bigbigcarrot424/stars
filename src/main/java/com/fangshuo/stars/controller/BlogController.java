@@ -1,6 +1,7 @@
 package com.fangshuo.stars.controller;
 
 import com.fangshuo.stars.domain.Blog;
+import com.fangshuo.stars.req.BlogEditReq;
 import com.fangshuo.stars.req.BlogListByPageReq;
 import com.fangshuo.stars.req.BlogSaveReq;
 import com.fangshuo.stars.resp.BlogListResp;
@@ -62,6 +63,13 @@ public class BlogController {
     public CommonResp blogSave(@Valid @RequestBody BlogSaveReq req) {
         CommonResp<Object> resp = new CommonResp<>();
         blogService.save(req);
+        return resp;
+    }
+
+    @PostMapping("/edit")
+    public CommonResp blogSave(@Valid @RequestBody BlogEditReq req) {
+        CommonResp<Object> resp = new CommonResp<>();
+        blogService.edit(req);
         return resp;
     }
 }

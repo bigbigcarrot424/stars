@@ -2,6 +2,17 @@
 
     <div v-for="(item, index) in blogList" :key="item.id">
         <comment :blogInfo="item"></comment>
+        <router-link :to="{
+          name:'adminBlogEdit',
+          params:{
+            blogId: item.id,
+            content:item.content,
+          }
+        }">
+            <a-button size="small" type="primary" style="margin-left: 30px">编辑</a-button>
+        </router-link>
+        <a-button size="small" danger type="primary" style="margin-left: 10px">删除</a-button>
+        <a-divider></a-divider>
     </div>
 
     <a-pagination

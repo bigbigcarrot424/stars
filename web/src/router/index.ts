@@ -7,6 +7,7 @@ import UploadFile from '../views/UploadFile.vue'
 import OthersInfo from '../views/admin/OthersInfo.vue'
 import MyBlog from '../views/admin/MyBlog.vue'
 import MyFriend from '../views/admin/MyFriend.vue'
+import AdminBlogEdit from '../views/admin/AdminBlogEdit.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -38,6 +39,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/adminInfo',
     name: 'adminInfo',
     component: AdminInfo
+  },
+  {
+    path: '/adminBlogEdit',
+    name: 'adminBlogEdit',
+    props:true,
+    component: AdminBlogEdit
   },
   {
     path: '/othersInfo',

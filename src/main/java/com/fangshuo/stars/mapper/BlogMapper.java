@@ -13,4 +13,8 @@ public interface BlogMapper {
     public void increaseComment(Long id);
 
     public List<BlogListResp> getMyBlogList(Long id);
+
+    public Blog getBlogById(Long id);
+
+    public void editBlogById(Long id, String content);
 }

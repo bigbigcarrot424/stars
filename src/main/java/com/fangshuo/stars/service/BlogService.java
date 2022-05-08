@@ -2,6 +2,7 @@ package com.fangshuo.stars.service;
 
 import com.fangshuo.stars.domain.Blog;
 import com.fangshuo.stars.mapper.BlogMapper;
+import com.fangshuo.stars.req.BlogEditReq;
 import com.fangshuo.stars.req.BlogSaveReq;
 import com.fangshuo.stars.resp.BlogListResp;
 import com.fangshuo.stars.util.CopyUtil;
@@ -59,6 +60,11 @@ public class BlogService {
         return list;
     }
 
+    public Blog getBlogById(Long blogId){
+        Blog blogById = blogMapper.getBlogById(blogId);
+        return blogById;
+    }
+
     public void save(BlogSaveReq req){
         Blog blog = CopyUtil.copy(req, Blog.class);
 
@@ -69,6 +75,11 @@ public class BlogService {
         blog.setPublishTime(new Timestamp(new Date().getTime()));
         blog.setVoteNum(0);
         blogMapper.save(blog);
+    }
+
+
+    public void edit(BlogEditReq req){
+        blogMapper.editBlogById(req.getBlogId(), req.getContent());
     }
 
     public void increaseComment(Long blogId){
