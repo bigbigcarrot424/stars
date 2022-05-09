@@ -26,6 +26,12 @@ public class BlogService {
     private BlogMapper blogMapper;
 
     @Resource
+    private CommentService commentService;
+
+    @Resource
+    private LikesService likesService;
+
+    @Resource
     private SnowFlake snowFlake;
 
     public List<BlogListResp> list(){
@@ -80,6 +86,13 @@ public class BlogService {
 
     public void edit(BlogEditReq req){
         blogMapper.editBlogById(req.getBlogId(), req.getContent());
+    }
+
+    public void deleteById(Long blogId){
+        LOG.info("删除帖子id：{}",blogId);
+        commentService.deleteByBlogId(blogId);
+        likesService.deleteByBlogId(blogId);
+        blogMapper.deleteById(blogId);
     }
 
     public void increaseComment(Long blogId){

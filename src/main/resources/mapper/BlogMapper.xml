@@ -30,5 +30,8 @@
         update blog set content = #{content} where id = #{id};
     </update>
 
+    <delete id="deleteById">
+        delete from blog where id = #{blogId}
+    </delete>
 
 </mapper>

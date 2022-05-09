@@ -72,4 +72,11 @@ public class BlogController {
         blogService.edit(req);
         return resp;
     }
+
+    @GetMapping("/deleteById/{blogId}")
+    public CommonResp deleteById(@PathVariable Long blogId) {
+        CommonResp<Object> resp = new CommonResp<>();
+        blogService.deleteById(blogId);
+        return resp;
+    }
 }

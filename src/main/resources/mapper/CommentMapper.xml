@@ -12,4 +12,8 @@
         values (#{id}, #{blogId}, #{commentatorId}, #{content}, #{commentTime});
     </update>
 
+    <delete id="deleteByBlogId">
+        delete from comment where blog_id = #{blogId}
+    </delete>
+
 </mapper>

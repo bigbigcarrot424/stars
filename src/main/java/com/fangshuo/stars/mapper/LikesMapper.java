@@ -11,4 +11,6 @@ public interface LikesMapper {
     public void save(Likes likes);
 
     public List<Likes> getLikesByUserAndBlog(Likes likes);
+
+    public void deleteByBlogId(Long blogId);
 }

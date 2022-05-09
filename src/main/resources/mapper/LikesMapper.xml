@@ -21,6 +21,10 @@
         select * from likes where blog_id = #{blogId} and commentator_id = #{commentatorId}
     </select>
 
+    <delete id="deleteByBlogId">
+        delete from likes where blog_id = #{blogId}
+    </delete>
+
 
 
 </mapper>

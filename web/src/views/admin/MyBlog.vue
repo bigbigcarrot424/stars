@@ -11,7 +11,9 @@
         }">
             <a-button size="small" type="primary" style="margin-left: 30px">编辑</a-button>
         </router-link>
-        <a-button size="small" danger type="primary" style="margin-left: 10px">删除</a-button>
+        <a-popconfirm title="确定要删除这篇帖子？" ok-text="是" cancel-text="否" @confirm="deleteBlog(item.id)" @cancel="">
+            <a-button size="small" danger type="primary" style="margin-left: 10px">删除</a-button>
+        </a-popconfirm>
         <a-divider></a-divider>
     </div>
 
@@ -26,6 +28,7 @@
     import Comment from "../../components/Comment";
     import {defineComponent, ref, onMounted, reactive, computed} from 'vue';
     import {StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons-vue';
+    import {message} from 'ant-design-vue'
     import axios from 'axios'
     import store from '@/store'
 
@@ -75,6 +78,18 @@
                 }
                 console.log("getMyLikes:", myLikes);
             }
+            /**
+             * 删除帖子
+             */
+            const deleteBlog = (blogId) => {
+                axios.get(process.env.VUE_APP_SERVER + "/blog/deleteById/" + blogId).then((response) => {
+                    if(response.data.success){
+                        getAllBlog(1);
+                        getBlogNum();
+                        message.success("帖子删除成功！")
+                    }
+                })
+            }
 
             onMounted(()=>{
                 getAllBlog(1);
@@ -88,6 +103,7 @@
                 current,
                 getAllBlog,
                 blogNum,
+                deleteBlog,
             };
         },
     });

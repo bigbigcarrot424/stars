@@ -10,4 +10,6 @@ public interface CommentMapper {
 
     public void save(Comment comment);
 
+    public void deleteByBlogId(Long blogId);
+
 }

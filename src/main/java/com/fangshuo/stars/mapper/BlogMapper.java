@@ -17,4 +17,6 @@ public interface BlogMapper {
     public Blog getBlogById(Long id);
 
     public void editBlogById(Long id, String content);
+
+    public void deleteById(Long blogId);
 }

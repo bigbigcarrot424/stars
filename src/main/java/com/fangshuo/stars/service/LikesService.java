@@ -55,4 +55,9 @@ public class LikesService {
             throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
         }
     }
+
+    public void deleteByBlogId(Long blogId){
+        LOG.info("删除帖子{}点赞/点踩",blogId);
+        likesMapper.deleteByBlogId(blogId);
+    }
 }

@@ -52,4 +52,9 @@ public class CommentService {
         commentMapper.save(comment);
         blogService.increaseComment(req.getBlogId());
     }
+
+    public void deleteByBlogId(Long blogId){
+        LOG.info("删除帖子{}评论",blogId);
+        commentMapper.deleteByBlogId(blogId);
+    }
 }
