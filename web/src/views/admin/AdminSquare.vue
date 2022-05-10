@@ -7,7 +7,7 @@
     <a-pagination
             v-model:current="current"
             :total="blogNum ? blogNum : 1"
-            defaultPageSize="7"
+            :defaultPageSize="7"
             :style="{marginLeft:'auto', textAlign: 'right'}"
             @change="getAllBlog(current)"/>
 </template>

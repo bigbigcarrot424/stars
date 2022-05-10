@@ -1,19 +1,25 @@
 <template>
-    <a-card hoverable style="width: 300px" v-for="(item, index) in followList" :key="item.id">
-        <template #actions>
-            <home-outlined key="home" @click="toUserInfo(item.id)"/>
-            <message-outlined key="message" @click=""/>
-            <a-popconfirm title="确认删除好友？" ok-text="是" cancel-text="否"  @confirm="unfollow(item.id)" @cancel="">
-                <delete-outlined key="delete"/>
-            </a-popconfirm>
+    <div style="padding: 20px">
+        <a-row :gutter="16">
+            <a-col :span="6" v-for="(item, index) in followList" :key="item.id">
+                <a-card hoverable style="width: 320px">
+                    <template #actions>
+                        <home-outlined key="home" @click="toUserInfo(item.id)"/>
+                        <message-outlined key="message" @click=""/>
+                        <a-popconfirm title="确认删除好友？" ok-text="是" cancel-text="否"  @confirm="unfollow(item.id)" @cancel="">
+                            <delete-outlined key="delete"/>
+                        </a-popconfirm>
 
-        </template>
-        <a-card-meta :title="item.name" :description="item.selfIntro">
-            <template #avatar>
-                <a-avatar :src="SERVER + '/file/avatar/' + item.avatar" />
-            </template>
-        </a-card-meta>
-    </a-card>
+                    </template>
+                    <a-card-meta :title="item.name" :description="item.selfIntro">
+                        <template #avatar>
+                            <a-avatar :src="SERVER + '/file/avatar/' + item.avatar" />
+                        </template>
+                    </a-card-meta>
+                </a-card>
+            </a-col>
+        </a-row>
+    </div>
 </template>
 
 <script>

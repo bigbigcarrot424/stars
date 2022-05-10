@@ -42,8 +42,29 @@
 </template>
 
 <script>
+    import {defineComponent, ref, onMounted, reactive, computed} from 'vue';
+    import axios from 'axios'
+    import store from '@/store'
+    import { HomeOutlined, DeleteOutlined, MessageOutlined} from '@ant-design/icons-vue';
+    import  {useRouter}  from "vue-router";
+    import  { message }  from "ant-design-vue";
     export default {
-        name: "TheSider"
+        name: "TheSider",
+        setup(){
+            const SERVER = process.env.VUE_APP_SERVER;
+            const followList = ref();
+            const getFollowList = () => {
+                axios.get(SERVER + "/follow/followList/" + store.state.user.id).then((response) => {
+                    const data = response.data;
+                    if (data){
+                        followList.value = data.content ? data.content :[];
+                    }
+                })
+            }
+            return{
+                getFollowList,
+            }
+        }
     }
 </script>
 

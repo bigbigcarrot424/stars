@@ -6,7 +6,7 @@
 
     <a-pagination
             v-model:current="current"
-            defaultPageSize="7"
+            :defaultPageSize="7"
             :total="blogNum ? blogNum: 1"
             :style="{marginLeft:'auto', textAlign: 'right'}"
             @change="getAllBlog(current)"/>
@@ -20,7 +20,7 @@
     import store from '@/store'
 
     export default defineComponent({
-        name: "AdminSquare",
+        name: "follow",
         components: {
             StarOutlined,
             LikeOutlined,
