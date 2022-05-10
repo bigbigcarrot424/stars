@@ -2,6 +2,8 @@ package com.fangshuo.stars.mapper;
 
 import com.fangshuo.stars.domain.Blog;
 import com.fangshuo.stars.resp.BlogListResp;
+import com.fangshuo.stars.resp.UserInfoResp;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,4 +21,6 @@ public interface BlogMapper {
     public void editBlogById(Long id, String content);
 
     public void deleteById(Long blogId);
+
+    public List<BlogListResp> followBlogList(@Param("listParam") List<UserInfoResp> followUserList);
 }

@@ -6,8 +6,8 @@
 
     <a-pagination
             v-model:current="current"
-            :total="blogNum ? blogNum : 1"
             defaultPageSize="7"
+            :total="blogNum ? blogNum: 1"
             :style="{marginLeft:'auto', textAlign: 'right'}"
             @change="getAllBlog(current)"/>
 </template>
@@ -30,7 +30,7 @@
         setup() {
             let blogList = ref();
             const getAllBlog = (pageNum) => {
-                axios.get(process.env.VUE_APP_SERVER + "/blog/listByPage/" + pageNum + "/7").then(
+                axios.get(process.env.VUE_APP_SERVER + `/blog/myFollowBlogListByPage/${pageNum}/7/${store.state.user.id}`).then(
                     (response) =>{
                         blogList.value = response.data.content ? response.data.content :[];
                     },
@@ -46,7 +46,7 @@
             const blogNum = ref();
 
             const getBlogNum = () => {
-                axios.get(process.env.VUE_APP_SERVER + "/blog/blogNum").then(
+                axios.get(process.env.VUE_APP_SERVER + "/blog/myFollowBlogNum/" + store.state.user.id).then(
                     (response) => {
                         blogNum.value = response.data.content;
                         // console.log(blogNum.value)

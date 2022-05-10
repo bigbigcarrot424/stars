@@ -43,6 +43,14 @@ public class BlogController {
         return resp;
     }
 
+    @GetMapping("/myFollowBlogNum/{userId}")
+    public CommonResp myFollowBlogNum(@PathVariable Long userId) {
+        CommonResp resp = new CommonResp<>();
+        Integer blogNum = blogService.myFollowBlogNum(userId);
+        resp.setContent(blogNum);
+        return resp;
+    }
+
     @GetMapping("/listByPage/{pageNum}/{pageSize}")
     public CommonResp<List<BlogListResp>> blogListByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize) {
         CommonResp<List<BlogListResp>> resp = new CommonResp<>();
@@ -55,6 +63,14 @@ public class BlogController {
     public CommonResp<List<BlogListResp>> myBlogListByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize, @PathVariable Long userId) {
         CommonResp<List<BlogListResp>> resp = new CommonResp<>();
         List<BlogListResp> blogList = blogService.getMyBlogListByPage(pageNum, pageSize, userId);
+        resp.setContent(blogList);
+        return resp;
+    }
+
+    @GetMapping("/myFollowBlogListByPage/{pageNum}/{pageSize}/{userId}")
+    public CommonResp<List<BlogListResp>> myFollowBlogListByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize, @PathVariable Long userId) {
+        CommonResp<List<BlogListResp>> resp = new CommonResp<>();
+        List<BlogListResp> blogList = blogService.followBlogListByPage(pageNum, pageSize, userId);
         resp.setContent(blogList);
         return resp;
     }

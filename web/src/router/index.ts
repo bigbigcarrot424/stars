@@ -8,6 +8,7 @@ import OthersInfo from '../views/admin/OthersInfo.vue'
 import MyBlog from '../views/admin/MyBlog.vue'
 import MyFriend from '../views/admin/MyFriend.vue'
 import AdminBlogEdit from '../views/admin/AdminBlogEdit.vue'
+import Follow from '../views/admin/Follow.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -19,6 +20,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/square',
     name: 'square',
     component: AdminSquare
+  },
+  {
+    path: '/follow',
+    name: 'follow',
+    component: Follow
   },
   {
     path: '/publish',
