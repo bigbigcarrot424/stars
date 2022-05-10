@@ -1,7 +1,7 @@
 <template>
     <div style="padding: 20px">
         <a-row :gutter="16">
-            <a-col :span="6" v-for="(item, index) in followList" :key="item.id">
+            <a-col :span="6" v-for="(item, index) in followList" :key="item.id" style="margin-bottom: 20px">
                 <a-card hoverable style="width: 320px">
                     <template #actions>
                         <home-outlined key="home" @click="toUserInfo(item.id)"/>

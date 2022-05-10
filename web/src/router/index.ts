@@ -9,6 +9,7 @@ import MyBlog from '../views/admin/MyBlog.vue'
 import MyFriend from '../views/admin/MyFriend.vue'
 import AdminBlogEdit from '../views/admin/AdminBlogEdit.vue'
 import Follow from '../views/admin/Follow.vue'
+import Chat from '../views/chat/Chat.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -61,6 +62,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/uploadFile',
     name: 'uploadFile',
     component: UploadFile
+  },
+  {
+    path: '/chat',
+    name: 'chat',
+    component: Chat
   },
   {
     path: '/about',

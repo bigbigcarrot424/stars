@@ -1,6 +1,4 @@
 <template>
-<!--    <a-layout-sider width="200" style="background: #fff"  :style="{background: '#fff', overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }">-->
-<!--    <a-layout-sider width="200" :style="{background: '#fff', height: '100vh'}">-->
     <a-layout-sider
             :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0, paddingTop: '60px'}"
     >
@@ -9,23 +7,23 @@
                 mode="inline"
                 style="height: 100%"
         >
-
-<!--            <div class="sider">-->
-<!--                聊  天  列  表-->
-<!--            </div>-->
-<!--            <a-menu-item disabled key="32" class="sider-title" style="padding-left: 70px; padding-top: 20px">聊  天  列  表</a-menu-item>-->
             <a-divider/>
             <a-sub-menu key="sub1">
+                <a-menu-item v-for="(friend, index) in followList" :key="friend.id">
+                    <a-avatar :src="SERVER + '/file/avatar/' + friend.avatar" alt="头像"/>
+                    <span style="margin-left: 30px">
+                        {{friend.name}}
+                    </span>
+
+                </a-menu-item>
+
                 <template #title>
                 <span>
                   我的好友
                 </span>
                 </template>
-                <a-menu-item key="1">option1</a-menu-item>
-                <a-menu-item key="2">option2</a-menu-item>
-                <a-menu-item key="3">option3</a-menu-item>
-                <a-menu-item key="4">option4</a-menu-item>
             </a-sub-menu>
+
             <a-sub-menu key="sub2">
                 <template #title>
                 <span>
@@ -61,8 +59,13 @@
                     }
                 })
             }
+            onMounted(() => {
+                getFollowList();
+            })
             return{
+                SERVER,
                 getFollowList,
+                followList,
             }
         }
     }
