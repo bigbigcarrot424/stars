@@ -160,6 +160,9 @@
                 const userStored = store.state.user;
                 axios.get(SERVER + "/user/info/" + user.value.id).then((response) => {
                     const data = response.data.content;
+                    if (!data.tags){
+                        data.tags = "";
+                    }
                     const userInfo = {...userStored, ...data};
                     store.commit("setUser", userInfo)
                 })
@@ -171,6 +174,7 @@
              */
             const saveInfo = () => {
                 ifEdit.value = ifEdit.value ? false : true;
+
                 user.value.tags = JSON.stringify(state.tags);
                 axios.post(SERVER + "/user/updateInfo/", user.value).then((response) => {
                     if (response.data.success){
@@ -195,7 +199,11 @@
             const tags = ref();
             const color = ['pink','red','orange','green','cyan','blue','purple'];
 
-            tags.value = JSON.parse(store.state.user.tags);
+            if (!tags.value){
+                tags.value = JSON.parse(store.state.user.tags);
+            }else {
+                tags.value = ""
+            }
             const state = reactive({
                 tags: tags.value,
                 inputVisible: false,
@@ -220,6 +228,7 @@
                 let tags = state.tags;
 
                 if (inputValue && tags.indexOf(inputValue) === -1) {
+
                     tags = [...tags, inputValue];
                 }
 
@@ -309,7 +318,6 @@
 
             onMounted(() =>{
                 getUserInfo();
-                console.log(state.tags[0]);
             })
 
             return {
