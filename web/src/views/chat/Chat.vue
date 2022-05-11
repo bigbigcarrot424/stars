@@ -46,7 +46,6 @@
         export default {
             props:['friendId'],
             setup(props){
-                console.log(props.friendId);
                 let ws;
                 const url = 'ws://localhost:8080/ws/chat/';
                 let messageList = ref([]);

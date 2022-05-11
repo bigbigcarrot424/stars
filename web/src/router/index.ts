@@ -10,6 +10,7 @@ import MyFriend from '../views/admin/MyFriend.vue'
 import AdminBlogEdit from '../views/admin/AdminBlogEdit.vue'
 import Follow from '../views/admin/Follow.vue'
 import Chat from '../views/chat/Chat.vue'
+import Nothing from '../views/chat/Nothing.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -57,6 +58,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/othersInfo',
     name: 'othersInfo',
     component: OthersInfo
+  },
+  {
+    path: '/nothing',
+    name: 'nothing',
+    props: true,
+    component: Nothing
   },
   {
     path: '/uploadFile',

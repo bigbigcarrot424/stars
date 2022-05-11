@@ -65,9 +65,8 @@
             const toChat = (friendId) => {
                 console.log("tochat:",friendId)
                 router.push({
-                    name:'chat',
+                    name:'nothing',
                     params:{
-                        friendId: friendId,
                         friendId: friendId,
                     }
                 })
