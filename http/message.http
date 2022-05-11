@@ -1,6 +1,3 @@
-
-GET http://localhost:8080/message/list
-
 ###
 
 POST http://localhost:8080/message/save
@@ -9,7 +6,20 @@ Content-Type: application/json
 {
   "senderId": 171897790761406464,
   "receiverId": 171930114332954624,
-  "content": "干嘛呢！！"
+  "content": "r2x干嘛呢！！"
 }
 
+###
+
+POST http://localhost:8080/message/save
+Content-Type: application/json
+
+{
+  "senderId": 1,
+  "receiverId": 2,
+  "content": "脏数据"
+}
+
+###
+GET http://localhost:8080/message/getMessage/171930114332954624/171897790761406464
 ###

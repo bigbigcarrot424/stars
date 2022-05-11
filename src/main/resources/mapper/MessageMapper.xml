@@ -11,6 +11,12 @@
         from `message` where id = #{id}
     </select>
 
+    <select id="getMessageByPair" resultType="com.fangshuo.stars.domain.Message">
+        select `id` id, `sender_id` senderId, `receiver_id` receiverId, `content`, `time` time
+        from `message` where sender_id = #{senderId} and receiver_id = #{receiverId} or sender_id = #{receiverId} and receiver_id = #{senderId}
+        order by time desc
+    </select>
+
     <delete id="deleteById">
         delete from message where id = #{messageId}
     </delete>

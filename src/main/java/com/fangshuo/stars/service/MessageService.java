@@ -13,6 +13,7 @@ import org.springframework.util.ObjectUtils;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class MessageService {
@@ -28,6 +29,12 @@ public class MessageService {
     public Message getMessageById(Long messageId){
         Message messageById = messageMapper.getMessageById(messageId);
         return messageById;
+    }
+
+    //通过消息Id找到消息
+    public List<Message> getMessageList(Long senderId, Long receiverId){
+        List<Message> messageList = messageMapper.getMessageByPair(senderId, receiverId);
+        return messageList;
     }
 
     //存储消息

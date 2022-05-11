@@ -71,14 +71,6 @@
                         console.log(message.data);
                     }
                 }
-                // 判断是否支持WebSocket
-                const isSocket = ()=> {
-                    if (!('WebSocket' in window)) {
-                        alert('该浏览器不支持WebSocket')
-                        return false
-                    }
-                    return true
-                }
 
                 // 发送消息
                 const sendMessage = ()=> {
@@ -91,7 +83,7 @@
                 }
 
                 onMounted(() => {
-                    isSocket()
+
                 })
 
                 return {
