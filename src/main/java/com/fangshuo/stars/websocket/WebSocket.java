@@ -46,9 +46,10 @@ public class WebSocket {
     @OnClose
     public void onClose(Session session,@PathParam("userName") String userName, @PathParam("friendName") String friendName) throws IOException {
         session.close();
-        log.info("{}，断开连接",userName);
-        sessions.remove(userName);
-        senMessage(String.format("%s：离开群聊",userName), userName, friendName);
+        String chatId = userName + ":" + friendName;
+        log.info("{}，断开连接",chatId);
+        sessions.remove(chatId);
+        senMessage(String.format("%s：离开群聊",chatId), userName, friendName);
     }
 
     /**

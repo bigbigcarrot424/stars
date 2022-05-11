@@ -10,18 +10,11 @@
             <a-divider/>
             <a-sub-menu key="sub1">
 
-                <a-menu-item v-for="(friend, index) in followList" :key="friend.id">
-                    <router-link :to="{
-                          name:'chat',
-                          params:{
-                            friendId: friend.id
-                          }
-                    }">
-                        <a-avatar :src="SERVER + '/file/avatar/' + friend.avatar" alt="头像"/>
-                        <span style="margin-left: 30px">
-                            {{friend.name}}
-                        </span>
-                    </router-link>
+                <a-menu-item v-for="(friend, index) in followList" :key="friend.id" @click="toChat(friend.id)">
+                    <a-avatar :src="SERVER + '/file/avatar/' + friend.avatar" alt="头像"/>
+                    <span style="margin-left: 30px">
+                        {{friend.name}}
+                    </span>
                 </a-menu-item>
 
                 <template #title>
@@ -51,18 +44,31 @@
     import axios from 'axios'
     import store from '@/store'
     import { HomeOutlined, DeleteOutlined, MessageOutlined} from '@ant-design/icons-vue';
-    import  {useRouter}  from "vue-router";
+    import  {useRouter, useRoute}  from "vue-router";
     import  { message }  from "ant-design-vue";
     export default {
         name: "TheSider",
         setup(){
             const SERVER = process.env.VUE_APP_SERVER;
             const followList = ref();
+            const router=useRouter()
+            const route=useRoute()
+
             const getFollowList = () => {
                 axios.get(SERVER + "/follow/followList/" + store.state.user.id).then((response) => {
                     const data = response.data;
                     if (data){
                         followList.value = data.content ? data.content :[];
+                    }
+                })
+            }
+            const toChat = (friendId) => {
+                console.log("tochat:",friendId)
+                router.push({
+                    name:'chat',
+                    params:{
+                        friendId: friendId,
+                        friendId: friendId,
                     }
                 })
             }
@@ -73,6 +79,7 @@
                 SERVER,
                 getFollowList,
                 followList,
+                toChat,
             }
         }
     }

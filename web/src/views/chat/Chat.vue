@@ -1,23 +1,22 @@
 <template>
-    <a-list item-layout="horizontal" :data-source="data">
-        <template #renderItem="{ item }">
-            <a-list-item v-for="(message, index) in messageList" :key="index">
-                <a-list-item-meta
-                        description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                >
-                    <template #title>
-                        <a href="https://www.antdv.com/">{{ item.title }}</a>
-                    </template>
-                    <template #avatar>
-                        <a-avatar src="https://joeschmoe.io/api/v1/random" />
-                    </template>
-                </a-list-item-meta>
-            </a-list-item>
-        </template>
-    </a-list>
+<!--    <a-list item-layout="horizontal" :data-source="data">-->
+<!--        <template #renderItem="{ item }">-->
+<!--            <a-list-item v-for="(message, index) in messageList" :key="index">-->
+<!--                <a-list-item-meta-->
+<!--                        description="Ant Design, a design language for background applications, is refined by Ant UED Team"-->
+<!--                >-->
+<!--                    <template #title>-->
+<!--                        <a href="https://www.antdv.com/">{{ item.title }}</a>-->
+<!--                    </template>-->
+<!--                    <template #avatar>-->
+<!--                        <a-avatar src="https://joeschmoe.io/api/v1/random" />-->
+<!--                    </template>-->
+<!--                </a-list-item-meta>-->
+<!--            </a-list-item>-->
+<!--        </template>-->
+<!--    </a-list>-->
     <div id="app">
         <div class="left">
-            <input type="text" v-model="userName"> <button @click="add">加入</button>
             <br><br><br>
             <textarea
                     cols="30"
@@ -32,7 +31,6 @@
             <button class="close" @click="close">断开</button>
         </div>
         <div class="right">
-            <p>{{isOpenMessage}}</p>
             <p v-for="(message,index) in messageList" :key="index"> {{ message }}</p>
         </div>
     </div>
@@ -41,16 +39,16 @@
 <script>
         // import {listMsg,sendMsg} from "@/api/index";
         import Comment from "../../components/Comment";
-        import {defineComponent, ref, onMounted, reactive, computed} from 'vue';
+        import {defineComponent, ref, onMounted, reactive, computed, onBeforeUnmount, onUpdated, onBeforeUpdate} from 'vue';
         import {StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons-vue';
         import axios from 'axios'
         import store from '@/store'
         export default {
             props:['friendId'],
             setup(props){
+                console.log(props.friendId);
                 let ws;
                 const url = 'ws://localhost:8080/ws/chat/';
-                let isOpenMessage = '暂未连接到服务器';
                 let messageList = ref([]);
                 let message = ref();
                 const userName = ref(store.state.user.name);
@@ -61,7 +59,7 @@
 
                     // 建立连接成功回调
                     ws.onopen = () =>{
-                        isOpenMessage = '服务器连接成功'
+                        // isOpenMessage = '服务器连接成功'
                     }
 
                     // 客户端收到服务器端消息时回调
@@ -83,14 +81,17 @@
                 }
 
                 onMounted(() => {
+                    add()
+                })
 
+                onBeforeUnmount(() => {
+                    ws.close()
                 })
 
                 return {
                     url,
                     ws,
                     userName,
-                    isOpenMessage,
                     messageList,
                     message,
                     add,
