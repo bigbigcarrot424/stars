@@ -1,56 +1,69 @@
 <template>
-<!--    <a-list item-layout="horizontal" :data-source="data">-->
-<!--        <template #renderItem="{ item }">-->
-<!--            <a-list-item v-for="(message, index) in messageList" :key="index">-->
-<!--                <a-list-item-meta-->
-<!--                        description="Ant Design, a design language for background applications, is refined by Ant UED Team"-->
-<!--                >-->
-<!--                    <template #title>-->
-<!--                        <a href="https://www.antdv.com/">{{ item.title }}</a>-->
-<!--                    </template>-->
-<!--                    <template #avatar>-->
-<!--                        <a-avatar src="https://joeschmoe.io/api/v1/random" />-->
-<!--                    </template>-->
-<!--                </a-list-item-meta>-->
-<!--            </a-list-item>-->
-<!--        </template>-->
-<!--    </a-list>-->
-    <div id="app">
-        <div class="left">
-            <br><br><br>
-            <textarea
-                    cols="30"
-                    style="height: 50px"
-                    v-model="message"
-            ></textarea>
-            <br>
-            <button class="send" @click="sendMessage">发送</button>
-
-            <button class="reset" @click="message = null">重置</button>
-
-            <button class="close" @click="close">断开</button>
+    <div class="bg-info panel panel-default" style="height: 600px">
+        <div class="panel-heading">
+            <a-avatar :src= "SERVER + '/file/avatar/' + friendAvatar"></a-avatar>
+            <span style="margin-left: 10px">{{friendName}}</span>
         </div>
-        <div class="right">
-            <p v-for="(message,index) in messageList" :key="index"> {{ message }}</p>
+
+        <div id="chatWindow" style="height: 500px; overflow-y:scroll">
+            <div v-for="(message, index) in messageList" :key="index" style="margin-left: 30px; margin-right: 30px; margin-top: 10px">
+
+                <div v-if="message.senderId === userId">
+                    <div style="text-align: right">
+                        <span class="sentence bg-success" style="margin-right: 10px">{{ message.content }}</span>
+                        <a-avatar :src= "SERVER + '/file/avatar/' + userAvatar"/>
+                    </div>
+                </div>
+
+                <div v-else>
+                    <div style="text-align: left">
+                        <a-avatar :src= "SERVER + '/file/avatar/' + friendAvatar" />
+                        <span class="sentence bg-primary" style="margin-left: 10px">{{ message.content }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 50px;">
+            <a-input-group compact>
+                <a-input v-model:value="content" style="width: calc(100% - 130px)" />
+                <a-button type="primary" @click="sendMessage" >发送</a-button>
+                <a-button type="primary" danger @click="content = null" style="float: right">清空</a-button>
+            </a-input-group>
         </div>
     </div>
+
 </template>
 
 <script>
-        // import {listMsg,sendMsg} from "@/api/index";
         import Comment from "../../components/Comment";
         import {defineComponent, ref, onMounted, reactive, computed, onBeforeUnmount, onUpdated, onBeforeUpdate} from 'vue';
         import {StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons-vue';
+        import { message } from 'ant-design-vue'
         import axios from 'axios'
         import store from '@/store'
+        import dayjs from 'dayjs'
         export default {
-            props:['friendId'],
+            props:['friendId', 'friendName', 'friendAvatar'],
             setup(props){
                 let ws;
                 const url = 'ws://localhost:8080/ws/chat/';
                 let messageList = ref([]);
-                let message = ref();
+                let content = ref();
                 const userName = ref(store.state.user.name);
+                const userId = ref(store.state.user.id);
+                const userAvatar = ref(store.state.user.avatar);
+
+                const getMessageList = () => {
+                    axios.get(SERVER + '/message/getMessage/' + store.state.user.id + '/' + props.friendId).then((response)=>{
+                        const data = response.data;
+                        if (data.success){
+                            messageList.value = data.content;
+                        }
+
+                    })
+                }
+
                 // 加入聊天室
                 const add = ()=> {
                     // 创建WebSocket连接
@@ -64,14 +77,39 @@
                     // 客户端收到服务器端消息时回调
                     // 这里是收到的服务端发回的信息
                     ws.onmessage = (message) => {
-                        messageList.value.push(message.data)
-                        console.log(message.data);
+                        const messageInfo = {
+                            senderId: '',
+                            receiverId: '',
+                            content: '',
+                            time: '',
+                        }
+                        messageInfo.senderId = message.data.split(':')[0];
+                        messageInfo.receiverId = message.data.split(':')[1];
+                        messageInfo.content = message.data.split(':')[2];
+                        messageInfo.time = dayjs().format('YYYY-MM-DD HH:mm:ss');
+
+                        messageList.value.push(messageInfo)
                     }
                 }
 
                 // 发送消息
                 const sendMessage = ()=> {
-                    ws.send(message.value)
+                    ws.send(content.value)
+                    const messageItem = {
+                        senderId: store.state.user.id,
+                        receiverId: props.friendId,
+                        content: content.value,
+                    }
+                    let chatWindow = document.getElementById("chatWindow");
+                    axios.post(SERVER + '/message/save', messageItem).then((response)=>{
+                        const data = response.data;
+                        if (data.success){
+                            message.success("消息发送成功！")
+                        }
+                        chatWindow.scrollTop = chatWindow.scrollHeight
+                    })
+                    content.value = '';
+
                 }
 
                 // 连接关闭
@@ -79,8 +117,14 @@
                     ws.close()
                 }
 
+                const SERVER = process.env.VUE_APP_SERVER
                 onMounted(() => {
-                    add()
+                    add();
+                    getMessageList();
+                    setTimeout(() => {
+                        let chatWindow = document.getElementById("chatWindow");
+                        chatWindow.scrollTop = chatWindow.scrollHeight
+                    }, 100)
                 })
 
                 onBeforeUnmount(() => {
@@ -91,11 +135,14 @@
                     url,
                     ws,
                     userName,
+                    userId,
+                    userAvatar,
                     messageList,
-                    message,
+                    content,
                     add,
                     sendMessage,
                     close,
+                    SERVER,
                 }
             }
         }
@@ -104,17 +151,17 @@
 
 
 <style scoped>
-    .send, .reset, .close {
-        margin: 10px;
-    }
-    .left, .right {
-        width: 300px;
-        float: left
-    }
 
     .sentence{
         border-radius: 5px;
         padding-left: 5px;
         padding-right: 5px;
     }
+
+    .chat{
+        margin-left: 200px;
+        margin-right: 200px;
+        margin-top: 50px
+    }
+
 </style>

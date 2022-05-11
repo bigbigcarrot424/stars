@@ -10,15 +10,16 @@
     import  {useRouter, useRoute}  from "vue-router";
     export default {
         name: "Nothing",
-        props: ['friendId'],
+        props: ['friendId', 'friendName', 'friendAvatar'],
         setup(props) {
             const router = useRouter()
             const toChat = () => {
-                console.log("friendId",props.friendId)
                 router.push({
                     name:'chat',
                     params:{
                         friendId: props.friendId,
+                        friendName: props.friendName,
+                        friendAvatar: props.friendAvatar,
                     }
                 })
             }

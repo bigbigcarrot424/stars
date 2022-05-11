@@ -10,7 +10,7 @@
             <a-divider/>
             <a-sub-menu key="sub1">
 
-                <a-menu-item v-for="(friend, index) in followList" :key="friend.id" @click="toChat(friend.id)">
+                <a-menu-item v-for="(friend, index) in followList" :key="friend.id" @click="toChat(friend.id, friend.name, friend.avatar)">
                     <a-avatar :src="SERVER + '/file/avatar/' + friend.avatar" alt="头像"/>
                     <span style="margin-left: 30px">
                         {{friend.name}}
@@ -62,12 +62,13 @@
                     }
                 })
             }
-            const toChat = (friendId) => {
-                console.log("tochat:",friendId)
+            const toChat = (friendId, friendName, friendAvatar) => {
                 router.push({
                     name:'nothing',
                     params:{
                         friendId: friendId,
+                        friendName: friendName,
+                        friendAvatar: friendAvatar,
                     }
                 })
             }

@@ -1,8 +1,11 @@
 package com.fangshuo.stars.websocket;
 
+import com.fangshuo.stars.req.MessageSaveReq;
+import com.fangshuo.stars.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -22,6 +25,7 @@ public class WebSocket {
      */
     public static Map<String,Session> sessions = new HashMap<>();
 
+
     /**
      * 建立连接时的回调
      * @param session session(客户端)
@@ -36,7 +40,7 @@ public class WebSocket {
           return;
       }
       sessions.put(chatId,session);
-      senMessage(String.format("%s：加入群聊",chatId), userName, friendName);
+//      senMessage(String.format("%s:加入群聊",chatId), userName, friendName);
     }
 
     /**
@@ -49,7 +53,7 @@ public class WebSocket {
         String chatId = userName + ":" + friendName;
         log.info("{}，断开连接",chatId);
         sessions.remove(chatId);
-        senMessage(String.format("%s：离开群聊",chatId), userName, friendName);
+//        senMessage(String.format("%s:离开群聊",chatId), userName, friendName);
     }
 
     /**
@@ -72,8 +76,13 @@ public class WebSocket {
     @OnMessage
     public void onMessage(String message,@PathParam("userName") String userName ,@PathParam("friendName") String friendName) {
         log.info("{}->{}：{}",userName, friendName, message);
+
+        log.info("{message}，存储前");
+//        MessageService service = new MessageService();
+//        service.save(new MessageSaveReq(Long.parseLong(userName), Long.parseLong(friendName), message));
+        log.info("{message}，存储后");
         String chatId = userName + ":" + friendName;
-        senMessage(String.format("%s：%s",chatId,message), userName, friendName);
+        senMessage(String.format("%s:%s",chatId,message), userName, friendName);
     }
 
 //    /**
