@@ -199,11 +199,7 @@
             const tags = ref();
             const color = ['pink','red','orange','green','cyan','blue','purple'];
 
-            if (!tags.value){
-                tags.value = JSON.parse(store.state.user.tags);
-            }else {
-                tags.value = ""
-            }
+            tags.value = JSON.parse(store.state.user.tags);
             const state = reactive({
                 tags: tags.value,
                 inputVisible: false,
