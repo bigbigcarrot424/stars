@@ -9,12 +9,19 @@
         >
             <a-divider/>
             <a-sub-menu key="sub1">
-                <a-menu-item v-for="(friend, index) in followList" :key="friend.id">
-                    <a-avatar :src="SERVER + '/file/avatar/' + friend.avatar" alt="头像"/>
-                    <span style="margin-left: 30px">
-                        {{friend.name}}
-                    </span>
 
+                <a-menu-item v-for="(friend, index) in followList" :key="friend.id">
+                    <router-link :to="{
+                          name:'chat',
+                          params:{
+                            othersId: friend.id
+                          }
+                    }">
+                        <a-avatar :src="SERVER + '/file/avatar/' + friend.avatar" alt="头像"/>
+                        <span style="margin-left: 30px">
+                            {{friend.name}}
+                        </span>
+                    </router-link>
                 </a-menu-item>
 
                 <template #title>
