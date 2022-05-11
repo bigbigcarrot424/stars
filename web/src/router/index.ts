@@ -50,7 +50,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/adminBlogEdit',
     name: 'adminBlogEdit',
-    props:true,
+    props: true,
     component: AdminBlogEdit
   },
   {
@@ -66,6 +66,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/chat',
     name: 'chat',
+    props: true,
     component: Chat
   },
   {

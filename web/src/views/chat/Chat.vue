@@ -1,7 +1,7 @@
 <template>
     <a-list item-layout="horizontal" :data-source="data">
         <template #renderItem="{ item }">
-            <a-list-item>
+            <a-list-item v-for="(message, index) in messageList" :key="index">
                 <a-list-item-meta
                         description="Ant Design, a design language for background applications, is refined by Ant UED Team"
                 >
@@ -46,7 +46,8 @@
         import axios from 'axios'
         import store from '@/store'
         export default {
-            setup(){
+            props:['friendId'],
+            setup(props){
                 let ws;
                 const url = 'ws://localhost:8080/ws/chat/';
                 let isOpenMessage = '暂未连接到服务器';
@@ -56,7 +57,7 @@
                 // 加入聊天室
                 const add = ()=> {
                     // 创建WebSocket连接
-                    ws = new WebSocket(url+store.state.user.id);
+                    ws = new WebSocket(url+store.state.user.id + '/' + props.friendId);
 
                     // 建立连接成功回调
                     ws.onopen = () =>{

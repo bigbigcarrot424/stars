@@ -14,7 +14,7 @@
                     <router-link :to="{
                           name:'chat',
                           params:{
-                            othersId: friend.id
+                            friendId: friend.id
                           }
                     }">
                         <a-avatar :src="SERVER + '/file/avatar/' + friend.avatar" alt="头像"/>

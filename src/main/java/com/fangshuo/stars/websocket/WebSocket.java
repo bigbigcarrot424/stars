@@ -11,11 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Y
+ * @author Fang YuanHao
  */
 @Slf4j
 @Component
-@ServerEndpoint("/ws/chat/{userName}")
+@ServerEndpoint("/ws/chat/{userName}/{friendName}")
 public class WebSocket {
     /**
      * 所有的客户端
@@ -28,14 +28,15 @@ public class WebSocket {
      * @param userName 用户名
      */
     @OnOpen
-    public void onOpen(Session session,@PathParam("userName") String userName) {
-      log.info("{}，进入聊天室",userName);
-      if (sessions.containsKey(userName)){
+    public void onOpen(Session session,@PathParam("userName") String userName, @PathParam("friendName") String friendName) {
+      log.info("{}->:{}，进入聊天室" , userName, friendName);
+      String chatId = userName + ":" + friendName;
+      if (sessions.containsKey(chatId)){
           session.getAsyncRemote().sendText("用户名已经存在");
           return;
       }
-      sessions.put(userName,session);
-      senMessage(String.format("%s：加入群聊",userName));
+      sessions.put(chatId,session);
+      senMessage(String.format("%s：加入群聊",chatId), userName, friendName);
     }
 
     /**
@@ -43,11 +44,11 @@ public class WebSocket {
      * @param userName 用户名
      */
     @OnClose
-    public void onClose(Session session,@PathParam("userName") String userName) throws IOException {
+    public void onClose(Session session,@PathParam("userName") String userName, @PathParam("friendName") String friendName) throws IOException {
         session.close();
         log.info("{}，断开连接",userName);
         sessions.remove(userName);
-        senMessage(String.format("%s：离开群聊",userName));
+        senMessage(String.format("%s：离开群聊",userName), userName, friendName);
     }
 
     /**
@@ -68,32 +69,47 @@ public class WebSocket {
      * @param userName 用户名
      */
     @OnMessage
-    public void onMessage(String message,@PathParam("userName") String userName) {
-        log.info("{}：{}",userName,message);
-        senMessage(String.format("%s：%s",userName,message));
+    public void onMessage(String message,@PathParam("userName") String userName ,@PathParam("friendName") String friendName) {
+        log.info("{}->{}：{}",userName, friendName, message);
+        String chatId = userName + ":" + friendName;
+        senMessage(String.format("%s：%s",chatId,message), userName, friendName);
     }
 
-    /**
-     * 发送给指定客户端
-     * @param message 消息
-     * @param session session(客户端)
-     */
-    public void senMessage(String message,Session session) {
-        // 发送消息
-        session.getAsyncRemote().sendText(message);
-    }
+//    /**
+//     * 发送给指定客户端
+//     * @param message 消息
+//     * @param session session(客户端)
+//     */
+//    public void senMessage(String message,Session session) {
+//        // 发送消息
+//        session.getAsyncRemote().sendText(message);
+//    }
 
     /**
-     * 发送给所有的客户端
+     * 发送给双方客户端
      * @param message 消息
+     * @param userName 用户名
+     * @param friendName 朋友名
      */
-    public void senMessage(String message) {
+    public void senMessage(String message,String userName, String friendName) {
         sessions.forEach((k,v) -> {
-            if (v.isOpen()) {
-                // 发送消息
+            if (k.equals(userName + ":" +friendName) || k.equals(friendName + ":" +userName)){
                 v.getAsyncRemote().sendText(message);
             }
         });
     }
+
+//    /**
+//     * 发送给所有的客户端
+//     * @param message 消息
+//     */
+//    public void senMessage(String message) {
+//        sessions.forEach((k,v) -> {
+//            if (v.isOpen()) {
+//                // 发送消息
+//                v.getAsyncRemote().sendText(message);
+//            }
+//        });
+//    }
 }
 

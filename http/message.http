@@ -1,0 +1,15 @@
+
+GET http://localhost:8080/message/list
+
+###
+
+POST http://localhost:8080/message/save
+Content-Type: application/json
+
+{
+  "senderId": 171897790761406464,
+  "receiverId": 171930114332954624,
+  "content": "干嘛呢！！"
+}
+
+###

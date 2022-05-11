@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fangshuo.stars.mapper.MessageMapper">
+    <select id="save" parameterType="com.fangshuo.stars.domain.Message">
+        insert into message(`id`, `sender_id`, `receiver_id`, `content`, `time`)
+        values (#{id}, #{senderId}, #{receiverId}, #{content}, #{time});
+    </select>
+
+    <select id="getMessageById" resultType="com.fangshuo.stars.domain.Message">
+        select `id` id, `sender_id` senderId, `receiver_id` receiverId, `content`, `time` time
+        from `message` where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from message where id = #{messageId}
+    </delete>
+
+</mapper>

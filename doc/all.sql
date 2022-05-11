@@ -154,3 +154,5 @@ create table `likes`
         foreign key (commentator_id) references user (id)
 )
     comment '点赞/反对表';
+
+# 消息表
