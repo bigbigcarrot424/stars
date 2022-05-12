@@ -52,7 +52,7 @@
             let circleId = router.currentRoute.value.query.circleId;
 
             const getAllBlog = (pageNum) => {
-                axios.get(process.env.VUE_APP_SERVER + "/blog/blogListInCircleByPage/"+ circleId + '/' + pageNum + "/7").then(
+                axios.get(process.env.VUE_APP_SERVER + "/circleBlog/blogListInCircleByPage/"+ circleId + '/' + pageNum + "/7").then(
                     (response) =>{
                         blogList.value = response.data.content ? response.data.content :[];
                     },
@@ -68,7 +68,7 @@
             const blogNum = ref();
 
             const getBlogNum = () => {
-                axios.get(process.env.VUE_APP_SERVER + "/blog/blogListInCircleNum/" + circleId).then(
+                axios.get(process.env.VUE_APP_SERVER + "/circleBlog/blogListInCircleNum/" + circleId).then(
                     (response) => {
                         blogNum.value = response.data.content;
                         // console.log(blogNum.value)
