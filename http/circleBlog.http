@@ -1,0 +1,27 @@
+
+GET http://localhost:8080/circleBlog/list
+
+###
+GET http://localhost:8080/circleBlog/blogListInCircleByPage/179881411820523520/1/10
+
+###
+
+POST http://localhost:8080/circleBlog/save
+Content-Type: application/json
+
+{
+  "authorId": 171897790761406464,
+  "content": "<p>hello</p>"
+}
+
+###
+POST http://localhost:8080/circleBlog/saveCircleBlog
+Content-Type: application/json
+
+{
+  "authorId": 171897790761406464,
+  "content": "那就好好告个别吧",
+  "circleId": 179881411820523520
+}
+
+###

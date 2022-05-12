@@ -108,10 +108,34 @@ alter table blog
 alter table blog
     add comment_num int default 0 null;
 
+ALTER TABLE blog DROP COLUMN circle_id;
+
+
 insert into `blog` (id, author_id, content)
 values (1, 1, 'carr');
 insert into `blog` (id, author_id, content)
 values (2, 1, '这是我发布的第一篇blog!');
+
+
+#兴趣圈帖子表
+drop table if exists `circle_blog`;
+create table circle_blog
+(
+    id bigint not null comment 'id',
+    author_id bigint not null comment '作者id',
+    circle_id bigint null,
+    publish_time datetime default CURRENT_TIMESTAMP not null,
+    content mediumtext not null,
+    vote_num int default 0 null,
+    oppose_num int default 0 null,
+    comment_num int default 0 null,
+    constraint circle_blog_pk
+        primary key (id),
+    constraint circle_blog_user_fk
+        foreign key (author_id) references user (id)
+)engine = innodb
+ default charset = utf8mb4
+    comment '兴趣圈帖子表';
 
 
 # 更新评论数量
@@ -158,3 +182,17 @@ create table `likes`
     comment '点赞/反对表';
 
 # 消息表
+
+create table message
+(
+    id bigint not null,
+    sender_id bigint null,
+    receiver_id bigint null,
+    content varchar(2000) null,
+    time datetime default CURRENT_TIMESTAMP null,
+    constraint message_pk
+        primary key (id)
+)engine = innodb
+ default charset = utf8mb4
+    comment '消息表';
+

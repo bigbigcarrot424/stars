@@ -16,9 +16,6 @@
             </a-col>
         </a-row>
     </div>
-    <div v-for="(circle, index) in circleList" :key="circle.id">
-        {{circle}}
-    </div>
 </template>
 
 <script>
