@@ -19,7 +19,7 @@
     </a-modal>
 
     <div v-for="(item, index) in blogList" :key="item.id">
-        <comment :blogInfo="item"></comment>
+        <circle-comment :blogInfo="item"></circle-comment>
     </div>
 
     <a-pagination
@@ -32,8 +32,10 @@
 
 <script>
     import Comment from "../../components/Comment";
+    import CircleComment from "./CircleComment";
     import {defineComponent, ref, onMounted, reactive, computed} from 'vue';
     import {StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons-vue';
+    import {message} from 'ant-design-vue'
     import axios from 'axios'
     import store from '@/store'
     import  {useRouter}  from "vue-router";
@@ -45,6 +47,7 @@
             LikeOutlined,
             MessageOutlined,
             Comment,
+            CircleComment,
         },
         setup() {
             const router = useRouter();
@@ -76,22 +79,6 @@
                 )
             }
 
-            const myLikes = [];
-            const getMyLikes = () => {
-                myLikes.splice(0,myLikes.length);
-                if (store.state.user.id){
-                    axios.get(process.env.VUE_APP_SERVER + "/likes/list/" + store.state.user.id).then((response) => {
-                        const data = response.data;
-                        store.commit("setLikes", data.content);
-
-                        for (let item of data.content){
-                            myLikes.push(item);
-                        }
-                    })
-                }
-                console.log("getMyLikes:", myLikes);
-                // store.commit("setLikes", myLikes);
-            }
 
             const blogContent = ref('');
 
@@ -102,15 +89,28 @@
             }
 
             const saveCircleBlog = () => {
-                axios.post(process.env.VUE_APP_SERVER + "/blog/list/" + store.state.user.id)
-                modalVisible.value = false;
+                const circleBlog = {
+                    authorId: store.state.user.id,
+                    circleId: circleId,
+                    content: blogContent.value
+                }
+                axios.post(process.env.VUE_APP_SERVER + "/circleBlog/saveCircleBlog", circleBlog).then((response) => {
+                    const data = response.data;
+                    if (data.success){
+                        message.success("发言成功！");
+                        getAllBlog(1);
+                    }else {
+                        message.error(data.message);
+                    }
+                    modalVisible.value = false;
+                    blogContent.value = '';
+                })
             }
 
 
             onMounted(()=>{
                 getAllBlog(1);
                 getBlogNum();
-                getMyLikes();
             })
 
 
@@ -124,6 +124,7 @@
                 popModal,
                 modalVisible,
                 blogContent,
+                saveCircleBlog,
             };
         },
     });
