@@ -12,10 +12,23 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/blog/listByPage/2/10
+POST http://localhost:8080/blog/saveCircleBlog
+Content-Type: application/json
+
+{
+  "authorId": 171897790761406464,
+  "content": "发",
+  "circleId": 179881411820523520
+}
+
+###
+GET http://localhost:8080/blog//blogListInCircleNum/179881411820523520
 
 ###
 GET http://localhost:8080/blog/myListByPage/1/10/171930114332954624
+
+###
+GET http://localhost:8080/blog//blogListInCircleByPage/179881411820523520/1/10
 
 ###
 ###

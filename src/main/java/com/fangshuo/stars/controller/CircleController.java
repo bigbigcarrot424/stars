@@ -29,8 +29,6 @@ public class CircleController {
     @Resource
     private CircleService circleService;
 
-    @Resource
-    private SnowFlake snowFlake;
 
     //查找兴趣圈列表
     @GetMapping("/list")

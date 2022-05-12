@@ -4,7 +4,7 @@
             <a-col :span="6" v-for="(circle, index) in circleList" :key="circle.id" style="margin-bottom: 20px">
                 <a-card hoverable style="width: 320px">
                     <template #actions>
-                        <home-outlined key="home" @click="toCircleInfo(item.id)"/>
+                        <home-outlined key="home" @click="toCircleSquare(circle.id)"/>
                         <a-popconfirm title="确认加入兴趣圈？" ok-text="是" cancel-text="否"  @confirm="partInCircle(item.id)" @cancel="">
                             <import-outlined key="import"/>
                         </a-popconfirm>
@@ -55,11 +55,11 @@
              */
 
             const router = useRouter();
-            const toUserInfo = (userId) => {
+            const toCircleSquare = (circleId) => {
                 router.push ({
-                    path:"/othersInfo",
+                    path:"/circleSquare",
                     query:{
-                        userId: userId
+                        circleId: circleId
                     }
                 })
             }
@@ -72,7 +72,7 @@
             return {
                 SERVER,
                 circleList,
-                toUserInfo,
+                toCircleSquare,
             };
         },
     });

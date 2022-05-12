@@ -1,6 +1,7 @@
 package com.fangshuo.stars.mapper;
 
 import com.fangshuo.stars.domain.Blog;
+import com.fangshuo.stars.domain.CircleBlog;
 import com.fangshuo.stars.resp.BlogListResp;
 import com.fangshuo.stars.resp.UserInfoResp;
 import org.apache.ibatis.annotations.Param;
@@ -11,6 +12,8 @@ public interface BlogMapper {
     public List<BlogListResp> getBlogList();
 
     public void save(Blog blog);
+
+    public void saveCircleBlog(CircleBlog blog);
 
     public void increaseComment(Long id);
 
@@ -23,4 +26,6 @@ public interface BlogMapper {
     public void deleteById(Long blogId);
 
     public List<BlogListResp> followBlogList(@Param("listParam") List<UserInfoResp> followUserList);
+
+    public List<BlogListResp> getBlogByCircleId(Long circleId);
 }
