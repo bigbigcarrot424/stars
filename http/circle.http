@@ -1,0 +1,28 @@
+###
+POST http://localhost:8080/circle/create
+Content-Type: application/json
+
+{
+  "circleName": "兴趣圈1",
+  "intro": "test",
+  "managerId": 171930114332954624
+}
+
+###
+POST http://localhost:8080/circle/update
+Content-Type: application/json
+
+{
+  "id": 179881411820523520,
+  "circleName": "兴趣圈gaile",
+  "intro": "123"
+}
+
+###
+
+GET http://localhost:8080/circle/list
+
+###
+
+GET http://localhost:8080/circle/drop/179880995535851520
+###

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fangshuo.stars.mapper.CircleMapper">
+
+    <select id="getCircleList" resultType="com.fangshuo.stars.domain.Circle">
+        select `id` id, `circle_name` circleName, `intro` intro, `manager_id` managerId, `created_time` createdTime, `tags` tags from `circle`
+    </select>
+
+    <select id="selectCircleByCirclename" resultType="com.fangshuo.stars.domain.Circle">
+        select * from `circle` where `circle_name` = #{0}
+    </select>
+
+    <select id="getCircleById" resultType="com.fangshuo.stars.domain.Circle">
+        select * from `circle` where `id` = #{0}
+    </select>
+
+    <update id="insertCircle" parameterType="com.fangshuo.stars.domain.Circle">
+        insert into `circle` values (#{id}, #{circleName}, #{intro}, #{managerId}, #{createdTime}, #{tags});
+    </update>
+
+    <update id="updateCircle" parameterType="com.fangshuo.stars.req.CircleUpdateReq">
+        update `circle` set circle_name = #{circleName}, intro = #{intro}, tags = #{tags}
+        where id = #{id};
+    </update>
+
+    <delete id="deleteCircle">
+        delete from `circle` where id = #{circleId}
+    </delete>
+
+</mapper>
