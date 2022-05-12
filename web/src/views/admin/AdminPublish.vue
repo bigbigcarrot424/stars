@@ -103,8 +103,11 @@
                     }else {
                         message.error(data.message);
                     }
+                    setTimeout(() => {
+                        push('/square');
+                    }, 300)
+
                 })
-                push('/square');
             }
 
 

@@ -101,6 +101,8 @@ create table blog
  default charset = utf8mb4
     comment '帖子表';
 
+alter table blog add circle_id bigint null;
+
 alter table blog
     add oppose_num int default 0 null;
 alter table blog

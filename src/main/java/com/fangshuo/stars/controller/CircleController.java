@@ -34,8 +34,10 @@ public class CircleController {
 
     //查找兴趣圈列表
     @GetMapping("/list")
-    public List<Circle> circleList() {
-        return circleService.list();
+    public CommonResp<List<Circle>> circleList() {
+        CommonResp<List<Circle>> resp = new CommonResp<>();
+        resp.setContent(circleService.list());
+        return resp;
     }
 
     //创建兴趣圈

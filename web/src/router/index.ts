@@ -11,6 +11,7 @@ import AdminBlogEdit from '../views/admin/AdminBlogEdit.vue'
 import Follow from '../views/admin/Follow.vue'
 import Chat from '../views/chat/Chat.vue'
 import Nothing from '../views/chat/Nothing.vue'
+import Circles from '../views/Circles.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -58,6 +59,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/othersInfo',
     name: 'othersInfo',
     component: OthersInfo
+  },
+  {
+    path: '/circles',
+    name: 'circles',
+    component: Circles
   },
   {
     path: '/nothing',
