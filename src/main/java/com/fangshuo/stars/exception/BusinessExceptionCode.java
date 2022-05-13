@@ -6,6 +6,7 @@ public enum BusinessExceptionCode {
     LOGIN_USER_ERROR("用户名不存在或密码错误"),
     VOTE_REPEAT("您已评价过"),
     CIRCLE_NAME_EXIST("兴趣圈名字已存在"),
+    JOINED_CIRCLE("'已经加入了此兴趣圈'"),
     ;
 
     private String desc;

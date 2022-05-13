@@ -12,4 +12,6 @@ public interface UserCircleMapper {
 
     public List<Circle> selectCirclesByUserId(Long userId);
 
+    public Circle selectCircleByUserIdAndCircleId(Long userId, Long circleId);
+
 }

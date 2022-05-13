@@ -68,8 +68,13 @@ public class CircleService {
 
 
     public void joinCircle(Long userId, Long circleId, Long managerId){
-        Long id = snowFlake.nextId();
-        userCircleMapper.insert(id, userId, circleId, managerId);
+        Circle circle = userCircleMapper.selectCircleByUserIdAndCircleId(userId, circleId);
+        if (ObjectUtils.isEmpty(circle)){
+            Long id = snowFlake.nextId();
+            userCircleMapper.insert(id, userId, circleId, managerId);
+        }else {
+            throw new BusinessException(BusinessExceptionCode.JOINED_CIRCLE);
+        }
     }
 
     public void exitCircle(Long userId, Long circleId){

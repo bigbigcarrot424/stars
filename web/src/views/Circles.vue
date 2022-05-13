@@ -6,8 +6,8 @@
                 <a-card hoverable style="width: 320px">
                     <template #actions>
                         <home-outlined key="home" @click="toCircleSquare(circle.id)"/>
-                        <a-popconfirm title="确认退出兴趣圈？" ok-text="是" cancel-text="否"  @confirm="partInCircle(item.id)" @cancel="">
-                            <import-outlined key="import"/>
+                        <a-popconfirm title="确认退出兴趣圈？" ok-text="是" cancel-text="否"  @confirm="exitCircle(circle.id)" @cancel="">
+                            <delete-outlined key="import"/>
                         </a-popconfirm>
 
                     </template>
@@ -26,7 +26,7 @@
                 <a-card hoverable style="width: 320px">
                     <template #actions>
                         <home-outlined key="home" @click="toCircleSquare(circle.id)"/>
-                        <a-popconfirm title="确认加入兴趣圈？" ok-text="是" cancel-text="否"  @confirm="partInCircle(item.id)" @cancel="">
+                        <a-popconfirm title="确认加入兴趣圈？" ok-text="是" cancel-text="否"  @confirm="partInCircle(circle.id, circle.managerId)" @cancel="">
                             <import-outlined key="import"/>
                         </a-popconfirm>
 
@@ -60,16 +60,44 @@
         setup() {
             const SERVER = process.env.VUE_APP_SERVER;
             let circleList = ref();
+            let joinedCircleList = ref();
+
+            const containCircle = (circle, circleList)=>{
+                for (let item of circleList){
+                    if (item.id === circle.id){
+                        return true;
+                    }
+                }
+                return false;
+            }
+
             const getCircleList = () => {
                 axios.get(SERVER + "/circle/list").then((response) => {
                     const data = response.data;
+                    axios.get(SERVER + "/circle/myJoinedCircle/" + store.state.user.id).then((response) => {
+                        const data = response.data;
+                        if (data){
+                            joinedCircleList.value = data.content ? data.content :[];
+                        }
+                    })
                     if (data){
                         circleList.value = data.content ? data.content :[];
+                        console.log(circleList.value);
+
+                        circleList.value = circleList.value.filter((circle) =>{
+                            for (let item in joinedCircleList.value){
+                                if (circle.id === item.id){
+                                    return false;
+                                }
+                            }
+                            return true;
+                        })
+                        console.log(circleList.value);
                     }
                 })
             }
 
-            let joinedCircleList = ref();
+
             const getJoinedCircleList = () => {
                 axios.get(SERVER + "/circle/myJoinedCircle/" + store.state.user.id).then((response) => {
                     const data = response.data;
@@ -93,8 +121,26 @@
                 })
             }
 
-            const partInCircle = (circleId) => {
-                axios.get(process.env.VUE_APP_SERVER + )
+            const partInCircle = (circleId, managerId) => {
+                axios.get(process.env.VUE_APP_SERVER + '/circle/joinCircle/' + store.state.user.id + '/' + circleId + '/' + managerId).then((response) => {
+                    const data = response.data;
+                    if (data.success){
+                        getCircleList();
+                        getJoinedCircleList();
+                        message.success("加入兴趣圈成功");
+                    }
+                })
+            }
+
+            const exitCircle = (circleId) => {
+                axios.get(process.env.VUE_APP_SERVER + '/circle/exitCircle/' + store.state.user.id + '/' + circleId).then((response) => {
+                    const data = response.data;
+                    if (data.success){
+                        getCircleList();
+                        getJoinedCircleList();
+                        message.success("退出兴趣圈成功");
+                    }
+                })
             }
 
 
@@ -108,6 +154,8 @@
                 circleList,
                 toCircleSquare,
                 joinedCircleList,
+                partInCircle,
+                exitCircle,
             };
         },
     });
