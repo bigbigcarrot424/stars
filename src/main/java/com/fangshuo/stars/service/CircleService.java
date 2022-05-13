@@ -4,6 +4,7 @@ import com.fangshuo.stars.domain.Circle;
 import com.fangshuo.stars.exception.BusinessException;
 import com.fangshuo.stars.exception.BusinessExceptionCode;
 import com.fangshuo.stars.mapper.CircleMapper;
+import com.fangshuo.stars.mapper.UserCircleMapper;
 import com.fangshuo.stars.req.CircleCreateReq;
 import com.fangshuo.stars.req.CircleUpdateReq;
 import com.fangshuo.stars.util.CopyUtil;
@@ -23,6 +24,9 @@ public class CircleService {
     private static final Logger LOG = LoggerFactory.getLogger(CircleService.class);
     @Resource
     private CircleMapper circleMapper;
+
+    @Resource
+    private UserCircleMapper userCircleMapper;
 
     @Resource
     private SnowFlake snowFlake;
@@ -61,6 +65,22 @@ public class CircleService {
         LOG.info("更新兴趣圈信息：{}", circle);
         circleMapper.updateCircle(circle);
     }
+
+
+    public void joinCircle(Long userId, Long circleId, Long managerId){
+        Long id = snowFlake.nextId();
+        userCircleMapper.insert(id, userId, circleId, managerId);
+    }
+
+    public void exitCircle(Long userId, Long circleId){
+        userCircleMapper.delete(userId, circleId);
+    }
+
+    public List<Circle> myJoinedCircle(Long userId){
+        List<Circle> circles = userCircleMapper.selectCirclesByUserId(userId);
+        return circles;
+    }
+
 
     public void deleteCircle(Long circleId){
         circleMapper.deleteCircle(circleId);

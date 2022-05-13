@@ -61,4 +61,29 @@ public class CircleController {
         circleService.deleteCircle(circleId);
         return resp;
     }
+
+    //加入兴趣圈
+    @GetMapping("/joinCircle/{userId}/{circleId}/{managerId}")
+    public CommonResp joinCircle(@PathVariable Long userId, @PathVariable Long circleId, @PathVariable Long managerId){
+        CommonResp resp = new CommonResp<>();
+        circleService.joinCircle(userId, circleId, managerId);
+        return resp;
+    }
+
+    //退出兴趣圈
+    @GetMapping("/exitCircle/{userId}/{circleId}")
+    public CommonResp exitCircle(@PathVariable Long userId, @PathVariable Long circleId){
+        CommonResp resp = new CommonResp<>();
+        circleService.exitCircle(userId, circleId);
+        return resp;
+    }
+
+    //退出兴趣圈
+    @GetMapping("/myJoinedCircle/{userId}")
+    public CommonResp exitCircle(@PathVariable Long userId){
+        CommonResp resp = new CommonResp<>();
+        List<Circle> circles = circleService.myJoinedCircle(userId);
+        resp.setContent(circles);
+        return resp;
+    }
 }

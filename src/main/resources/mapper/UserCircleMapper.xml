@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fangshuo.stars.mapper.UserCircleMapper">
+
+    <update id="insert">
+        insert into user_circle(id, circle_id, user_id, manager_id) VALUES (#{id}, #{circleId}, #{userId}, #{managerId});
+    </update>
+
+    <delete id="delete">
+        delete from user_circle where user_id = #{userId} and circle_id = #{circleId}
+    </delete>
+
+    <select id="selectCirclesByUserId" parameterType="com.fangshuo.stars.domain.Circle">
+        select t1.`id` id, t1.`circle_name` circleName, t1.`intro` intro, t1.`manager_id` managerId, t1.`created_time` createdTime, t1.`tags` tags
+        from circle t1, user_circle t2 where t1.id = t2.circle_id and t2.user_id = #{userId}
+    </select>
+
+</mapper>

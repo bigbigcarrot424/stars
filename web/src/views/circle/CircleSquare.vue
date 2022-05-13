@@ -18,6 +18,7 @@
         />
     </a-modal>
 
+
     <div v-for="(item, index) in blogList" :key="item.id">
         <circle-comment :blogInfo="item"></circle-comment>
     </div>
