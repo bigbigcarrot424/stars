@@ -128,6 +128,8 @@
                         getCircleList();
                         getJoinedCircleList();
                         message.success("加入兴趣圈成功");
+                    }else {
+                        message.error(data.message)
                     }
                 })
             }
