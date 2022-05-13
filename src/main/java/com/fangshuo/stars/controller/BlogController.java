@@ -28,21 +28,6 @@ public class BlogController {
         return resp;
     }
 
-    @GetMapping("/blogListInCircleNum/{circleId}")
-    public CommonResp<Integer> blogListInCircle(@PathVariable Long circleId) {
-        CommonResp<Integer> resp = new CommonResp<>();
-        Integer blogListInCircleNum = blogService.blogListInCircleNum(circleId);
-        resp.setContent(blogListInCircleNum);
-        return resp;
-    }
-
-    @GetMapping("/blogListInCircleByPage/{circleId}/{pageNum}/{pageSize}")
-    public CommonResp<List<BlogListResp>> blogListInCircleByPage(@PathVariable Long circleId, @PathVariable int pageNum, @PathVariable int pageSize) {
-        CommonResp<List<BlogListResp>> resp = new CommonResp<>();
-        List<BlogListResp> blogList = blogService.blogListInCircleByPage(circleId, pageNum, pageSize);
-        resp.setContent(blogList);
-        return resp;
-    }
 
     @GetMapping("/blogNum")
     public CommonResp blogNum() {
@@ -96,13 +81,6 @@ public class BlogController {
     public CommonResp blogSave(@Valid @RequestBody BlogSaveReq req) {
         CommonResp<Object> resp = new CommonResp<>();
         blogService.save(req);
-        return resp;
-    }
-
-    @PostMapping("/saveCircleBlog")
-    public CommonResp blogSave(@Valid @RequestBody CircleBlogSaveReq req) {
-        CommonResp<Object> resp = new CommonResp<>();
-        blogService.saveCircleBlog(req);
         return resp;
     }
 

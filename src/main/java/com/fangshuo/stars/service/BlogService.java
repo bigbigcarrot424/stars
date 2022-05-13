@@ -102,8 +102,8 @@ public class BlogService {
     }
 
     //通过帖子Id找到帖子
-    public Blog getBlogById(Long blogId){
-        Blog blogById = blogMapper.getBlogById(blogId);
+    public BlogListResp getBlogById(Long blogId){
+        BlogListResp blogById = blogMapper.getBlogById(blogId);
         return blogById;
     }
 
@@ -118,19 +118,6 @@ public class BlogService {
         blog.setPublishTime(new Timestamp(new Date().getTime()));
         blog.setVoteNum(0);
         blogMapper.save(blog);
-    }
-
-    //存储兴趣圈帖子
-    public void saveCircleBlog(CircleBlogSaveReq req){
-        CircleBlog circleBlog = CopyUtil.copy(req, CircleBlog.class);
-
-        if (ObjectUtils.isEmpty(circleBlog.getId())){
-            long blogId = snowFlake.nextId();
-            circleBlog.setId(blogId);
-        }
-        circleBlog.setPublishTime(new Timestamp(new Date().getTime()));
-        circleBlog.setVoteNum(0);
-        blogMapper.saveCircleBlog(circleBlog);
     }
 
     //编辑帖子
@@ -148,22 +135,6 @@ public class BlogService {
 
     public void increaseComment(Long blogId){
         blogMapper.increaseComment(blogId);
-    }
-
-    public List<BlogListResp> blogListInCircle(Long circleId){
-        List<BlogListResp> blogListByCircleId = blogMapper.getBlogByCircleId(circleId);
-        return blogListByCircleId;
-    }
-
-    public Integer blogListInCircleNum(Long circleId){
-        List<BlogListResp> blogListByCircleId = blogMapper.getBlogByCircleId(circleId);
-        return blogListByCircleId.size();
-    }
-
-    public List<BlogListResp> blogListInCircleByPage(Long circleId, int pageNum, int pageSize){
-        PageHelper.startPage(pageNum, pageSize);
-        List<BlogListResp> blogListByCircleId = blogMapper.getBlogByCircleId(circleId);
-        return blogListByCircleId;
     }
 
 }

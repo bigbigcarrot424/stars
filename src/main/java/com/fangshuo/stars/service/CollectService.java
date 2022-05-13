@@ -3,8 +3,10 @@ package com.fangshuo.stars.service;
 import com.fangshuo.stars.domain.Collect;
 import com.fangshuo.stars.exception.BusinessException;
 import com.fangshuo.stars.exception.BusinessExceptionCode;
+import com.fangshuo.stars.mapper.BlogMapper;
 import com.fangshuo.stars.mapper.CollectMapper;
 import com.fangshuo.stars.req.CollectSaveReq;
+import com.fangshuo.stars.resp.BlogListResp;
 import com.fangshuo.stars.resp.CollectListByUserResp;
 import com.fangshuo.stars.util.CopyUtil;
 import com.fangshuo.stars.util.SnowFlake;
@@ -16,6 +18,7 @@ import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +28,9 @@ public class CollectService {
 
     @Resource
     private CollectMapper collectMapper;
+
+    @Resource
+    private BlogService blogService;
 
     @Resource
     private SnowFlake snowFlake;
@@ -55,5 +61,15 @@ public class CollectService {
 
     public void deleteByUserIdAndBlogId(Long userId, Long blogId){
         collectMapper.deleteByUserIdAndBlogId(userId, blogId);
+    }
+
+    public List<BlogListResp> collectBlogList(Long userId){
+        List<CollectListByUserResp> collectListByUser = collectMapper.getCollectListByUser(userId);
+        List<BlogListResp> collectBlogList = new ArrayList<>();
+        for (CollectListByUserResp collectListByUserResp : collectListByUser) {
+            BlogListResp blogById = blogService.getBlogById(collectListByUserResp.getBlogId());
+            collectBlogList.add(blogById);
+        }
+        return collectBlogList;
     }
 }

@@ -13,13 +13,11 @@ public interface BlogMapper {
 
     public void save(Blog blog);
 
-    public void saveCircleBlog(CircleBlog blog);
-
     public void increaseComment(Long id);
 
     public List<BlogListResp> getMyBlogList(Long id);
 
-    public Blog getBlogById(Long id);
+    public BlogListResp getBlogById(Long id);
 
     public void editBlogById(Long id, String content);
 
@@ -27,5 +25,4 @@ public interface BlogMapper {
 
     public List<BlogListResp> followBlogList(@Param("listParam") List<UserInfoResp> followUserList);
 
-    public List<BlogListResp> getBlogByCircleId(Long circleId);
 }

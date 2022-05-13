@@ -13,6 +13,7 @@ import Chat from '../views/chat/Chat.vue'
 import Nothing from '../views/chat/Nothing.vue'
 import Circles from '../views/Circles.vue'
 import CircleSquare from '../views/circle/CircleSquare.vue'
+import AdminCollect from '../views/admin/AdminCollect.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -29,6 +30,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/circleSquare',
     name: 'circleSquare',
     component: CircleSquare
+  },
+  {
+    path: '/adminCollect',
+    name: 'adminCollect',
+    component: AdminCollect
   },
   {
     path: '/follow',

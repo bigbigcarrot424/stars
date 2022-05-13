@@ -1,6 +1,7 @@
 package com.fangshuo.stars.controller;
 
 import com.fangshuo.stars.req.CollectSaveReq;
+import com.fangshuo.stars.resp.BlogListResp;
 import com.fangshuo.stars.resp.CommonResp;
 import com.fangshuo.stars.resp.CollectListByUserResp;
 import com.fangshuo.stars.service.CollectService;
@@ -28,6 +29,14 @@ public class CollectController {
     public CommonResp collectSave(@Valid @RequestBody CollectSaveReq req) {
         CommonResp<Object> resp = new CommonResp<>();
         collectService.save(req);
+        return resp;
+    }
+
+    @GetMapping("/collectBlogList/{userId}")
+    public CommonResp collectSave(@PathVariable Long userId) {
+        CommonResp<Object> resp = new CommonResp<>();
+        List<BlogListResp> blogListResps = collectService.collectBlogList(userId);
+        resp.setContent(blogListResps);
         return resp;
     }
 
