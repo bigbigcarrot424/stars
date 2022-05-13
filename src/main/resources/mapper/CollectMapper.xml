@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fangshuo.stars.mapper.CollectMapper">
+
+    <select id="getCollectListByUser" resultType="com.fangshuo.stars.resp.CollectListByUserResp">
+        select t1.`id` id, `collector_id` collectorId, `blog_id` blogId, `collect_time` collectTime
+        from `collect` t1, `user` t2 where t1.collector_id = t2.id and t1.collector_id = #{userId} order by t1.collect_time desc;
+    </select>
+
+    <select id="save" parameterType="com.fangshuo.stars.domain.Collect">
+        insert into collect(`id`, `collector_id`, `blog_id`, `collect_time`)
+        values (#{id}, #{collectorId}, #{blogId}, #{collectTime});
+    </select>
+
+    <delete id="deleteByBlogId">
+        delete from collect where blog_id = #{blogId}
+    </delete>
+
+    <delete id="deleteByUserIdAndBlogId">
+        delete from collect where collector_id = #{userId} and blog_id = #{blogId}
+    </delete>
+
+    <select id="getCollectByUserIdAndBlogId" resultType="com.fangshuo.stars.domain.Collect">
+        select id, `collector_id` collectorId, `blog_id` blogId, `collect_time` collectTime from collect where collector_id = #{userId} and blog_id = #{blogId}
+    </select>
+
+</mapper>
