@@ -33,6 +33,9 @@
                   {{blogInfo.commentNum}}
                 </span>
             </span>
+            <span key="collect">
+                <StarOutlined @click="collectBlog"/>
+            </span>
         </template>
         <template #author><a>{{blogInfo.authorName}}</a></template>
         <template #avatar>
@@ -91,7 +94,7 @@
 
 <script lang="ts">
     import dayjs from 'dayjs';
-    import {LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined} from '@ant-design/icons-vue';
+    import {LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined, StarOutlined} from '@ant-design/icons-vue';
     import {defineComponent, ref, onMounted} from 'vue';
     import relativeTime from 'dayjs/plugin/relativeTime';
     import store from '@/store'
@@ -108,6 +111,7 @@
             LikeOutlined,
             DislikeFilled,
             DislikeOutlined,
+            StarOutlined,
         },
         props: ['blogInfo'],
 
@@ -242,6 +246,24 @@
             };
 
             /**
+             * 收藏帖子
+             */
+            const collectBlog = () => {
+                const collectSaveReq = {
+                    collectorId: store.state.user.id,
+                    blogId: props.blogInfo.id
+                }
+                axios.post(SERVER + '/collect/save', collectSaveReq).then((response) =>{
+                    const data = response.data;
+                    if (data.success){
+                        message.success("收藏成功！")
+                    }else {
+                        message.error(data.message);
+                    }
+                })
+            }
+
+            /**
              * 计算该帖子的状态（被赞还是踩）
              */
             const status = ref(0);
@@ -263,10 +285,6 @@
 
             onMounted(() => {
                 isMyLike();
-                // console.log(status.value);
-                // console.log(store.state.user.id)
-                // console.log(props.blogInfo.id)
-                // console.log(typeof(store.state.likes.id))
             })
 
             return {
@@ -289,6 +307,8 @@
 
                 status,
                 toUserInfo,
+
+                collectBlog
             };
         },
     });
