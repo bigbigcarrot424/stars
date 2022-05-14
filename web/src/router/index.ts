@@ -14,6 +14,7 @@ import Nothing from '../views/chat/Nothing.vue'
 import Circles from '../views/Circles.vue'
 import CircleSquare from '../views/circle/CircleSquare.vue'
 import AdminCollect from '../views/admin/AdminCollect.vue'
+import Explore from '../views/Explore.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -40,6 +41,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/follow',
     name: 'follow',
     component: Follow
+  },
+  {
+    path: '/explore',
+    name: 'explore',
+    component: Explore
   },
   {
     path: '/publish',
