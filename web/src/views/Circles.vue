@@ -1,4 +1,5 @@
 <template>
+    <a-button type="primary" style="margin-bottom: 20px" @click="createCircle">创建兴趣圈</a-button>
     <p>我的兴趣圈</p>
     <div style="padding: 20px">
         <a-row :gutter="16">
