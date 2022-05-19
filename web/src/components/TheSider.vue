@@ -30,10 +30,12 @@
                   兴趣圈
                 </span>
                 </template>
-                <a-menu-item key="5">option5</a-menu-item>
-                <a-menu-item key="6">option6</a-menu-item>
-                <a-menu-item key="7">option7</a-menu-item>
-                <a-menu-item key="8">option8</a-menu-item>
+
+                <a-menu-item v-for="(circle, index) in joinedCircleList" :key="circle.id" @click="toCircleSquare(circle.id)">
+                    <span style="margin-left: 30px">
+                        {{circle.circleName}}
+                    </span>
+                </a-menu-item>
             </a-sub-menu>
         </a-menu>
     </a-layout-sider>
@@ -51,6 +53,8 @@
         setup(){
             const SERVER = process.env.VUE_APP_SERVER;
             const followList = ref();
+            const joinedCircleList = ref();
+
             const router=useRouter()
             const route=useRoute()
 
@@ -72,14 +76,34 @@
                     }
                 })
             }
+
+            const getJoinedCircleList = () => {
+                axios.get(SERVER + "/circle/myJoinedCircle/" + store.state.user.id).then((response) => {
+                    const data = response.data;
+                    if (data){
+                        joinedCircleList.value = data.content ? data.content :[];
+                    }
+                })
+            }
+
+            const toCircleSquare = (circleId) => {
+
+                router.push(`/circleSquare?circleId=${circleId}`)
+            }
+
+
             onMounted(() => {
                 getFollowList();
+                getJoinedCircleList();
             })
             return{
                 SERVER,
                 getFollowList,
+                getJoinedCircleList,
                 followList,
                 toChat,
+                joinedCircleList,
+                toCircleSquare,
             }
         }
     }
