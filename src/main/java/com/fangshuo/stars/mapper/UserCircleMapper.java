@@ -1,6 +1,7 @@
 package com.fangshuo.stars.mapper;
 
 import com.fangshuo.stars.domain.Circle;
+import com.fangshuo.stars.domain.User;
 
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface UserCircleMapper {
 
     public Circle selectCircleByUserIdAndCircleId(Long userId, Long circleId);
 
+    public List<User> getMemberByCircleId(Long circleId);
 }

@@ -1,6 +1,8 @@
 package com.fangshuo.stars.service;
 
 import com.fangshuo.stars.domain.Circle;
+import com.fangshuo.stars.domain.User;
+import com.fangshuo.stars.domain.UserInfo;
 import com.fangshuo.stars.exception.BusinessException;
 import com.fangshuo.stars.exception.BusinessExceptionCode;
 import com.fangshuo.stars.mapper.CircleMapper;
@@ -67,6 +69,11 @@ public class CircleService {
         return resp;
     }
 
+    public List<User> circleMember(Long circleId){
+        List<User> memberByCircleId = userCircleMapper.getMemberByCircleId(circleId);
+        return memberByCircleId;
+    }
+
     public void updateCircle(CircleUpdateReq circle){
         LOG.info("更新兴趣圈信息：{}", circle);
         circleMapper.updateCircle(circle);
@@ -99,9 +106,9 @@ public class CircleService {
 
 
     public void deleteCircle(Long circleId){
-        circleMapper.deleteCircle(circleId);
         userCircleMapper.deleteByCircleId(circleId);
         circleBlogService.deleteByCircleId(circleId);
+        circleMapper.deleteCircle(circleId);
     }
 
 }

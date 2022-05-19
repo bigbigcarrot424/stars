@@ -31,6 +31,15 @@
                 <a-card hoverable style="width: 320px">
                     <template #actions>
                         <home-outlined key="home" @click="toCircleSquare(circle.id)"/>
+                        <router-link :to="{
+                              path:'/circleMember',
+                              query:{
+                                circleId: circle.id
+                              }
+                        }">
+                            <team-outlined key="team"/>
+                        </router-link>
+
                         <a-popconfirm title="确认删除兴趣圈？" ok-text="是" cancel-text="否"  @confirm="deleteCircle(circle.id)" @cancel="">
                             <delete-outlined key="import"/>
                         </a-popconfirm>
@@ -90,7 +99,7 @@
     import {defineComponent, ref, onMounted, reactive, computed} from 'vue';
     import axios from 'axios'
     import store from '@/store'
-    import { HomeOutlined, DeleteOutlined, MessageOutlined, ImportOutlined} from '@ant-design/icons-vue';
+    import { HomeOutlined, DeleteOutlined, MessageOutlined, ImportOutlined, TeamOutlined} from '@ant-design/icons-vue';
     import  {useRouter}  from "vue-router";
     import  { message }  from "ant-design-vue";
 
@@ -102,6 +111,7 @@
             DeleteOutlined,
             HomeOutlined,
             ImportOutlined,
+            TeamOutlined,
         },
         setup() {
             const SERVER = process.env.VUE_APP_SERVER;
@@ -242,6 +252,9 @@
                 axios.get(SERVER + '/circle/drop/' + circleId).then((response) => {
                     const data = response.data;
                     if (data.success){
+                        getCircleList();
+                        getJoinedCircleList();
+                        getCreatedCircleList();
                         message.success("删除兴趣圈成功！")
                     }else {
                         message.error(data.message);
@@ -270,6 +283,7 @@
                 createModalVisible,
                 deleteCircle,
                 createdCircleList,
+
             };
         },
     });

@@ -30,4 +30,9 @@
         from circle t1, user_circle t2 where t1.id = t2.circle_id and t2.user_id = #{userId} and t2.circle_id = #{circleId}
     </select>
 
+    <select id="getMemberByCircleId" resultType="com.fangshuo.stars.domain.User">
+        select t1.`id` id, t1.`username` username, t1.`name` name, t1.`avatar` avatar
+        from user t1, user_circle t2 where t1.id = t2.user_id and t2.circle_id = #{circleId} and t2.user_id != t2.manager_id
+    </select>
+
 </mapper>

@@ -14,6 +14,7 @@ import Nothing from '../views/chat/Nothing.vue'
 import Circles from '../views/Circles.vue'
 import CircleSquare from '../views/circle/CircleSquare.vue'
 import AdminCollect from '../views/admin/AdminCollect.vue'
+import CircleMember from '../views/circle/CircleMember.vue'
 import Explore from '../views/Explore.vue'
 
 const routes: Array<RouteRecordRaw> = [
@@ -82,6 +83,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/circles',
     name: 'circles',
     component: Circles
+  },
+  {
+    path: '/circleMember',
+    name: 'circleMember',
+    props: true,
+    component: CircleMember
   },
   {
     path: '/nothing',

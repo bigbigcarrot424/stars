@@ -2,6 +2,7 @@ package com.fangshuo.stars.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fangshuo.stars.domain.Circle;
+import com.fangshuo.stars.domain.User;
 import com.fangshuo.stars.req.CircleCreateReq;
 import com.fangshuo.stars.req.CircleUpdateReq;
 import com.fangshuo.stars.resp.CommonResp;
@@ -93,6 +94,15 @@ public class CircleController {
         CommonResp resp = new CommonResp<>();
         List<Circle> circles = circleService.myCreatedCircle(userId);
         resp.setContent(circles);
+        return resp;
+    }
+
+    //兴趣圈成员
+    @GetMapping("/circleMember/{circleId}")
+    public CommonResp circleMember(@PathVariable Long circleId){
+        CommonResp resp = new CommonResp<>();
+        List<User> users = circleService.circleMember(circleId);
+        resp.setContent(users);
         return resp;
     }
 }

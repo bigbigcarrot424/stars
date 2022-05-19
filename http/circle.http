@@ -27,5 +27,8 @@ GET http://localhost:8080/circle/list
 GET http://localhost:8080/circle/drop/179880995535851520
 ###
 
+GET http://localhost:8080/circle/circleMember/182401191848841216
+###
+
 GET http://localhost:8080/circle/myJoinedCircle/171897790761406464
 ###
