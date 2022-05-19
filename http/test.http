@@ -27,6 +27,10 @@ GET http://localhost:8880/test/redis/set/123/test
 Accept: application/json
 
 ###
+GET http://localhost:8080/recommend/clusterUser/萝卜2
+Accept: application/json
+
+###
 
 GET http://localhost:8880/redis/get/15271595887169536
 Accept: application/json

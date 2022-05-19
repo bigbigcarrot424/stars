@@ -12,4 +12,5 @@ public interface UserMapper {
     public User getUserById(Long id);
     public void insertUser(User user);
     public void alterAvatarName(@Param("avatarName")String avatarName, @Param("userId")Long userId);
+    public Long getUserIdByName(String name);
 }

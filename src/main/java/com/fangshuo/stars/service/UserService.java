@@ -88,6 +88,11 @@ public class UserService {
         return resp;
     }
 
+    public Long getUserIdByName(String name){
+        Long userIdByName = userMapper.getUserIdByName(name);
+        return userIdByName;
+    }
+
     public void updateUserInfo(UserInfo userInfo){
         UserInfo userInfo1 = userInfoMapper.getUserInfo(userInfo.getId());
         if(ObjectUtils.isEmpty(userInfo1)){
