@@ -10,7 +10,11 @@ public interface UserCircleMapper {
 
     public void delete(Long userId, Long circleId);
 
+    public void deleteByCircleId(Long circleId);
+
     public List<Circle> selectCirclesByUserId(Long userId);
+
+    public List<Circle> selectCirclesByManagerId(Long userId);
 
     public Circle selectCircleByUserIdAndCircleId(Long userId, Long circleId);
 

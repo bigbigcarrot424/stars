@@ -29,6 +29,9 @@ public class CircleService {
     private UserCircleMapper userCircleMapper;
 
     @Resource
+    private CircleBlogService circleBlogService;
+
+    @Resource
     private SnowFlake snowFlake;
 
     public List<Circle> list(){
@@ -41,9 +44,12 @@ public class CircleService {
         LOG.info("创建兴趣圈！");
         Circle circleDb = circleMapper.selectCircleByCirclename(req.getCircleName());
         if (ObjectUtils.isEmpty(circleDb)){
-            circle.setId(snowFlake.nextId());
+            Long circleId = snowFlake.nextId();
+            circle.setId(circleId);
             circle.setCreatedTime(new Timestamp(new Date().getTime()));
             circleMapper.insertCircle(circle);
+            // 创建兴趣圈后作为管理者加入兴趣圈
+            this.joinCircle(req.getManagerId(), circleId, req.getManagerId());
         }else {
             throw new BusinessException(BusinessExceptionCode.CIRCLE_NAME_EXIST);
         }
@@ -86,9 +92,16 @@ public class CircleService {
         return circles;
     }
 
+    public List<Circle> myCreatedCircle(Long userId){
+        List<Circle> circles = userCircleMapper.selectCirclesByManagerId(userId);
+        return circles;
+    }
+
 
     public void deleteCircle(Long circleId){
         circleMapper.deleteCircle(circleId);
+        userCircleMapper.deleteByCircleId(circleId);
+        circleBlogService.deleteByCircleId(circleId);
     }
 
 }

@@ -1,6 +1,51 @@
 <template>
-    <a-button type="primary" style="margin-bottom: 20px" @click="createCircle">创建兴趣圈</a-button>
-    <p>我的兴趣圈</p>
+    <a-button type="primary" style="margin-bottom: 20px" @click="showCreateCircleModal">创建兴趣圈</a-button>
+
+    <a-modal
+            v-model:visible="createModalVisible"
+            title="创建兴趣圈"
+            ok-text="创建"
+            cancel-text="取消"
+            @ok="createCircle"
+    >
+
+            <a-form-item
+                    label="兴趣圈名"
+                    name="circleName"
+            >
+                <a-input v-model:value="createdCircle.circleName" />
+            </a-form-item>
+
+            <a-form-item
+                    label="兴趣圈介绍"
+                    name="circleIntro"
+            >
+                <a-input v-model:value="createdCircle.intro" />
+            </a-form-item>
+    </a-modal>
+
+    <p>我创建的兴趣圈</p>
+    <div style="padding: 20px">
+        <a-row :gutter="16">
+            <a-col :span="6" v-for="(circle, index) in createdCircleList" :key="circle.id" style="margin-bottom: 20px">
+                <a-card hoverable style="width: 320px">
+                    <template #actions>
+                        <home-outlined key="home" @click="toCircleSquare(circle.id)"/>
+                        <a-popconfirm title="确认删除兴趣圈？" ok-text="是" cancel-text="否"  @confirm="deleteCircle(circle.id)" @cancel="">
+                            <delete-outlined key="import"/>
+                        </a-popconfirm>
+
+                    </template>
+                    <div style="text-align: center; font-size: 20px">{{circle.circleName}}</div>
+                    <div style="font-size: 15px; color: rgba(0, 0, 0, 0.45); margin-top: 10px">兴趣圈介绍：{{circle.intro}}</div>
+                </a-card>
+            </a-col>
+        </a-row>
+    </div>
+
+    <a-divider></a-divider>
+
+    <p>我所在的兴趣圈</p>
     <div style="padding: 20px">
         <a-row :gutter="16">
             <a-col :span="6" v-for="(circle, index) in joinedCircleList" :key="circle.id" style="margin-bottom: 20px">
@@ -60,8 +105,17 @@
         },
         setup() {
             const SERVER = process.env.VUE_APP_SERVER;
+
+            const createModalVisible = ref(false);
             let circleList = ref();
             let joinedCircleList = ref();
+            let createdCircleList = ref();
+            const createdCircle = ref();
+            createdCircle.value = {
+                managerId: store.state.user.id,
+                circleName: '',
+                intro: '',
+            }
 
             const containCircle = (circle, circleList)=>{
                 for (let item of circleList){
@@ -108,8 +162,17 @@
                 })
             }
 
+            const getCreatedCircleList = () => {
+                axios.get(SERVER + "/circle/myCreatedCircle/" + store.state.user.id).then((response) => {
+                    const data = response.data;
+                    if (data){
+                        createdCircleList.value = data.content ? data.content :[];
+                    }
+                })
+            }
+
             /**
-             * 进入好友主页
+             * 进入兴趣圈主页
              */
 
             const router = useRouter();
@@ -129,6 +192,7 @@
                         getCircleList();
                         getJoinedCircleList();
                         message.success("加入兴趣圈成功");
+
                     }else {
                         message.error(data.message)
                     }
@@ -146,11 +210,51 @@
                 })
             }
 
+            /**
+             * 创建兴趣圈
+             */
+            const createCircle = () => {
+                axios.post(SERVER + '/circle/create', createdCircle.value).then((response) => {
+                    const data = response.data;
+                    if (data.success){
+                        message.success("兴趣圈创建成功！")
+                        createdCircle.value.circleIntro = '';
+                        createdCircle.value.circleName = '';
+                        getJoinedCircleList();
+                        getCircleList();
+                        getCreatedCircleList();
+                        createModalVisible.value = false;
+                    }else {
+                        message.error(data.message);
+                        createModalVisible.value = false;
+                    }
+                })
+            }
+
+            const showCreateCircleModal = () => {
+                createModalVisible.value = true;
+            }
+
+            /**
+             * 删除兴趣圈
+             */
+            const deleteCircle = (circleId) => {
+                axios.get(SERVER + '/circle/drop/' + circleId).then((response) => {
+                    const data = response.data;
+                    if (data.success){
+                        message.success("删除兴趣圈成功！")
+                    }else {
+                        message.error(data.message);
+                    }
+                })
+            }
+
 
 
             onMounted(()=>{
                 getCircleList();
                 getJoinedCircleList();
+                getCreatedCircleList();
             })
             return {
                 SERVER,
@@ -158,7 +262,14 @@
                 toCircleSquare,
                 joinedCircleList,
                 partInCircle,
+                createdCircle,
                 exitCircle,
+
+                showCreateCircleModal,
+                createCircle,
+                createModalVisible,
+                deleteCircle,
+                createdCircleList,
             };
         },
     });

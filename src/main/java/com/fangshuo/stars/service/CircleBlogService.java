@@ -64,6 +64,11 @@ public class CircleBlogService {
         circleBlogMapper.deleteById(blogId);
     }
 
+    //删除整个兴趣圈的帖子
+    public void deleteByCircleId(Long circleId){
+        circleBlogMapper.deleteByCircleId(circleId);
+    }
+
     public void increaseComment(Long blogId){
         circleBlogMapper.increaseComment(blogId);
     }

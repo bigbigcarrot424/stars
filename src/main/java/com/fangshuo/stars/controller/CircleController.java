@@ -78,11 +78,20 @@ public class CircleController {
         return resp;
     }
 
-    //退出兴趣圈
+    //加入的兴趣圈
     @GetMapping("/myJoinedCircle/{userId}")
-    public CommonResp exitCircle(@PathVariable Long userId){
+    public CommonResp myJoinedCircle(@PathVariable Long userId){
         CommonResp resp = new CommonResp<>();
         List<Circle> circles = circleService.myJoinedCircle(userId);
+        resp.setContent(circles);
+        return resp;
+    }
+
+    //创建的兴趣圈
+    @GetMapping("/myCreatedCircle/{userId}")
+    public CommonResp myCreatedCircle(@PathVariable Long userId){
+        CommonResp resp = new CommonResp<>();
+        List<Circle> circles = circleService.myCreatedCircle(userId);
         resp.setContent(circles);
         return resp;
     }

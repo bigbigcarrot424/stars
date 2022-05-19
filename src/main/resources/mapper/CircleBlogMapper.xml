@@ -20,4 +20,8 @@
         delete from circle_blog where id = #{blogId}
     </delete>
 
+    <delete id="deleteByCircleId">
+        delete from circle_blog where circle_id = #{circleId}
+    </delete>
+
 </mapper>

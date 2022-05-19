@@ -13,5 +13,7 @@ public interface CircleBlogMapper {
 
     public void deleteById(Long circleCircleBlogId);
 
+    public void deleteByCircleId(Long circleId);
+
     public List<BlogListResp> getBlogByCircleId(Long circleId);
 }
