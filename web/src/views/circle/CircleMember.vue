@@ -57,8 +57,8 @@
                 axios.get(SERVER + '/circle/deleteMemberFromCircle/' + circleId + '/' + memberId).then((response) => {
                     const data = response.data;
                     if (data.success){
-                        message.success("删除成员成功！")
                         getCircleMember();
+                        message.success("删除成员成功！")
                     }else {
                         message.error(data.message);
                     }

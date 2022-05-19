@@ -19,12 +19,6 @@
         from circle t1, user_circle t2 where t1.id = t2.circle_id and t2.user_id = #{userId}
     </select>
 
-
-    <select id="selectCirclesByManagerId" resultType="com.fangshuo.stars.domain.Circle">
-        select t1.`id` id, t1.`circle_name` circleName, t1.`intro` intro, t1.`manager_id` managerId, t1.`created_time` createdTime, t1.`tags` tags
-        from circle t1, user_circle t2 where t1.id = t2.circle_id and t2.manager_id = #{userId}
-    </select>
-
     <select id="selectCircleByUserIdAndCircleId" resultType="com.fangshuo.stars.domain.Circle">
         select t1.`id` id, t1.`circle_name` circleName, t1.`intro` intro, t1.`manager_id` managerId, t1.`created_time` createdTime, t1.`tags` tags
         from circle t1, user_circle t2 where t1.id = t2.circle_id and t2.user_id = #{userId} and t2.circle_id = #{circleId}

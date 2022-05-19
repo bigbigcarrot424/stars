@@ -32,3 +32,6 @@ GET http://localhost:8080/circle/circleMember/182401191848841216
 
 GET http://localhost:8080/circle/myJoinedCircle/171897790761406464
 ###
+
+GET http://localhost:8080/circle/myCreatedCircle/171897790761406464
+###

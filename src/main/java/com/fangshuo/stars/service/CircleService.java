@@ -100,7 +100,7 @@ public class CircleService {
     }
 
     public List<Circle> myCreatedCircle(Long userId){
-        List<Circle> circles = userCircleMapper.selectCirclesByManagerId(userId);
+        List<Circle> circles = circleMapper.selectCirclesByManagerId(userId);
         return circles;
     }
 
@@ -109,6 +109,10 @@ public class CircleService {
         userCircleMapper.deleteByCircleId(circleId);
         circleBlogService.deleteByCircleId(circleId);
         circleMapper.deleteCircle(circleId);
+    }
+
+    public void deleteMemberFromCircle(Long circleId, Long memberId){
+        userCircleMapper.delete(memberId, circleId);
     }
 
 }

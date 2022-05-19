@@ -117,10 +117,12 @@
             const SERVER = process.env.VUE_APP_SERVER;
 
             const createModalVisible = ref(false);
+
             let circleList = ref();
             let joinedCircleList = ref();
             let createdCircleList = ref();
             const createdCircle = ref();
+
             createdCircle.value = {
                 managerId: store.state.user.id,
                 circleName: '',
@@ -173,10 +175,11 @@
             }
 
             const getCreatedCircleList = () => {
+                console.log("createCircleList", createdCircleList.value)
                 axios.get(SERVER + "/circle/myCreatedCircle/" + store.state.user.id).then((response) => {
                     const data = response.data;
                     if (data){
-                        createdCircleList.value = data.content ? data.content :[];
+                        createdCircleList.value = data.content;
                     }
                 })
             }

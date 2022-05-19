@@ -27,4 +27,9 @@
         delete from `circle` where id = #{circleId}
     </delete>
 
+    <select id="selectCirclesByManagerId" resultType="com.fangshuo.stars.domain.Circle">
+        select t1.`id` id, t1.`circle_name` circleName, t1.`intro` intro, t1.`manager_id` managerId, t1.`created_time` createdTime, t1.`tags` tags
+        from circle t1 where t1.manager_id = #{userId}
+    </select>
+
 </mapper>

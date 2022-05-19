@@ -105,4 +105,12 @@ public class CircleController {
         resp.setContent(users);
         return resp;
     }
+
+    //删除兴趣圈成员
+    @GetMapping("/deleteMemberFromCircle/{circleId}/{memberId}")
+    public CommonResp circleMember(@PathVariable Long circleId, @PathVariable Long memberId){
+        CommonResp resp = new CommonResp<>();
+        circleService.deleteMemberFromCircle(circleId, memberId);
+        return resp;
+    }
 }

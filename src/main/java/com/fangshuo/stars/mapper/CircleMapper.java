@@ -14,5 +14,5 @@ public interface CircleMapper {
     public void insertCircle(Circle circle);
     public void updateCircle(CircleUpdateReq circleUpdateReq);
     public void deleteCircle(Long circleId);
-
+    public List<Circle> selectCirclesByManagerId(Long userId);
 }
