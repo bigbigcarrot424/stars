@@ -8,6 +8,7 @@ public enum BusinessExceptionCode {
     COLLECT_REPEAT("您已收藏过"),
     CIRCLE_NAME_EXIST("兴趣圈名字已存在"),
     JOINED_CIRCLE("'已经加入了此兴趣圈'"),
+    FOLLOW_REPEAT("'已经关注此人'"),
     ;
 
     private String desc;

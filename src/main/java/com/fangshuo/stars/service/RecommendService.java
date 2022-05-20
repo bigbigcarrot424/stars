@@ -98,9 +98,11 @@ public class RecommendService {
         Set<String> nameCluster = getNameCluster(name);
         List<UserInfoResp> userInfoRespList = new ArrayList<>();
         for (String recommendName : nameCluster) {
-            Long userIdByName = userService.getUserIdByName(recommendName);
-            UserInfoResp userInfo = userService.getUserInfo(userIdByName);
-            userInfoRespList.add(userInfo);
+            if (!recommendName.equals(name)){
+                Long userIdByName = userService.getUserIdByName(recommendName);
+                UserInfoResp userInfo = userService.getUserInfo(userIdByName);
+                userInfoRespList.add(userInfo);
+            }
         }
         return userInfoRespList;
     }
