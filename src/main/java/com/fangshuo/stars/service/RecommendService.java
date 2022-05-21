@@ -1,5 +1,6 @@
 package com.fangshuo.stars.service;
 
+import com.fangshuo.stars.domain.Circle;
 import com.fangshuo.stars.domain.User;
 import com.fangshuo.stars.resp.BlogListResp;
 import com.fangshuo.stars.resp.UserInfoResp;
@@ -32,6 +33,9 @@ public class RecommendService {
     private CircleBlogService circleBlogService;
 
     @Resource
+    private CircleService circleService;
+
+    @Resource
     private CommentService commentService;
 
     public String trimBlog(String content){
@@ -39,6 +43,7 @@ public class RecommendService {
         return s;
     }
 
+    // 用户聚类
     public List<Set<String>> cluster(){
 
         List<User> list = userService.list();
@@ -105,5 +110,11 @@ public class RecommendService {
             }
         }
         return userInfoRespList;
+    }
+
+
+    public List<Circle> getCircleCluster(String name){
+        List<Circle> circleList = circleService.list();
+        return circleList;
     }
 }

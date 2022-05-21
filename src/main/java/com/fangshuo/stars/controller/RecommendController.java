@@ -1,5 +1,6 @@
 package com.fangshuo.stars.controller;
 
+import com.fangshuo.stars.domain.Circle;
 import com.fangshuo.stars.resp.CommonResp;
 import com.fangshuo.stars.resp.UserInfoResp;
 import com.fangshuo.stars.service.RecommendService;
@@ -21,6 +22,15 @@ public class RecommendController {
         CommonResp resp = new CommonResp<>();
         List<UserInfoResp> userCluster = recommendService.getUserCluster(name);
         resp.setContent(userCluster);
+        return resp;
+    }
+
+   //当前用户聚类信息
+    @GetMapping("/clusterCircle/{name}")
+    public CommonResp<List<Circle>> clusterCircle(@PathVariable String name){
+        CommonResp resp = new CommonResp<>();
+        List<Circle> circleCluster = recommendService.getCircleCluster(name);
+        resp.setContent(circleCluster);
         return resp;
     }
 
