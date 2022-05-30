@@ -3,6 +3,7 @@ package com.fangshuo.stars.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.fangshuo.stars.domain.User;
 import com.fangshuo.stars.domain.UserInfo;
+import com.fangshuo.stars.req.UserInfoUpdateReq;
 import com.fangshuo.stars.req.UserLoginReq;
 import com.fangshuo.stars.req.UserSignUpReq;
 import com.fangshuo.stars.resp.CommonResp;
@@ -94,7 +95,7 @@ public class UserController {
 
     //修改用户信息
     @PostMapping("/updateInfo")
-    public CommonResp<UserInfoResp> updateInfo(@RequestBody UserInfo req){
+    public CommonResp<UserInfoResp> updateInfo(@RequestBody UserInfoUpdateReq req){
         CommonResp resp = new CommonResp<>();
         userService.updateUserInfo(req);
         return resp;

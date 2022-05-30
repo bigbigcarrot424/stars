@@ -6,6 +6,7 @@ import com.fangshuo.stars.exception.BusinessException;
 import com.fangshuo.stars.exception.BusinessExceptionCode;
 import com.fangshuo.stars.mapper.UserInfoMapper;
 import com.fangshuo.stars.mapper.UserMapper;
+import com.fangshuo.stars.req.UserInfoUpdateReq;
 import com.fangshuo.stars.req.UserLoginReq;
 import com.fangshuo.stars.req.UserSignUpReq;
 import com.fangshuo.stars.resp.UserInfoResp;
@@ -93,12 +94,13 @@ public class UserService {
         return userIdByName;
     }
 
-    public void updateUserInfo(UserInfo userInfo){
-        UserInfo userInfo1 = userInfoMapper.getUserInfo(userInfo.getId());
-        if(ObjectUtils.isEmpty(userInfo1)){
+    public void updateUserInfo(UserInfoUpdateReq userInfoReq){
+        UserInfo userInfo = userInfoMapper.getUserInfo(userInfoReq.getId());
+        if(ObjectUtils.isEmpty(userInfo)){
             userInfoMapper.insertUserInfo(userInfo);
         }else {
             userInfoMapper.updateUserInfo(userInfo);
+            userMapper.updateName(userInfo.getId(), userInfoReq.getName());
         }
     }
 

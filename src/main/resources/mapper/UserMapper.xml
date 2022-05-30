@@ -22,6 +22,10 @@
        update `user` set avatar = #{avatarName} where id = #{userId}
     </update>
 
+    <update id="updateName">
+       update `user` set name = #{name} where id = #{id}
+    </update>
+
     <select id="getUserIdByName" resultType="java.lang.Long">
        select `id` from user where name = #{name}
     </select>
