@@ -79,7 +79,7 @@ public class CircleController {
         return resp;
     }
 
-    //加入的兴趣圈
+    //加入的兴趣圈列表
     @GetMapping("/myJoinedCircle/{userId}")
     public CommonResp myJoinedCircle(@PathVariable Long userId){
         CommonResp resp = new CommonResp<>();

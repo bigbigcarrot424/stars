@@ -8,7 +8,7 @@
             <span>{{user.name}}</span>
         </a-descriptions-item>
         <a-descriptions-item label="性别：" :span="1">
-            <span>{{user.gender}}</span>
+            <span>{{user.gender === 'male' ? '男' : '女'}}</span>
         </a-descriptions-item>
         <a-descriptions-item label="年龄：" :span="1">
             <span>{{user.age}}</span>

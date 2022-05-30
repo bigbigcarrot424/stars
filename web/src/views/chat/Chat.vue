@@ -5,7 +5,7 @@
             <span style="margin-left: 10px">{{friendName}}</span>
         </div>
 
-        <div id="chatWindow" style="height: 500px; overflow-y:scroll">
+        <div id="chatWindow" style="height: 300px; overflow-y:scroll">
             <div v-for="(message, index) in messageList" :key="index" style="margin-left: 30px; margin-right: 30px; margin-top: 10px">
 
                 <div v-if="message.senderId === userId">

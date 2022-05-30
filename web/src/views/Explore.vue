@@ -1,7 +1,7 @@
 <template>
     <a-card title="为你推荐好友：">
         <a-row :gutter="16">
-            <a-col :span="8" v-for="(item, index) in recommendList" style="margin-bottom: 20px">
+            <a-col :span="12" v-for="(item, index) in recommendList" style="margin-bottom: 20px">
                 <a-card hoverable style="width: 320px">
                     <template #actions>
                         <home-outlined key="home" @click="toUserInfo(item.id)"/>
@@ -22,7 +22,7 @@
 
     <a-card title="为你推荐兴趣圈：">
         <a-row :gutter="16">
-            <a-col :span="8" v-for="(item, index) in recommendCircleList" style="margin-bottom: 20px">
+            <a-col :span="12" v-for="(item, index) in recommendCircleList" style="margin-bottom: 20px">
                 <a-card hoverable style="width: 320px">
                     <template #actions>
                         <home-outlined key="home" @click="toCircleSquare(item.id)"/>

@@ -24,10 +24,33 @@
             </a-form-item>
     </a-modal>
 
+    <a-modal
+            v-model:visible="alterCircleInfoVisible"
+            title="修改兴趣圈信息"
+            ok-text="修改"
+            cancel-text="取消"
+            @ok="alterCircleInfo()"
+    >
+
+            <a-form-item
+                    label="兴趣圈名"
+                    name="circleName"
+            >
+                <a-input v-model:value="circleName" />
+            </a-form-item>
+
+            <a-form-item
+                    label="兴趣圈介绍"
+                    name="circleIntro"
+            >
+                <a-input v-model:value="circleIntro" />
+            </a-form-item>
+    </a-modal>
+
     <p>我创建的兴趣圈</p>
     <div style="padding: 20px">
         <a-row :gutter="16">
-            <a-col :span="6" v-for="(circle, index) in createdCircleList" :key="circle.id" style="margin-bottom: 20px">
+            <a-col :span="12" v-for="(circle, index) in createdCircleList" :key="circle.id" style="margin-bottom: 20px">
                 <a-card hoverable style="width: 320px">
                     <template #actions>
                         <home-outlined key="home" @click="toCircleSquare(circle.id)"/>
@@ -39,6 +62,7 @@
                         }">
                             <team-outlined key="team"/>
                         </router-link>
+                        <edit-outlined @click="showCircleInfo(circle.id, circle.circleName, circle.intro)"/>
 
                         <a-popconfirm title="确认删除兴趣圈？" ok-text="是" cancel-text="否"  @confirm="deleteCircle(circle.id)" @cancel="">
                             <delete-outlined key="import"/>
@@ -57,7 +81,7 @@
     <p>我所在的兴趣圈</p>
     <div style="padding: 20px">
         <a-row :gutter="16">
-            <a-col :span="6" v-for="(circle, index) in joinedCircleList" :key="circle.id" style="margin-bottom: 20px">
+            <a-col :span="12" v-for="(circle, index) in joinedCircleList" :key="circle.id" style="margin-bottom: 20px">
                 <a-card hoverable style="width: 320px">
                     <template #actions>
                         <home-outlined key="home" @click="toCircleSquare(circle.id)"/>
@@ -77,7 +101,7 @@
     <p>所有兴趣圈</p>
     <div style="padding: 20px">
         <a-row :gutter="16">
-            <a-col :span="6" v-for="(circle, index) in circleList" :key="circle.id" style="margin-bottom: 20px">
+            <a-col :span="12" v-for="(circle, index) in circleList" :key="circle.id" style="margin-bottom: 20px">
                 <a-card hoverable style="width: 320px">
                     <template #actions>
                         <home-outlined key="home" @click="toCircleSquare(circle.id)"/>
@@ -99,7 +123,7 @@
     import {defineComponent, ref, onMounted, reactive, computed} from 'vue';
     import axios from 'axios'
     import store from '@/store'
-    import { HomeOutlined, DeleteOutlined, MessageOutlined, ImportOutlined, TeamOutlined} from '@ant-design/icons-vue';
+    import { HomeOutlined, DeleteOutlined, MessageOutlined, ImportOutlined, TeamOutlined, EditOutlined} from '@ant-design/icons-vue';
     import  {useRouter}  from "vue-router";
     import  { message }  from "ant-design-vue";
 
@@ -112,11 +136,13 @@
             HomeOutlined,
             ImportOutlined,
             TeamOutlined,
+            EditOutlined,
         },
         setup() {
             const SERVER = process.env.VUE_APP_SERVER;
 
             const createModalVisible = ref(false);
+            const alterCircleInfoVisible = ref(false);
 
             let circleList = ref();
             let joinedCircleList = ref();
@@ -163,7 +189,6 @@
                     }
                 })
             }
-
 
             const getJoinedCircleList = () => {
                 axios.get(SERVER + "/circle/myJoinedCircle/" + store.state.user.id).then((response) => {
@@ -265,6 +290,38 @@
                 })
             }
 
+            /**
+             * 修改兴趣圈信息
+             */
+
+            const circleId = ref(0);
+            const circleName = ref("");
+            const circleIntro = ref("");
+
+            const showCircleInfo = (id, name, intro) => {
+                circleId.value = id;
+                circleName.value = name;
+                circleIntro.value = intro;
+                alterCircleInfoVisible.value = true;
+            }
+
+            const alterCircleInfo = () => {
+                const updateCircleReq = {
+                    id: circleId.value,
+                    circleName: circleName.value,
+                    intro: circleIntro.value,
+                }
+                axios.post(SERVER + '/circle/update', updateCircleReq).then((response) => {
+                    const data = response.data;
+                    if (data.success) {
+                        getCircleList();
+                        getJoinedCircleList();
+                        getCreatedCircleList();
+                        message.success("修改兴趣圈信息成功！")
+                        alterCircleInfoVisible.value = false;
+                    }
+                })
+            }
 
 
             onMounted(()=>{
@@ -286,7 +343,13 @@
                 createModalVisible,
                 deleteCircle,
                 createdCircleList,
+                showCircleInfo,
+                alterCircleInfoVisible,
+                alterCircleInfo,
 
+                circleId,
+                circleName,
+                circleIntro,
             };
         },
     });
