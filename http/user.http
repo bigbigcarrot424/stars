@@ -54,3 +54,11 @@ GET http://localhost:8880/redis/get/15271595887169536
 Accept: application/json
 
 ###
+GET http://localhost:8080/user/getUserInfoByName/tom2
+Accept: application/json
+
+###
+GET http://localhost:8080/user/getUserListByTags/王者荣耀
+Accept: application/json
+
+###

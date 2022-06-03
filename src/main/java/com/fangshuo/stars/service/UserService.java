@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -87,6 +88,24 @@ public class UserService {
         resp.setName(userById.getName());
         resp.setAvatar(userById.getAvatar());
         return resp;
+    }
+
+    public UserInfoResp getUserInfoByName(String name){
+        Long userId = userMapper.getUserIdByName(name);
+        UserInfoResp userInfo = getUserInfo(userId);
+        return userInfo;
+    }
+
+    public List<UserInfoResp> getUserListByTags(String tag){
+        String selectTag = '%' + tag + '%';
+        List<Long> userIdByTag = userInfoMapper.getUserIdByTag(selectTag);
+        LOG.info("查询标签：{}", selectTag);
+        List<UserInfoResp> userInfoRespList = new ArrayList<>();
+        for (Long userId : userIdByTag) {
+            UserInfoResp userInfo = getUserInfo(userId);
+            userInfoRespList.add(userInfo);
+        }
+        return userInfoRespList;
     }
 
     public Long getUserIdByName(String name){

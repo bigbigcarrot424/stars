@@ -15,4 +15,8 @@
        values(#{id}, #{selfIntro}, #{age}, #{gender}, #{circles}, #{managedCircles}, #{tags}, #{status})
     </update>
 
+    <select id="getUserIdByTag" resultType="java.lang.Long">
+        select `id` from user_info where tags like #{tag}
+    </select>
+
 </mapper>

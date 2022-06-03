@@ -29,5 +29,4 @@
     <select id="getUserIdByName" resultType="java.lang.Long">
        select `id` from user where name = #{name}
     </select>
-
 </mapper>

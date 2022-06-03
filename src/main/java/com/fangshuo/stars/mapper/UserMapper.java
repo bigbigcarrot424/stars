@@ -14,4 +14,5 @@ public interface UserMapper {
     public void alterAvatarName(@Param("avatarName")String avatarName, @Param("userId")Long userId);
     public Long getUserIdByName(String name);
     public void updateName(Long id, String name);
+
 }

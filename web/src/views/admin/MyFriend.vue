@@ -1,4 +1,43 @@
 <template>
+    <a-button  @click="showSearchFriendModal()" style="margin-left: 20px">搜索好友</a-button>
+
+    <a-modal
+            v-model:visible="searchFriendModalVisible"
+            title="搜索好友"
+            ok-text="确认"
+            cancel-text="取消"
+            @ok="hideSearchFriendModal"
+    >
+        <a-button @click="searchWay = '1'" style="margin: 0px 20px 20px 20px">按昵称搜索</a-button>
+        <a-button @click="searchWay = '2'" style="margin: 0px 20px 20px 20px">按用户标签搜索</a-button>
+
+        <a-form
+                name="getUser"
+        >
+
+            <a-form-item
+                    label="用户名"
+                    name="username"
+                    v-if="searchWay === '1'"
+            >
+                <a-input v-model:value="searchUsername" />
+            </a-form-item>
+
+            <a-form-item
+                    label="用户标签"
+                    name="password"
+                    v-if="searchWay === '2'"
+            >
+                <a-input v-model:value="searchUserTags" />
+            </a-form-item>
+
+            <a-form-item v-if="searchWay === '2' || searchWay === '1'" style="text-align: right;">
+                <a-button type="primary" html-type="submit" @click="searchUser">搜索</a-button>
+            </a-form-item>
+        </a-form>
+    </a-modal>
+
+
     <div style="padding: 20px">
         <a-row :gutter="16">
             <a-col :span="12" v-for="(item, index) in followList" :key="item.id" style="margin-bottom: 20px">
@@ -81,6 +120,32 @@
             }
 
 
+            /**
+             * 搜索好友
+             */
+            const searchFriendModalVisible = ref(false);
+
+            const showSearchFriendModal = () => {
+                searchFriendModalVisible.value = true;
+            }
+
+            const hideSearchFriendModal = () => {
+                searchFriendModalVisible.value = false;
+            }
+
+            const searchWay = ref('0');
+
+            const searchUsername = ref("");
+            const searchUserTags = ref("");
+
+            const searchUser = () => {
+                if (searchWay.value === '1'){
+                    axios.get(SERVER + "/follow/followList/" + store.state.user.id)
+                }
+            }
+
+
+
             onMounted(()=>{
                 getFollowList();
             })
@@ -89,6 +154,13 @@
                 followList,
                 toUserInfo,
                 unfollow,
+                showSearchFriendModal,
+                searchFriendModalVisible,
+                searchUsername,
+                searchUserTags,
+                searchWay,
+                hideSearchFriendModal,
+                searchUser,
             };
         },
     });

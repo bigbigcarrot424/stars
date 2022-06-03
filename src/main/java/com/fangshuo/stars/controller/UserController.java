@@ -93,6 +93,24 @@ public class UserController {
         return resp;
     }
 
+    //根据用户昵称得到用户信息
+    @GetMapping("/getUserInfoByName/{name}")
+    public CommonResp<UserInfoResp> getUserInfoByName(@PathVariable String name){
+        CommonResp resp = new CommonResp<>();
+        UserInfoResp userInfo = userService.getUserInfoByName(name);
+        resp.setContent(userInfo);
+        return resp;
+    }
+
+    //根据用户昵称得到用户信息
+    @GetMapping("/getUserListByTags/{tag}")
+    public CommonResp<UserInfoResp> getUserListByTags(@PathVariable String tag){
+        CommonResp resp = new CommonResp<>();
+        List<UserInfoResp> userListByTags = userService.getUserListByTags(tag);
+        resp.setContent(userListByTags);
+        return resp;
+    }
+
     //修改用户信息
     @PostMapping("/updateInfo")
     public CommonResp<UserInfoResp> updateInfo(@RequestBody UserInfoUpdateReq req){

@@ -10,4 +10,5 @@ public interface UserInfoMapper {
     public UserInfo getUserInfo(@Param("userId")Long userId);
     public void updateUserInfo(UserInfo userInfo);
     public void insertUserInfo(UserInfo userInfo);
+    public List<Long> getUserIdByTag(String tag);
 }
