@@ -14,7 +14,6 @@
         <a-form
                 name="getUser"
         >
-
             <a-form-item
                     label="用户名"
                     name="username"
@@ -34,6 +33,17 @@
             <a-form-item v-if="searchWay === '2' || searchWay === '1'" style="text-align: right;">
                 <a-button type="primary" html-type="submit" @click="searchUser">搜索</a-button>
             </a-form-item>
+
+            <a-card hoverable style="width: 320px" v-if="userInfoBySearch">
+                <template #actions>
+                    <home-outlined key="home" @click="toUserInfo(userInfoBySearch.id)"/>
+                </template>
+                <a-card-meta :title="userInfoBySearch.name" :description="userInfoBySearch.selfIntro">
+                    <template #avatar>
+                        <a-avatar :src="SERVER + '/file/avatar/' + userInfoBySearch.avatar"/>
+                    </template>
+                </a-card-meta>
+            </a-card>
         </a-form>
     </a-modal>
 
@@ -138,13 +148,26 @@
             const searchUsername = ref("");
             const searchUserTags = ref("");
 
+            const userInfoBySearch = ref();
+
             const searchUser = () => {
                 if (searchWay.value === '1'){
-                    axios.get(SERVER + "/follow/followList/" + store.state.user.id)
+                    axios.get(SERVER + "/user/getUserInfoByName/" + searchUsername.value).then((response) => {
+                        if (response.data){
+                            userInfoBySearch.value = response.data.content;
+                            message.success("查找完毕")
+                        }
+                    })
+                }else if (searchWay.value === '2'){
+                    axios.get(SERVER + "/user/getUserListByTags/" + searchUserTags.value).then((response) => {
+                        if (response.data){
+                            userInfoBySearch.value = response.data.content[0];
+                            message.success("查找完毕")
+                        }
+                    })
                 }
+                searchWay.value = '0';
             }
-
-
 
             onMounted(()=>{
                 getFollowList();
@@ -161,6 +184,7 @@
                 searchWay,
                 hideSearchFriendModal,
                 searchUser,
+                userInfoBySearch,
             };
         },
     });
