@@ -39,4 +39,11 @@ public class CircleBlogController {
         circleBlogService.saveCircleBlog(req);
         return resp;
     }
+
+    @GetMapping("/deleteCircleBlog/{blogId}")
+    public CommonResp deleteCircleBlog(@PathVariable Long blogId) {
+        CommonResp<Object> resp = new CommonResp<>();
+        circleBlogService.deleteById(blogId);
+        return resp;
+    }
 }

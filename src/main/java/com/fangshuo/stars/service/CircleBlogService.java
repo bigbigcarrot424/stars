@@ -59,8 +59,6 @@ public class CircleBlogService {
     //删除帖子
     public void deleteById(Long blogId){
         LOG.info("删除帖子id：{}",blogId);
-        commentService.deleteByBlogId(blogId);
-        likesService.deleteByBlogId(blogId);
         circleBlogMapper.deleteById(blogId);
     }
 

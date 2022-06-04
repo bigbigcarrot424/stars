@@ -53,7 +53,7 @@
             <a-col :span="12" v-for="(circle, index) in createdCircleList" :key="circle.id" style="margin-bottom: 20px">
                 <a-card hoverable style="width: 320px">
                     <template #actions>
-                        <home-outlined key="home" @click="toCircleSquare(circle.id)"/>
+                        <home-outlined key="home" @click="toCircleSquare(circle.id, circle.managerId)"/>
                         <router-link :to="{
                               path:'/circleMember',
                               query:{
@@ -214,11 +214,13 @@
              */
 
             const router = useRouter();
-            const toCircleSquare = (circleId) => {
+            const toCircleSquare = (circleId, managerId) => {
+                // console.log("managerIdCircle!",managerId)
                 router.push ({
                     path:"/circleSquare",
                     query:{
-                        circleId: circleId
+                        circleId: circleId,
+                        managerId: managerId
                     }
                 })
             }

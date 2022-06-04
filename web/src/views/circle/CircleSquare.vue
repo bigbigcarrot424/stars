@@ -19,8 +19,8 @@
     </a-modal>
 
 
-    <div v-for="(item, index) in blogList" :key="item.id">
-        <circle-comment :blogInfo="item"></circle-comment>
+    <div v-for="(item, index) in blogList" :key="item.id" >
+        <circle-comment :blogInfo="item" :ifShowDeleteButton="managerId === store.state.user.id"></circle-comment>
     </div>
 
     <a-pagination
@@ -54,6 +54,11 @@
             const router = useRouter();
             let blogList = ref();
             let circleId = router.currentRoute.value.query.circleId;
+            let managerId = router.currentRoute.value.query.managerId;
+            //
+            // const showDeleteButton = () => {
+            //
+            // }
 
             const getAllBlog = (pageNum) => {
                 axios.get(process.env.VUE_APP_SERVER + "/circleBlog/blogListInCircleByPage/"+ circleId + '/' + pageNum + "/7").then(
@@ -79,7 +84,6 @@
                     }
                 )
             }
-
 
             const blogContent = ref('');
 
@@ -112,6 +116,8 @@
             onMounted(()=>{
                 getAllBlog(1);
                 getBlogNum();
+                console.log("managerId", managerId);
+                console.log("store.state.user.id", store.state.user.id);
             })
 
 
@@ -126,6 +132,8 @@
                 modalVisible,
                 blogContent,
                 saveCircleBlog,
+                managerId,
+                store
             };
         },
     });
